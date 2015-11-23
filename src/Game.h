@@ -8,11 +8,13 @@ class Game : public Engine {
 public:
     Game(Nunchuck *nunchuck, MI0283QT9 *tft) :
             Engine(nunchuck, tft) {
+        test=0;
     }
 
 protected:
-    virtual void engine_update() override;
-    virtual void engine_render() override;
+    int test;
+    virtual void engine_update();
+    virtual void engine_render();
 };
 
 

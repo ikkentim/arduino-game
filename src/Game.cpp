@@ -10,16 +10,10 @@ void Game::engine_update() {
 }
 
 void Game::engine_render() {
-    char buf[64];
-    sprintf(buf, "Z: %d, C: %d fps: %d", nunchuck->button_z(), nunchuck->button_c(), fps);
-
-    tft->drawText(5, 5, buf, RGB(255, 255, 255), RGB(255, 0, 0), 1);
-
-    Vector3 a = nunchuck->acceleration();
-    sprintf(buf, "acc:(%d, %d, %d)         ", (int) (a.x * 1000), (int) (a.y * 1000), (int) (a.z * 1000));
-    tft->drawText(5, 15, buf, RGB(255, 255, 255), RGB(255, 0, 0), 1);
-
-    Vector2 j = nunchuck->joystick();
-    sprintf(buf, "joy:(%d, %d)      ", (int) (j.x * 1000), (int) (j.y * 1000));
-    tft->drawText(5, 25, buf, RGB(255, 255, 255), RGB(255, 0, 0), 1);
+    if(test < 128)
+        tft->fillRect(5+(test < 128 ? test : 128 -(test-128)),5, 1,10, RGB(255,0,0));
+    else
+        tft->fillRect(5+(test < 128 ? test : 128 -(test-128)) + 9,5, 1,10, RGB(255,0,0));
+    if(++test >= 256)test=0;
+    tft->fillRect(5+(test < 128 ? test : 128 -(test-128)),5, 10,10, RGB(255,255,0));
 }
