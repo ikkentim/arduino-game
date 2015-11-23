@@ -1,5 +1,5 @@
-#ifndef ARDUINO_GAME_VECTOR3_H
-#define ARDUINO_GAME_VECTOR3_H
+#ifndef ARDUINOGAME_VECTOR3_H
+#define ARDUINOGAME_VECTOR3_H
 
 #include <math.h>
 
@@ -86,4 +86,4 @@ struct Vector3 {
     }
 };
 
-#endif //ARDUINO_GAME_VECTOR3_H
+#endif //ARDUINOGAME_VECTOR3_H

@@ -1,5 +1,5 @@
-#ifndef ARDUINO_GAME_NUNCHUCK_H
-#define ARDUINO_GAME_NUNCHUCK_H
+#ifndef ARDUINOGAME_NUNCHUCK_H
+#define ARDUINOGAME_NUNCHUCK_H
 
 #include "Vector3.h"
 #include "Vector2.h"
@@ -19,4 +19,4 @@ private:
 };
 
 
-#endif //ARDUINO_GAME_NUNCHUCK_H
+#endif //ARDUINOGAME_NUNCHUCK_H
