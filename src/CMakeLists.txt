@@ -1,2 +1,8 @@
-
-add_executable(ArduinoGame main.cpp Nunchuck.cpp Engine.cpp Game.cpp Game.h)
+add_executable(ArduinoGame
+        main.cpp
+        Engine.cpp
+        Game.cpp
+        Matrix4.cpp
+        Nunchuck.cpp
+        Vector2.cpp
+        Vector3.cpp)
