@@ -1,7 +1,7 @@
 #include "Engine.h"
 
 #define RATE_RENDER     (30)
-#define RATE_UPDATE     (30)
+#define RATE_UPDATE     (50)
 
 Engine::Engine(Nunchuck *n, MI0283QT9 *t) {
     nunchuck=n;

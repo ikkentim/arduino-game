@@ -48,10 +48,6 @@ void Nunchuck::update() {
     Wire.beginTransmission(NC_ADDRESS);
     Wire.write((uint8_t) NC_REQUEST);
     Wire.endTransmission();
-
-    if (i != 6) {
-        while (1);
-    }
 }
 
 Vector3 Nunchuck::acceleration() {
