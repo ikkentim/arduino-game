@@ -14,7 +14,7 @@ Game *game = 0;
 void enableInterrupt() {
     TCCR2B = 0x00;
     TCCR2A &= ~((1 << COM0A0) | (1 << COM0A1));
-    TCCR2B = 1 << CS22 | 1 << CS21 | 0 << CS20;
+    TCCR2B = 0 << CS22 | 1 << CS21 | 1 << CS20;
     TIMSK2 |= 1 << TOIE2;
 
     sei();
@@ -22,7 +22,7 @@ void enableInterrupt() {
 
 ISR(TIMER2_OVF_vect) {
     if(game)
-        game->tick((float)1 / 122);
+        game->tick((float)1 / ((float)16000000 / 256 / 64));
 }
 
 int main(void) {
