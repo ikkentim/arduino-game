@@ -1,19 +1,44 @@
-//
-// Created by Tim Potze on 23/11/15.
-//
-
 #include <stdio.h>
 #include "Game.h"
+#include "Level/TestLevel.h"
+
+int freeRam ()
+{
+}
+
+Game::Game(Nunchuck *nunchuck, MI0283QT9 *tft) : Engine(nunchuck, tft) {
+    this->level = new TestLevel(this);
+}
 
 void Game::engine_update() {
     nunchuck->update();
+
+    if(this->level != 0){
+        this->level->update();
+    }
 }
 
 void Game::engine_render() {
-    if(test < 128)
-        tft->fillRect(5+(test < 128 ? test : 128 -(test-128)),5, 1,10, RGB(255,0,0));
-    else
-        tft->fillRect(5+(test < 128 ? test : 128 -(test-128)) + 9,5, 1,10, RGB(255,0,0));
-    if(++test >= 256)test=0;
-    tft->fillRect(5+(test < 128 ? test : 128 -(test-128)),5, 10,10, RGB(255,255,0));
+    if(this->level != 0) {
+        this->level->render(tft);
+    }
+
+    extern int __heap_start, *__brkval;
+    int v;
+    int freeRam = (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
+
+    char buf[32];
+
+    sprintf(buf, "Free mem: %d", freeRam);
+
+    tft->drawText(0, 25, buf, RGB(0, 0, 0), RGB(255, 0, 0), 1);
+}
+
+void Game::setLevel(Level *level) {
+    if (this->level != 0) {
+        delete this->level;
+        this->level = 0;
+    }
+
+    this->level = level;
 }
