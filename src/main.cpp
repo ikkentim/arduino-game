@@ -10,6 +10,8 @@
 #include "Game.h"
 
 Game *game = 0;
+MI0283QT9 tft;
+Nunchuck nc;
 
 void enableInterrupt() {
     TCCR2B = 0x00;
@@ -26,17 +28,14 @@ ISR(TIMER2_OVF_vect) {
 }
 
 int main(void) {
-    MI0283QT9 tft;
-    Nunchuck nc;
-
     init();
     enableInterrupt();
-
-    nc.begin();
 
     tft.begin();
     tft.led(100);
     tft.fillScreen(RGB(255, 0, 0));
+
+    nc.begin();
 
     game = new Game(&nc, &tft);
 
