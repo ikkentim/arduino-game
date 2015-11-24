@@ -14,7 +14,6 @@ public:
 protected:
     virtual void engine_update() = 0;
     virtual void engine_render() = 0;
-    int fps;
     Nunchuck *nunchuck;
     MI0283QT9 *tft;
 private:
@@ -22,8 +21,6 @@ private:
     bool awaitUpdate_;
     float timeSinceRender_;
     float timeSinceUpdate_;
-    float timeSinceFps_;
-    uint8_t framesSinceFps_;
 };
 
 
