@@ -5,4 +5,7 @@ add_executable(ArduinoGame
         Matrix4.cpp
         Nunchuck.cpp
         Vector2.cpp
-        Vector3.cpp)
+        Vector3.cpp
+        Level.cpp
+        Level/TestLevel.cpp
+)
