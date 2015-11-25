@@ -4,6 +4,7 @@
 #include "../Level.h"
 #include "../BaseEntity.h"
 class TestLevel : public Level {
+private:
     BaseEntity* testEntity_;
 public:
     TestLevel(Game *game);

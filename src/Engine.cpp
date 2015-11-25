@@ -34,7 +34,7 @@ bool Engine::update() {
         timeSinceUpdate_ = 0;
     }
 
-    if (awaitRender_) {
+    if (awaitRender_||true) {
         awaitRender_ = false;
         engine_render();
         display_free_ram();

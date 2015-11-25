@@ -18,8 +18,8 @@ struct Vector2 {
     inline Vector2 normalized();
     inline float dot(const Vector2 &v2) const;
     inline float cross(const Vector2 &v2) const;
-    inline Vector2 transform(const struct Matrix4 &m) const;
-    inline Vector2 operator=(Vector2 a);
+    Vector2 transform(const struct Matrix4 &m) const;
+    Vector2 operator=(Vector2 a);
     inline Vector2 operator+(Vector2 a);
     inline Vector2 operator-(Vector2 a);
     inline Vector2 operator/(float scalar);
