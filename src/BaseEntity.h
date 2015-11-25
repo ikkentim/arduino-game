@@ -12,7 +12,9 @@ class BaseEntity
 {
 public:
     BaseEntity(Game* game) { game_ = game; }
-
+    //Always make base classes' destructors virtual when they're meant to be manipulated polymorphically.
+    virtual ~BaseEntity(){};
+    
     //Updates this entity.
     virtual void update(float delta) {};
     //Render this entity.

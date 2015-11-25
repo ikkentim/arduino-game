@@ -20,7 +20,7 @@ void Game::engine_render() {
     }
 }
 
-void Game::setLevel(Level *level) {
+void Game::set_level(Level *level) {
     if (this->level != 0) {
         delete this->level;
         this->level = 0;
