@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "Engine.h"
 
 #define RATE_RENDER     (30)
@@ -36,8 +37,21 @@ bool Engine::update() {
     if (awaitRender_) {
         awaitRender_ = false;
         engine_render();
+        display_free_ram();
         return true;
     }
 
     return false;
+}
+
+void Engine::display_free_ram() {
+    extern int __heap_start, *__brkval;
+    int v;
+    int freeRam = (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
+
+    char buf[14];
+
+    sprintf(buf, "Free mem: %d", freeRam);
+
+    tft->drawText(2, 2, buf, RGB(0, 0, 0), RGB(255, 0, 0), 1);
 }
