@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "MenuLevel.h"
+#include "TestLevel.h"
 
 MenuLevel::MenuLevel(Game *game) : Level(game) {
 
@@ -16,6 +17,12 @@ void MenuLevel::render(MI0283QT9 *tft) {
                   menu_title_, RGB(rand() % 200 + 55, rand() % 200 + 55, rand() % 200 + 55), RGB(0, 0, 0), title_size);
     tft->drawText((tft->lcd_width / 2) - (((float) strlen(text) / 2) * 8), tft->lcd_height - 20, text,
                   RGB(255, 255, 255), RGB(0, 0, 0), 1);
+
+    // Check if the screen is touched
+    if (tft->touchRead()) {
+        // Set new level
+        game->setLevel(new TestLevel(game));
+    }
 }
 
 void MenuLevel::update() {
