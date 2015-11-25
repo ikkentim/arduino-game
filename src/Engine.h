@@ -21,6 +21,7 @@ private:
     bool awaitUpdate_;
     float timeSinceRender_;
     float timeSinceUpdate_;
+    void display_free_ram();
 };
 
 
