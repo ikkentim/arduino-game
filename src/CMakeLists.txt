@@ -8,4 +8,5 @@ add_executable(ArduinoGame
         Vector3.cpp
         Level.cpp
         Level/TestLevel.cpp
+		Entity/TestEntity.cpp
 )
