@@ -2,8 +2,7 @@ cmake_minimum_required(VERSION 3.2)
 project(ArduinoGame)
 
 if(WIN32)
-    set(ENV{PATH} "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin")
-    set(PLATFORMIO_CMD "/usr/local/bin/platformio")
+
 else()
     set(ENV{PATH} "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin")
     set(PLATFORMIO_CMD "/usr/local/bin/platformio")
