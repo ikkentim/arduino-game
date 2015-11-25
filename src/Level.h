@@ -8,7 +8,7 @@ class Game;
 class Level {
 public:
     Level(Game *game);
-    ~Level();
+    virtual ~Level();
     virtual void update() = 0;
     virtual void render(MI0283QT9 *tft) = 0;
 
