@@ -25,6 +25,6 @@ void Game::setLevel(Level *level) {
         delete this->level;
         this->level = 0;
     }
-
+    tft->fillScreen(0x00);
     this->level = level;
 }
