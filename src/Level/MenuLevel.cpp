@@ -21,7 +21,7 @@ void MenuLevel::render(MI0283QT9 *tft) {
     // Check if the screen is touched
     if (tft->touchRead()) {
         // Set new level
-        game->setLevel(new TestLevel(game));
+        game->set_level(new TestLevel(game));
     }
 }
 
