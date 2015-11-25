@@ -9,4 +9,5 @@ add_executable(ArduinoGame
         Level.cpp
         Level/TestLevel.cpp
 		Entity/TestEntity.cpp
+        FastMath.cpp
 )
