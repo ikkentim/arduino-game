@@ -1,8 +1,14 @@
 cmake_minimum_required(VERSION 3.2)
 project(ArduinoGame)
 
-set(ENV{PATH} "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin")
-set(PLATFORMIO_CMD "/usr/local/bin/platformio")
+if(WIN32)
+    set(ENV{PATH} "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin")
+    set(PLATFORMIO_CMD "/usr/local/bin/platformio")
+else()
+    set(ENV{PATH} "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin")
+    set(PLATFORMIO_CMD "/usr/local/bin/platformio")
+endif()
+
 
 include_directories("$ENV{HOME}/.platformio/packages/framework-arduinoavr/variants/standard")
 include_directories("$ENV{HOME}/.platformio/packages/framework-arduinoavr/cores/arduino")
