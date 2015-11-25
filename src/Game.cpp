@@ -27,7 +27,7 @@ void Game::engine_render() {
     int v;
     int freeRam = (int) &v - (__brkval == 0 ? (int) &__heap_start : (int) __brkval);
 
-    char buf[32];
+    char buf[14];
 
     sprintf(buf, "Free mem: %d", freeRam);
 
