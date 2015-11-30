@@ -9,7 +9,7 @@ class Level {
 public:
     Level(Game *game);
     virtual ~Level();
-    virtual void update() = 0;
+    virtual void update(float deltaTime) = 0;
     virtual void render(TFT *tft) = 0;
 
 protected:

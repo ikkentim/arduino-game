@@ -10,7 +10,7 @@ public:
     TestLevel(Game *game);
     ~TestLevel();
     void render(TFT *tft);
-    void update();
+    void update(float deltaTime);
 };
 
 
