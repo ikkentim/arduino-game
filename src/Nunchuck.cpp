@@ -82,6 +82,24 @@ void Nunchuck::update() {
         type_ = 0;
     }
 
+    // handle last requests' data
+    z_pressed_ = type_ && !((buffer_[5] >> 0) & 1);
+    c_pressed_ = type_ && !((buffer_[5] >> 1) & 1);
+
+    position_ = !type_ ? Vector2() : Vector2(
+            range_from_8bits(buffer_[0], 0, 255),
+            range_from_8bits(buffer_[1], 0, 255)
+    );
+
+    acceleration_ = !type_ ? Vector3() : Vector3(
+            range_from_10bits(buffer_[2], (buffer_[5] >> 2) & 3, 0, 1023),
+            range_from_10bits(buffer_[3], (buffer_[5] >> 4) & 3, 0, 1023),
+            range_from_10bits(buffer_[4], (buffer_[5] >> 6) & 3, 0, 1023)
+    );
+
+    wrap(&position_);
+    wrap(&acceleration_);
+
     // send a new request for data ahead for the next update.
     send_request();
 }
@@ -113,29 +131,22 @@ bool Nunchuck::receive_data() {
 Vector3 Nunchuck::acceleration() {
     // if no device has been connected, return an empty vector. otherwise, return a vector filled with acceleration
     // data.
-    return !type_ ? Vector3() : Vector3(
-            range_from_10bits(buffer_[2], (buffer_[5] >> 2) & 3, 0, 1023),
-            range_from_10bits(buffer_[3], (buffer_[5] >> 4) & 3, 0, 1023),
-            range_from_10bits(buffer_[4], (buffer_[5] >> 6) & 3, 0, 1023)
-    );
+    return acceleration_;
 }
 
 Vector2 Nunchuck::joystick() {
     // if no device has been connected, return an empty vector. otherwise, return a vector filled with joystick data.
-    return !type_ ? Vector2() : Vector2(
-            range_from_8bits(buffer_[0], 0, 255),
-            range_from_8bits(buffer_[1], 0, 255)
-    );
+    return position_;
 }
 
 bool Nunchuck::button_z() {
     // return a value indicating whether any device has been connected and the z button has been pressed.
-    return type_ && !((buffer_[5] >> 0) & 1);
+    return z_pressed_;
 }
 
 bool Nunchuck::button_c() {
     // return a value indicating whether any device has been connected and the c button has been pressed.
-    return type_ && !((buffer_[5] >> 1) & 1);
+    return c_pressed_;
 }
 
 float Nunchuck::range_from_10bits(uint8_t byte, uint8_t bits, uint16_t min, uint16_t max) {
@@ -166,4 +177,25 @@ uint8_t Nunchuck::clear_input() {
         Wire.read();
 
     return count;
+}
+
+void Nunchuck::wrap(Vector2 *vector) {
+    if(fabs(vector->x) < 0.1f){
+        vector->x = 0;
+    }
+    if(fabs(vector->y) < 0.1f){
+        vector->y = 0;
+    }
+}
+
+void Nunchuck::wrap(Vector3 *vector) {
+    if(fabs(vector->x) < 0.1f){
+        vector->x = 0;
+    }
+    if(fabs(vector->y) < 0.1f){
+        vector->y = 0;
+    }
+    if(fabs(vector->z) < 0.1f){
+        vector->z = 0;
+    }
 }

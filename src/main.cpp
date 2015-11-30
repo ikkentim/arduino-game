@@ -39,6 +39,7 @@ int main(void) {
     // initialize the tft screen and clear it to it's initial color (red).
     tft.begin();
     tft.led(100);
+    tft.fillScreen(RGB(0, 0, 0));
 
     // initialize the nunchuck interface.
     nc.begin();

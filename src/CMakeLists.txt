@@ -11,4 +11,5 @@ add_executable(ArduinoGame
         Level/MenuLevel.cpp
 		Entity/TestEntity.cpp
         FastMath.cpp
+        ShapeRenderer.cpp
 )
