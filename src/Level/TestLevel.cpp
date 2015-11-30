@@ -81,7 +81,7 @@ TestLevel::~TestLevel()
 {
     delete testEntity_;
 }
-void TestLevel::update() {
-    testEntity_->update(0.16f);
+void TestLevel::update(float deltaTime) {
+    testEntity_->update(deltaTime);
 }
 

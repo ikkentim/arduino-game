@@ -13,7 +13,7 @@ public:
     void set_level(Level *level);
 
 protected:
-    virtual void engine_update();
+    virtual void engine_update(float deltaTime);
     virtual void engine_render();
 
 private:

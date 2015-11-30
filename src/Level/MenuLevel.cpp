@@ -25,6 +25,6 @@ void MenuLevel::render(TFT *tft) {
     }
 }
 
-void MenuLevel::update() {
+void MenuLevel::update(float deltaTime) {
 
 }

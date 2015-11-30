@@ -14,7 +14,7 @@ public:
     Nunchuck *nunchuck;
     TFT *tft;
 protected:
-    virtual void engine_update() = 0;
+    virtual void engine_update(float deltaTime) = 0;
     virtual void engine_render() = 0;
 private:
     bool awaitRender_;
