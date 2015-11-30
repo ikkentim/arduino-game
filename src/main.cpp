@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <MI0283QT9.h>
+#include <TFT.h>
 #include "Nunchuck.h"
 #include "Game.h"
 
@@ -9,7 +9,7 @@
 #include <digitalWriteFast.h>
 
 Game *game = 0;
-MI0283QT9 tft;
+TFT tft;
 Nunchuck nc;
 
 void enableTimer2Interrupt() {
@@ -39,6 +39,7 @@ int main(void) {
     // initialize the tft screen and clear it to it's initial color (red).
     tft.begin();
     tft.led(100);
+    tft.fillScreen(RGB(0, 0, 0));
 
     // initialize the nunchuck interface.
     nc.begin();

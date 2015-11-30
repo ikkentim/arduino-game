@@ -8,7 +8,7 @@ MenuLevel::MenuLevel(Game *game) : Level(game) {
 
 }
 
-void MenuLevel::render(MI0283QT9 *tft) {
+void MenuLevel::render(TFT *tft) {
     const char *text = "Touch the screen to continue";
     const uint8_t title_size = 4;
 

@@ -10,7 +10,7 @@ public:
     Level(Game *game);
     virtual ~Level();
     virtual void update() = 0;
-    virtual void render(MI0283QT9 *tft) = 0;
+    virtual void render(TFT *tft) = 0;
 
 protected:
     Game *game;

@@ -10,21 +10,21 @@ struct Vector2 {
 
     Vector2();
     Vector2(float xx, float yy);
-    inline void zero();
-    inline bool is_zero() const;
-    inline float length();
-    inline float length_sq();
-    inline void normalize();
-    inline Vector2 normalized();
-    inline float dot(const Vector2 &v2) const;
-    inline float cross(const Vector2 &v2) const;
-    inline Vector2 transform(const struct Matrix4 &m) const;
-    inline Vector2 operator=(Vector2 a);
-    inline Vector2 operator+(Vector2 a);
-    inline Vector2 operator-(Vector2 a);
-    inline Vector2 operator/(float scalar);
-    inline bool operator==(Vector2 a);
-    inline bool operator!=(Vector2 a);
+    void zero();
+    bool is_zero() const;
+    float length();
+    float length_sq();
+    void normalize();
+    Vector2 normalized();
+    float dot(const Vector2 &v2) const;
+    float cross(const Vector2 &v2) const;
+    Vector2 transform(const struct Matrix4 &m) const;
+    Vector2 operator=(Vector2 a);
+    Vector2 operator+(Vector2 a);
+    Vector2 operator-(Vector2 a);
+    Vector2 operator/(float scalar);
+    bool operator==(Vector2 a);
+    bool operator!=(Vector2 a);
 };
 
 #endif //ARDUINOGAME_VECTOR2_H

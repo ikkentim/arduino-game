@@ -4,11 +4,12 @@
 #include "../Level.h"
 #include "../BaseEntity.h"
 class TestLevel : public Level {
+private:
     BaseEntity* testEntity_;
 public:
     TestLevel(Game *game);
     ~TestLevel();
-    void render(MI0283QT9 *tft);
+    void render(TFT *tft);
     void update();
 };
 

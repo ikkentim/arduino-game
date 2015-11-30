@@ -1,15 +1,15 @@
-#ifndef MI0283QT9_h
-#define MI0283QT9_h
+#ifndef TFT_h
+#define TFT_h
 
 
 #include <inttypes.h>
 #include "GraphicsLib.h"
 
 
-class MI0283QT9 : public GraphicsLib
+class TFT : public GraphicsLib
 {
   public:
-    MI0283QT9();
+    TFT();
 
     void begin(uint_least8_t clock_div);
     void begin(void);
@@ -36,4 +36,4 @@ class MI0283QT9 : public GraphicsLib
 };
 
 
-#endif //MI0283QT9_h
+#endif //TFT_h
