@@ -63,7 +63,7 @@ const uint16_t testshape[] PROGMEM = {
 ShapeRenderer sr;
 float r = 0;
 float xx = 0;
-void TestLevel::render(MI0283QT9 *tft) {
+void TestLevel::render(TFT *tft) {
     float oldr = r;
     float oldx = xx;
     r += game->nunchuck->joystick().x / 10;

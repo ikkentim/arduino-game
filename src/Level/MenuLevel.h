@@ -7,7 +7,7 @@
 class MenuLevel : public Level {
 public:
     MenuLevel(Game *game);
-    void render(MI0283QT9 *tft);
+    void render(TFT *tft);
     void update();
 private:
     const char *menu_title_ = "Asteroids";

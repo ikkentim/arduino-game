@@ -4,7 +4,7 @@
 #define RATE_RENDER     (30)
 #define RATE_UPDATE     (30)
 
-Engine::Engine(Nunchuck *n, MI0283QT9 *t) {
+Engine::Engine(Nunchuck *n, TFT *t) {
     nunchuck = n;
     tft = t;
     awaitRender_ = false;

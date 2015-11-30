@@ -10,7 +10,7 @@
 
 #define IN_RANGE(value, min, max) (value >= min && value < max) //inclusive min, exclusive max
 
-void ShapeRenderer::render(MI0283QT9 *tft, ShapeBuffer *shape, Color color, int oldx, int oldy, float oldr, int newx,
+void ShapeRenderer::render(TFT *tft, ShapeBuffer *shape, Color color, int oldx, int oldy, float oldr, int newx,
                            int newy, float newr, bool force) {
     // snap rotations to step size.
     float tmp = 0;
@@ -76,7 +76,7 @@ void ShapeRenderer::buffer_rotate(ShapeBuffer *in, ShapeBuffer *out, float rotat
         }
 }
 
-void ShapeRenderer::buffer_render_set(MI0283QT9 *tft, ShapeBuffer *buffer, int x, int y, Color color) {
+void ShapeRenderer::buffer_render_set(TFT *tft, ShapeBuffer *buffer, int x, int y, Color color) {
     for (uint8_t cx = SHAPE_SIZE - 1; cx != 0; cx--) {
         ShapeBuffer mask = (ShapeBuffer) 1 << (SHAPE_SIZE - 1 - cx);
         for (uint8_t cy = SHAPE_SIZE - 1; cy != 0; cy--)
@@ -85,7 +85,7 @@ void ShapeRenderer::buffer_render_set(MI0283QT9 *tft, ShapeBuffer *buffer, int x
     }
 }
 
-void ShapeRenderer::buffer_render(MI0283QT9 *tft, ShapeBuffer *buffer, int x, int y, Color color) {
+void ShapeRenderer::buffer_render(TFT *tft, ShapeBuffer *buffer, int x, int y, Color color) {
     // set area to be drawn
     tft->setArea(x, y, x + SHAPE_SIZE - 1, y + SHAPE_SIZE - 1);
     tft->drawStart();

@@ -2,7 +2,7 @@
 #define ARDUINOGAME_SHAPERENDERER_H
 
 #include <inttypes.h>
-#include <MI0283QT9.h>
+#include <TFT.h>
 #include "Color.h"
 
 #define SHAPE_SIZE  16
@@ -12,16 +12,16 @@ typedef uint16_t ShapeBuffer;
 
 class ShapeRenderer {
 public:
-    void render(MI0283QT9 *tft, ShapeBuffer *shape, Color color, int oldx, int oldy, float oldr, int newx, int newy,
+    void render(TFT *tft, ShapeBuffer *shape, Color color, int oldx, int oldy, float oldr, int newx, int newy,
                 float newr, bool force = false);
 
 private:
 
     void buffer_rotate(ShapeBuffer *in, ShapeBuffer *out, float rotation);
 
-    void buffer_render(MI0283QT9 *tft, ShapeBuffer *buffer, int x, int y, Color color);
+    void buffer_render(TFT *tft, ShapeBuffer *buffer, int x, int y, Color color);
 
-    void buffer_render_set(MI0283QT9 *tft, ShapeBuffer *buffer, int x, int y, Color color);
+    void buffer_render_set(TFT *tft, ShapeBuffer *buffer, int x, int y, Color color);
 
     void buffer_diff_offset(ShapeBuffer *old_buffer, ShapeBuffer *new_buffer, int ox, int oy);
 
