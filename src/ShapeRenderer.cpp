@@ -4,83 +4,136 @@
 #include <avr/pgmspace.h>
 #include <util/delay.h>
 #include "FastMath.h"
+#include <math.h>
 
-void ShapeRenderer::render(MI0283QT9 *tft, uint32_t *shape, Color color, float oldx, float oldy, float oldr, float newx,
-                           float newy, float newr) {
-    buffer_clear(buffer1_);
-    buffer_clear(buffer2_);
-    buffer_clear(buffer3_);
+#define ROTATION_STEP_SIZE  0.1f
 
-    buffer_from_pgm(buffer1_, 32, shape);
+#define IN_RANGE(value, min, max) (value >= min && value < max) //inclusive min, exclusive max
 
+void ShapeRenderer::render(MI0283QT9 *tft, ShapeBuffer *shape, Color color, int oldx, int oldy, float oldr, int newx,
+                           int newy, float newr, bool force) {
+    // snap rotations to step size.
+    float tmp = 0;
+    if (oldr > 0) {
+        while (tmp < oldr) tmp += ROTATION_STEP_SIZE;
+        oldr = tmp;
+    }
+    else {
+        while (tmp > oldr) tmp -= ROTATION_STEP_SIZE;
+        oldr = tmp;
+    }
+    tmp = 0;
+    if (newr > 0) {
+        while (tmp < newr) tmp += ROTATION_STEP_SIZE;
+        newr = tmp;
+    }
+    else {
+        while (tmp > newr) tmp -= ROTATION_STEP_SIZE;
+        newr = tmp;
+    }
+
+    // check if anything has changed.
+    if (!force && oldx == newx && oldy == newy && oldr == newr)
+        return;
+
+    // clear both buffer 2 and 3.
+    for (uint8_t i = 0; i < SHAPE_SIZE; i++) {
+        buffer2_[i] = 0;
+        buffer3_[i] = 0;
+    }
+
+    // fill buffer 1 from pgm.
+    buffer_from_pgm(buffer1_, shape);
+
+    // rotate buffer 2 like previous render. rotate buffer 3 like current render.
     buffer_rotate(buffer1_, buffer2_, oldr);
     buffer_rotate(buffer1_, buffer3_, newr);
 
-    buffer_copy(buffer2_, buffer1_);
-    //buffer_xor_offset(buffer2_, buffer3_, (int) oldx - (int) newx, (int) oldy - (int) newy);
-    //buffer_xor_offset(buffer3_, buffer1_, (int) newx - (int) oldx, (int) newx - (int) oldy);
+    //buffer_copy(buffer2_, buffer1_);
+    buffer_diff_offset(buffer2_, buffer3_, oldx - newx, oldy - newy);
+    //buffer_diff_offset(buffer3_, buffer1_, newx - oldx, newx - oldy);
 
-    buffer_render(tft, buffer2_, (int) oldx, (int) oldy, 0);
-    buffer_render(tft, buffer3_, (int) newx, (int) newy, color);
+    buffer_render_set(tft, buffer2_, oldx, oldy, 0);
+    //buffer_render_set(tft, buffer3_, newx, newy, color);
+    buffer_render(tft, buffer3_, newx, newy, color);
+
+    //buffer_render_set(tft, buffer3_, newx, newy, RGB(255,0,0));
 }
 
-void ShapeRenderer::buffer_clear(uint32_t *buffer) {
-    for (uint8_t i = 0; i < 32; i++) {
-        buffer[i] = 0;
-    }
-}
-
-void ShapeRenderer::buffer_rotate(uint32_t *in, uint32_t *out, float rotation) {
+void ShapeRenderer::buffer_rotate(ShapeBuffer *in, ShapeBuffer *out, float rotation) {
     float s = fast_sin(rotation);
     float c = fast_cos(rotation);
 
-    for (uint8_t y = 0; y < 32; y++)
-        for (uint8_t x = 0; x < 32; x++) {
-            if(!((in[y] >> x) & 1) ) continue;
+    for (uint8_t y = SHAPE_SIZE - 1; y != 0; y--)
+        for (uint8_t x = SHAPE_SIZE - 1; x != 0; x--) {
+            if (!((in[y] >> x) & 1)) continue;
 
-            int nx = (int) (c * (x-16) - s * (y-16) + 16);
-            int ny = (int) (s * (x-16) + c * (y-16) + 16);
+            int nx = (int) (c * (x - SHAPE_ORIGIN) - s * (y - SHAPE_ORIGIN) + SHAPE_ORIGIN);
+            int ny = (int) (s * (x - SHAPE_ORIGIN) + c * (y - SHAPE_ORIGIN) + SHAPE_ORIGIN);
 
-            out[ny] |= ((in[y] >> x) & 1) << nx;
+            if (IN_RANGE(nx, 0, SHAPE_SIZE) && IN_RANGE(ny, 0, SHAPE_SIZE))
+                out[ny] |= ((in[y] >> x) & 1) << nx;
         }
 }
 
-void ShapeRenderer::buffer_render(MI0283QT9 *tft, uint32_t *buffer, int x, int y, Color color) {
-    for (uint8_t cy = 0; cy < 32; cy++)
-        for (uint8_t cx = 0; cx < 32; cx++) {
-            if ((buffer[cy] >> (31 - cx)) & 1) {
+void ShapeRenderer::buffer_render_set(MI0283QT9 *tft, ShapeBuffer *buffer, int x, int y, Color color) {
+    for (uint8_t cx = SHAPE_SIZE - 1; cx != 0; cx--) {
+        ShapeBuffer mask = (ShapeBuffer) 1 << (SHAPE_SIZE - 1 - cx);
+        for (uint8_t cy = SHAPE_SIZE - 1; cy != 0; cy--)
+            if ((buffer[cy] & mask))
                 tft->drawPixel(x + cx, y + cy, color);
-            }
-        }
-}
-
-void ShapeRenderer::buffer_from_pgm(uint32_t *buffer, uint16_t length, uint32_t *address) {
-    for (uint16_t i = 0; i < length; i++)
-        buffer[i] = pgm_read_dword(address + i);
-}
-
-void ShapeRenderer::buffer_xor_offset(uint32_t *buffer1, uint32_t *buffer2, int ox, int oy) {
-    for (uint8_t y = 0; y < 32; y++) {
-        for (uint8_t x = 0; x < 32; x++) {
-            uint32_t bit1 = (buffer1[y] >> (31 - x)) & 1;
-
-            int x2 = x + ox;
-            int y2 = y + oy;
-            uint8_t bit2 = x2 < 0 || x2 >= 32 || y2 < 0 || y2 >= 32
-                       ? 0
-                       : (buffer2[y2] >> (31 - x2)) & 1;
-
-            uint32_t bit = (uint32_t)1 << (31 - x);
-            uint8_t value = (bit1 & ~bit2) & 1;
-            if((buffer1[y] & bit) && !value)
-                buffer1[y] &= ~bit;
-            else if(!(buffer1[y] & bit) && value)
-                buffer1[y] |= bit;
-        }
     }
 }
 
-void ShapeRenderer::buffer_copy(uint32_t *in, uint32_t *out) {
-    for (uint8_t i=0; i < 32; i++)
-        out[i] = in[i];
+void ShapeRenderer::buffer_render(MI0283QT9 *tft, ShapeBuffer *buffer, int x, int y, Color color) {
+    // set area to be drawn
+    tft->setArea(x, y, x + SHAPE_SIZE - 1, y + SHAPE_SIZE - 1);
+    tft->drawStart();
+
+    for (uint8_t cy = 0; cy < SHAPE_SIZE; cy++)
+    for (uint8_t cx = 0; cx < SHAPE_SIZE; cx++) {
+        ShapeBuffer mask = (ShapeBuffer) 1 << (SHAPE_SIZE - 1 - cx);
+            tft->draw((buffer[cy] & mask) ? color : 0);
+    }
+    tft->drawStop();
+}
+
+void ShapeRenderer::buffer_diff_offset(ShapeBuffer *buffer1, ShapeBuffer *buffer2, int ox, int oy) {
+    for (uint8_t y = SHAPE_SIZE - 1; y != 0; y--)
+        for (uint8_t x = SHAPE_SIZE - 1; x != 0; x--) {
+            // calculate positions within buffer 2.
+            int x2 = x + ox;
+            int y2 = y + oy;
+
+            // create mask for bit in buffers.
+            ShapeBuffer mask1 = (ShapeBuffer) 1 << (SHAPE_SIZE - 1 - x);
+            ShapeBuffer mask2 = (ShapeBuffer) 1 << (SHAPE_SIZE - 1 - x2);
+
+            // calculate diff value based on the set bits in buffer 1 and 2.
+            uint8_t value =
+                // (bit representing current position in buffer 1) &
+                (buffer1[y] & mask1 ? 1 : 0) &
+                ~(
+                    IN_RANGE(x2, 0, SHAPE_SIZE) && IN_RANGE(y2, 0, SHAPE_SIZE)
+                    ? ((buffer2[y2] & mask2) ? (uint8_t) 1 : 0)
+                    : 0
+                );
+
+            // set diff value.
+            if (((buffer1[y] & mask1) == 0) != (value == 0))
+                buffer1[y] ^= mask1;
+        }
+}
+
+void ShapeRenderer::buffer_from_pgm(ShapeBuffer *buffer, ShapeBuffer *address) {
+    for (uint8_t i = 0; i < SHAPE_SIZE; i++)
+        buffer[i] = pgm_read_word(address + i);
+}
+
+void ShapeRenderer::buffer_copy(ShapeBuffer *in, ShapeBuffer *out) {
+    memcpy(out, in, sizeof(ShapeBuffer) * SHAPE_SIZE);
+}
+
+void ShapeRenderer::buffer_clear(ShapeBuffer *buffer) {
+    memset(buffer, 0, sizeof(ShapeBuffer) * SHAPE_SIZE);
 }
