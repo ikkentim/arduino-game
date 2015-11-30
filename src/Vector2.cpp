@@ -77,3 +77,11 @@ bool Vector2::operator==(Vector2 a) {
 bool Vector2::operator!=(Vector2 a) {
     return a.x != x || a.y != y;
 }
+
+Vector2 Vector2::operator*(float multiplier) {
+    return Vector2(x * multiplier, y * multiplier);
+}
+
+Vector2 Vector2::operator+=(Vector2 a) {
+    return Vector2(x + a.x, y + a.y);
+}

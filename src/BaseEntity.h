@@ -1,12 +1,10 @@
-//
-// Created by Roelof on 11/25/2015.
-//
 #include "Vector2.h"
+#include "Game.h"
+#include "ShapeRenderer.h"
 
 #ifndef ARDUINOGAME_BASEENTITY_H
 #define ARDUINOGAME_BASEENTITY_H
-class Game;
-class ShapeRenderer;
+
 //Base entity class, other entities inherit from this class.
 class BaseEntity
 {
@@ -16,7 +14,7 @@ public:
     virtual ~BaseEntity(){};
     
     //Updates this entity.
-    virtual void update(float delta) {};
+    virtual void update(float delta) = 0;
     //Render this entity.
     virtual void render(ShapeRenderer* renderer) = 0;
 
