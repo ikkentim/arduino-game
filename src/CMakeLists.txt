@@ -13,4 +13,4 @@ add_executable(ArduinoGame
         FastMath.cpp
         ShapeRenderer.cpp
         Player.cpp
-)
+        Asteroid.cpp)
