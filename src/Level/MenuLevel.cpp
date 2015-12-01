@@ -3,9 +3,9 @@
 #include <string.h>
 #include "MenuLevel.h"
 #include "TestLevel.h"
-
+#include "../Random.h"
 MenuLevel::MenuLevel(Game *game) : Level(game) {
-
+    seed_ticks_ = 0;
 }
 
 void MenuLevel::render() {
@@ -35,4 +35,7 @@ void MenuLevel::update(float deltaTime) {
         // Set new level
         game->set_level(new TestLevel(game));
     }
+
+    seed_ticks_++;
+    Random::generate_seed(seed_ticks_ , game->nunchuck);
 }

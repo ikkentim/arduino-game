@@ -11,6 +11,7 @@ public:
     void update(float deltaTime);
 private:
     const char *menu_title_ = "Asteroids";
+    uint8_t seed_ticks_;
 };
 
 #endif //ARDUINOGAME_MENULEVEL_H
