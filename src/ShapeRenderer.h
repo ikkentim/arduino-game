@@ -5,35 +5,17 @@
 #include <MI0283QT9.h>
 #include "Color.h"
 
-#define SHAPE_SIZE  16
-#define SHAPE_ORIGIN 8
-
-typedef uint16_t ShapeBuffer;
-
 class ShapeRenderer {
 public:
-    void render(MI0283QT9 *tft, ShapeBuffer *shape, Color color, int oldx, int oldy, float oldr, int newx, int newy,
-                float newr, bool force = false);
+    ShapeRenderer() { }
 
+    void render(MI0283QT9 *tft, int8_t *shape, int length, Color color, int oldx, int oldy, float oldr, int newx,
+                int newy, float newr);
 private:
-
-    void buffer_rotate(ShapeBuffer *in, ShapeBuffer *out, float rotation);
-
-    void buffer_render(MI0283QT9 *tft, ShapeBuffer *buffer, int x, int y, Color color);
-
-    void buffer_render_set(MI0283QT9 *tft, ShapeBuffer *buffer, int x, int y, Color color);
-
-    void buffer_diff_offset(ShapeBuffer *old_buffer, ShapeBuffer *new_buffer, int ox, int oy);
-
-    void buffer_clear(ShapeBuffer *buffer);
-
-    void buffer_from_pgm(ShapeBuffer *buffer, ShapeBuffer *address);
-
-    void buffer_copy(ShapeBuffer *in, ShapeBuffer *out);
-
-    ShapeBuffer buffer1_[SHAPE_SIZE];
-    ShapeBuffer buffer2_[SHAPE_SIZE];
-    ShapeBuffer buffer3_[SHAPE_SIZE];
+    void buffer_draw_line(uint32_t *buffer, int x0, int y0, int x1, int y1);
+    void buffer_set_pixel(uint32_t *buffer, int x, int y, uint8_t value);
+    uint8_t buffer_get_pixel(uint32_t *buffer, int x, int y);
+    uint32_t buffer1_[32];
 };
 
 
