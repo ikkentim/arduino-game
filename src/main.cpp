@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include <MI0283QT9.h>
+#include <TFT.h>
 #include "Nunchuck.h"
 #include "Game.h"
 
@@ -9,7 +9,7 @@
 #include <digitalWriteFast.h>
 
 Game *game = 0;
-MI0283QT9 tft;
+TFT tft;
 Nunchuck nc;
 
 void enableTimer2Interrupt() {

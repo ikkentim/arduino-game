@@ -9,11 +9,11 @@ class Level;
 
 class Game : public Engine {
 public:
-    Game(Nunchuck *nunchuck, MI0283QT9 *tft);
+    Game(Nunchuck *nunchuck, TFT *tft);
     void set_level(Level *level);
 
 protected:
-    virtual void engine_update();
+    virtual void engine_update(float deltaTime);
     virtual void engine_render();
 
 private:

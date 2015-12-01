@@ -9,8 +9,8 @@ private:
 public:
     TestLevel(Game *game);
     ~TestLevel();
-    void render(MI0283QT9 *tft);
-    void update();
+    void render(TFT *tft);
+    void update(float deltaTime);
 };
 
 

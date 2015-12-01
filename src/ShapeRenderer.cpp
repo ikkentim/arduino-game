@@ -10,7 +10,7 @@
 #define SWAP(x, y) do{ (x)=(x)^(y); (y)=(x)^(y); (x)=(x)^(y); }while(0)
 
 
-void ShapeRenderer::render(MI0283QT9 *tft, int8_t *shape, int length, Color color, int oldx, int oldy, float oldr,
+void ShapeRenderer::render(TFT *tft, int8_t *shape, int length, Color color, int oldx, int oldy, float oldr,
                            int newx, int newy, float newr) {
     float
         s = fast_sin(newr),
@@ -169,7 +169,6 @@ void ShapeRenderer::buffer_draw_line(uint32_t *buffer, int x0, int y0, int x1, i
             }
         }
     }
-
     return;
 }
 

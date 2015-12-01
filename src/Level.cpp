@@ -8,6 +8,6 @@ Level::~Level() {
 
 }
 
-void Level::update() {
+void Level::update(float deltaTime) {
 
 }

@@ -4,7 +4,7 @@
 #define RATE_RENDER     (30)
 #define RATE_UPDATE     (30)
 
-Engine::Engine(Nunchuck *n, MI0283QT9 *t) {
+Engine::Engine(Nunchuck *n, TFT *t) {
     nunchuck = n;
     tft = t;
     awaitRender_ = false;
@@ -42,8 +42,9 @@ void Engine::tick(float timeElapsed) {
 bool Engine::update() {
     if (awaitUpdate_) {
         awaitUpdate_ = false;
-        engine_update();
+        float deltaTime = timeSinceUpdate_;
         timeSinceUpdate_ = 0;
+        engine_update(deltaTime);
     }
 
     if (awaitRender_ || true) {
