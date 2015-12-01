@@ -6,17 +6,18 @@
 #define ARDUINOGAME_BASEENTITY_H
 
 //Base entity class, other entities inherit from this class.
-class BaseEntity
-{
+class BaseEntity {
 public:
-    BaseEntity(Game* game) { game_ = game; }
+    BaseEntity(Game *game) { game_ = game; }
+
     //Always make base classes' destructors virtual when they're meant to be manipulated polymorphically.
-    virtual ~BaseEntity(){};
-    
+    virtual ~BaseEntity() { };
+
     //Updates this entity.
     virtual void update(float delta) = 0;
+
     //Render this entity.
-    virtual void render(ShapeRenderer* renderer) = 0;
+    virtual void render(ShapeRenderer *renderer) = 0;
 
     //The position in the level
     Vector2 position;
@@ -27,7 +28,7 @@ public:
     //Shape for this object
     //Shape* shape;
 protected:
-
-    Game* game_;
+    Game *game_;
 };
+
 #endif //ARDUINOGAME_BASEENTITY_H
