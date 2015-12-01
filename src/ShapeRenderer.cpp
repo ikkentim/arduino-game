@@ -9,129 +9,196 @@
 #define IN_RANGE(value, min, max) (value >= min && value < max) //inclusive min, exclusive max
 #define SWAP(x, y) do{ (x)=(x)^(y); (y)=(x)^(y); (x)=(x)^(y); }while(0)
 
+#define BUFFER_SIZE     (32)
 
 void ShapeRenderer::render(TFT *tft, int8_t *shape, int length, Color color, int oldx, int oldy, float oldr,
                            int newx, int newy, float newr) {
+    // Clear the buffer.
+    buffer_clear(buffer1_);
+
+    // Pre-calculate sine and cosine of the new rotation.
     float
-        s = fast_sin(newr),
-        c = fast_cos(newr);
+        sine = fast_sin(newr),
+        cosine = fast_cos(newr);
 
-    for (int i = 31; i != 0; i--)
-        buffer1_[i] = 0;
+    // Loop trough every line in shape.
     for (int j = 0, i = 0; i < length; i++) {
+        // Read line coordinates from the program memory.
         int8_t
-            x1 = (int8_t) pgm_read_byte(shape + j++),
-            y1 = (int8_t) pgm_read_byte(shape + j++),
-            x2 = (int8_t) pgm_read_byte(shape + j++),
-            y2 = (int8_t) pgm_read_byte(shape + j++);
+            lineStartX = (int8_t) pgm_read_byte(shape + j++),
+            lineStartY = (int8_t) pgm_read_byte(shape + j++),
+            lineEndX = (int8_t) pgm_read_byte(shape + j++),
+            lineEndY = (int8_t) pgm_read_byte(shape + j++);
 
-        int x3 = (int) (c * x1 - s * y1),
-            y3 = (int) (s * x1 + c * y1),
-            x4 = (int) (c * x2 - s * y2),
-            y4 = (int) (s * x2 + c * y2);
+        // Rotate the line coordinates based on pre-calculated sine/cosine.
+        int startX = (int) (cosine * lineStartX - sine * lineStartY),
+            startY = (int) (sine * lineStartX + cosine * lineStartY),
+            endX = (int) (cosine * lineEndX - sine * lineEndY),
+            endY = (int) (sine * lineEndX + cosine * lineEndY);
 
-        buffer_draw_line(buffer1_, x3 + 16, y3 + 16, x4 + 16, y4 + 16);
-        tft->drawLine(x3 + newx, y3 + newy, x4 + newx, y4 + newy, color);
+        // Draw the line on the buffer.
+        buffer_draw_line(buffer1_, startX + BUFFER_SIZE / 2, startY + BUFFER_SIZE / 2, endX + BUFFER_SIZE / 2,
+                         endY + BUFFER_SIZE / 2);
+
+        // Draw the line on the screen.
+        tft->drawLine(startX + newx, startY + newy, endX + newx, endY + newy, color);
     }
 
-    s = fast_sin(oldr);
-    c = fast_cos(oldr);
+    // Pre-calculate sine and cosine of the old rotation.
+    sine = fast_sin(oldr);
+    cosine = fast_cos(oldr);
 
+    // Loop trough every line in shape.
     for (int j = 0, i = 0; i < length; i++) {
+        // Read line coordinates from the program memory.
         int8_t
-            x1 = (int8_t) pgm_read_byte(shape + j++),
-            y1 = (int8_t) pgm_read_byte(shape + j++),
-            x2 = (int8_t) pgm_read_byte(shape + j++),
-            y2 = (int8_t) pgm_read_byte(shape + j++);
+            lineStartX = (int8_t) pgm_read_byte(shape + j++),
+            lineStartY = (int8_t) pgm_read_byte(shape + j++),
+            lineEndX = (int8_t) pgm_read_byte(shape + j++),
+            lineEndY = (int8_t) pgm_read_byte(shape + j++);
 
-        int x3 = (int) (c * x1 - s * y1),
-            y3 = (int) (s * x1 + c * y1),
-            x4 = (int) (c * x2 - s * y2),
-            y4 = (int) (s * x2 + c * y2);
+        // Rotate the line coordinates based on pre-calculated sine/cosine.
+        int startX = (int) (cosine * lineStartX - sine * lineStartY),
+            startY = (int) (sine * lineStartX + cosine * lineStartY),
+            endX = (int) (cosine * lineEndX - sine * lineEndY),
+            endY = (int) (sine * lineEndX + cosine * lineEndY);
 
-        int_least16_t dx, dy, dx2, dy2, err, stepx, stepy;
-        if (x3 == x4) //horizontal line
-        {
-            if (y3 > y4) { SWAP(y4, y3); }
-            for (int y = y3; y <= y4; y++) {
-                if (!buffer_get_pixel(buffer1_, x3 + (oldx - newx) + 16, y + (oldy - newy) + 16))
-                    tft->drawPixel(x3 + oldx, y + oldy, 0);
+        // Loop trough every pixel in the line.
+        int16_t
+            dx, dy,
+            dx2, dy2,
+            err,
+            stepx, stepy;
+
+        // If the startX and endX are equal, the line must be vertical.
+        if (startX == endX) {
+            // If the startY is higher than endY, swap the values.
+            if (startY > endY) { SWAP(endY, startY); }
+
+            // Loop trough every pixel in the vertical line.
+            for (int y = startY; y <= endY; y++) {
+                // If the pixel is not set in the buffer, clear it from the screen by setting it black.
+                if (!buffer_get_pixel(buffer1_, startX + (oldx - newx) + BUFFER_SIZE / 2,
+                                      y + (oldy - newy) + BUFFER_SIZE / 2))
+                    tft->drawPixel(startX + oldx, y + oldy, 0);
             }
         }
-        else if (y3 == y4) //vertical line
-        {
-            if (x3 > x4) { SWAP(x4, x3); }
-            for (int x = x3; x <= x4; x++) {
-                if (!buffer_get_pixel(buffer1_, x + (oldx - newx) + 16, y3 + (oldy - newy) + 16))
-                    tft->drawPixel(x + oldx, y3 + oldy, 0);
+            // If the startY and endY are equal, the line must be horizontal.
+        else if (startY == endY) {
+            // If the startX is higher than endX, swap the values.
+            if (startX > endX) { SWAP(endX, startX); }
+
+            // Loop trough every pixel in the horizontal line.
+            for (int x = startX; x <= endX; x++) {
+                // If the pixel is not set in the buffer, clear it from the screen by setting it black.
+                if (!buffer_get_pixel(buffer1_, x + (oldx - newx) + BUFFER_SIZE / 2,
+                                      startY + (oldy - newy) + BUFFER_SIZE / 2))
+                    tft->drawPixel(x + oldx, startY + oldy, 0);
             }
         }
         else {
-            dx = x4 - x3;
-            dy = y4 - y3;
+            // Calculate the offset between the ending and starting point.
+            dx = endX - startX;
+            dy = endY - startY;
             if (dx < 0) {
                 dx = -dx;
                 stepx = -1;
             } else { stepx = +1; }
+
             if (dy < 0) {
                 dy = -dy;
                 stepy = -1;
             } else { stepy = +1; }
+
+            // Store the offset, multiplied by 2 in dx2/dy2.
             dx2 = dx << 1;
             dy2 = dy << 1;
+
+            // If the pixel is not set in the buffer, clear it from the screen by setting it black.
             {
-                if (!buffer_get_pixel(buffer1_, x3 + (oldx - newx) + 16, y3 + (oldy - newy) + 16))
-                    tft->drawPixel(x3 + oldx, y3 + oldy, 0);
+                if (!buffer_get_pixel(buffer1_, startX + (oldx - newx) + BUFFER_SIZE / 2,
+                                      startY + (oldy - newy) + BUFFER_SIZE / 2))
+                    tft->drawPixel(startX + oldx, startY + oldy, 0);
             }
+            // If the line is wide...
             if (dx > dy) {
+                // Calculate the "error" between the first two columns.
                 err = dy2 - dx;
-                while (x3 != x4) {
+
+                // Loop trough every column of the line.
+                while (startX != endX) {
+                    // If any error exists, move the start Y coordinate.
                     if (err >= 0) {
-                        y3 += stepy;
+                        startY += stepy;
                         err -= dx2;
                     }
-                    x3 += stepx;
+
+                    // Proceed one step.
+                    startX += stepx;
                     err += dy2;
-                    if (!buffer_get_pixel(buffer1_, x3 + (oldx - newx) + 16, y3 + (oldy - newy) + 16))
-                        tft->drawPixel(x3 + oldx, y3 + oldy, 0);
+
+                    // If the pixel is not set in the buffer, clear it from the screen by setting it black.
+                    if (!buffer_get_pixel(buffer1_, startX + (oldx - newx) + BUFFER_SIZE / 2,
+                                          startY + (oldy - newy) + BUFFER_SIZE / 2))
+                        tft->drawPixel(startX + oldx, startY + oldy, 0);
                 }
             }
+                // If the line is high...
             else {
+                // Calculate the "error" between the first two rows.
                 err = dx2 - dy;
-                while (y3 != y4) {
+
+                // Loop trough every row of the line.
+                while (startY != endY) {
+                    // If any error exists, move the start X coordinate.
                     if (err >= 0) {
-                        x3 += stepx;
+                        startX += stepx;
                         err -= dy2;
                     }
-                    y3 += stepy;
+
+                    // Proceed one step.
+                    startY += stepy;
                     err += dx2;
 
-                    if (!buffer_get_pixel(buffer1_, x3 + (oldx - newx) + 16, y3 + (oldy - newy) + 16))
-                        tft->drawPixel(x3 + oldx, y3 + oldy, 0);
+                    // If the pixel is not set in the buffer, clear it from the screen by setting it black.
+                    if (!buffer_get_pixel(buffer1_, startX + (oldx - newx) + BUFFER_SIZE / 2,
+                                          startY + (oldy - newy) + BUFFER_SIZE / 2))
+                        tft->drawPixel(startX + oldx, startY + oldy, 0);
                 }
             }
         }
     }
 }
 
-void ShapeRenderer::buffer_draw_line(uint32_t *buffer, int x0, int y0, int x1, int y1) {
-    int_least16_t dx, dy, dx2, dy2, err, stepx, stepy;
+void ShapeRenderer::buffer_draw_line(uint32_t *buffer, int startX, int startY, int endX, int endY) {
+    int16_t
+        dx, dy,
+        dx2, dy2,
+        err,
+        stepx, stepy;
 
-    if (x0 == x1)
-    {
-        if (y0 > y1) { SWAP(y1, y0); }
-        for (int y = y0; y <= y1; y++)
-            buffer_set_pixel(buffer, x0, y, 1);
+    // If the startX and endX are equal, the line must be vertical.
+    if (startX == endX) {
+        // If the startY is higher than endY, swap the values.
+        if (startY > endY) { SWAP(endY, startY); }
+
+        // Loop trough every pixel in the vertical line and set it.
+        for (int y = startY; y <= endY; y++)
+            buffer_set_pixel(buffer, startX, y, 1);
     }
-    else if (y0 == y1)
-    {
-        if (x0 > x1) { SWAP(x1, x0); }
-        for (int x = x0; x <= x1; x++)
-            buffer_set_pixel(buffer, x, y0, 1);
+        // If the startY and endY are equal, the line must be horizontal.
+    else if (startY == endY) {
+        // If the startX is higher than endX, swap the values.
+        if (startX > endX) { SWAP(endX, startX); }
+
+        // Loop trough every pixel in the horizontal line and set it.
+        for (int x = startX; x <= endX; x++)
+            buffer_set_pixel(buffer, x, startY, 1);
     }
     else {
-        dx = x1 - x0;
-        dy = y1 - y0;
+        // Calculate the offset between the ending and starting point.
+        dx = endX - startX;
+        dy = endY - startY;
         if (dx < 0) {
             dx = -dx;
             stepx = -1;
@@ -140,32 +207,51 @@ void ShapeRenderer::buffer_draw_line(uint32_t *buffer, int x0, int y0, int x1, i
             dy = -dy;
             stepy = -1;
         } else { stepy = +1; }
+
+        // Store the offset, multiplied by 2 in dx2/dy2.
         dx2 = dx << 1;
         dy2 = dy << 1;
-        //draw line
-        buffer_set_pixel(buffer, x0, y0, 1);
+
+        // Set the pixel in the buffer.
+        buffer_set_pixel(buffer, startX, startY, 1);
         if (dx > dy) {
+            // Calculate the "error" between the first two columns.
             err = dy2 - dx;
-            while (x0 != x1) {
+
+            // Loop trough every column of the line.
+            while (startX != endX) {
+                // If any error exists, move the start Y coordinate.
                 if (err >= 0) {
-                    y0 += stepy;
+                    startY += stepy;
                     err -= dx2;
                 }
-                x0 += stepx;
+
+                // Proceed one step.
+                startX += stepx;
                 err += dy2;
-                buffer_set_pixel(buffer, x0, y0, 1);
+
+                // Set the pixel in the buffer.
+                buffer_set_pixel(buffer, startX, startY, 1);
             }
         }
         else {
+            // Calculate the "error" between the first two rows.
             err = dx2 - dy;
-            while (y0 != y1) {
+
+            // Loop trough every row of the line.
+            while (startY != endY) {
+                // If any error exists, move the start X coordinate.
                 if (err >= 0) {
-                    x0 += stepx;
+                    startX += stepx;
                     err -= dy2;
                 }
-                y0 += stepy;
+
+                // Proceed one step.
+                startY += stepy;
                 err += dx2;
-                buffer_set_pixel(buffer, x0, y0, 1);
+
+                // Set the pixel in the buffer.
+                buffer_set_pixel(buffer, startX, startY, 1);
             }
         }
     }
@@ -173,11 +259,11 @@ void ShapeRenderer::buffer_draw_line(uint32_t *buffer, int x0, int y0, int x1, i
 }
 
 void ShapeRenderer::buffer_set_pixel(uint32_t *buffer, int x, int y, uint8_t value) {
-    if (!value || !IN_RANGE(x, 0, 32) || !IN_RANGE(y, 0, 32)) return;
-    buffer[y] |= ((uint32_t)1 << x);
+    if (!value || !IN_RANGE(x, 0, BUFFER_SIZE) || !IN_RANGE(y, 0, BUFFER_SIZE)) return;
+    buffer[y] |= ((uint32_t) 1 << x);
 }
 
 uint8_t ShapeRenderer::buffer_get_pixel(uint32_t *buffer, int x, int y) {
-    if (!IN_RANGE(x, 0, 32) || !IN_RANGE(y, 0, 32)) return 0;
-    return buffer[y] & ((uint32_t)1 << x) ? 1 : 0;
+    if (!IN_RANGE(x, 0, BUFFER_SIZE) || !IN_RANGE(y, 0, BUFFER_SIZE)) return 0;
+    return buffer[y] & ((uint32_t) 1 << x) ? 1 : 0;
 }
