@@ -12,4 +12,5 @@ add_executable(ArduinoGame
 		Entity/TestEntity.cpp
         FastMath.cpp
         ShapeRenderer.cpp
+		Random.cpp
 )
