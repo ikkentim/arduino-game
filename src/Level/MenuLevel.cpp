@@ -12,11 +12,21 @@ void MenuLevel::render(TFT *tft) {
     const char *text = "Touch the screen to continue";
     const uint8_t title_size = 4;
 
+    float left, top;
+    Color randColor, black, white;
+
+    randColor = RGB(rand() % 200 + 55, rand() % 200 + 55, rand() % 200 + 55);
+    black = RGB(0, 0, 0);
+    white = RGB(255, 255, 255);
+
+    left = (tft->lcd_width / 2) - (((float) strlen(menu_title_) / 2) * 8 * title_size);
+    top = tft->lcd_height / 4;
     // Render the coolest title in the world (Math to center it horizontally, the 8 is because of 8 bits)
-    tft->drawText((uint16_t) ((tft->lcd_width / 2) - (((float) strlen(menu_title_) / 2) * 8 * title_size)), tft->lcd_height / 4,
-                  menu_title_, (uint16_t) RGB(rand() % 200 + 55, rand() % 200 + 55, rand() % 200 + 55), RGB(0, 0, 0), title_size);
-    tft->drawText((uint16_t) ((tft->lcd_width / 2) - (((float) strlen(text) / 2) * 8)), tft->lcd_height - 20, text,
-                  RGB(255, 255, 255), RGB(0, 0, 0), 1);
+    tft->drawText(left, top, menu_title_, randColor, black, title_size);
+
+    left = (tft->lcd_width / 2) - (((float) strlen(text) / 2) * 8);
+    top = tft->lcd_height - 20;
+    tft->drawText(left, top, text, white, black, 1);
 
     // Check if the screen is touched
     if (tft->touchRead()) {
