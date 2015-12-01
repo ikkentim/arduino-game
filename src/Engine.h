@@ -5,6 +5,7 @@
 
 #include "Color.h"
 #include "Nunchuck.h"
+#include "ShapeRenderer.h"
 
 class Engine {
 public:
@@ -12,6 +13,7 @@ public:
     void tick(float timeElapsed);
     bool update();
     Nunchuck *nunchuck;
+    ShapeRenderer sr;
     TFT *tft;
 protected:
     virtual void engine_update(float deltaTime) = 0;

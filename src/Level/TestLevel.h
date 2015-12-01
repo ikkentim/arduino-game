@@ -3,9 +3,12 @@
 
 #include "../Level.h"
 #include "../BaseEntity.h"
+#include "../Player.h"
+
 class TestLevel : public Level {
 private:
     BaseEntity* testEntity_;
+    Player* player_;
 public:
     TestLevel(Game *game);
     ~TestLevel();

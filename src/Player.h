@@ -10,10 +10,12 @@ public:
     Player(Game *game);
 
     void update(float delta);
-    void render(ShapeRenderer *renderer);
+    void render();
 
 private:
-    float move_speed_ = 5;
+    float acceleration_ = 5;
+    float move_speed_ = 0;
+    float rotation_speed_ = 2;
 };
 
 
