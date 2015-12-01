@@ -14,7 +14,7 @@ private:
 public:
     TestLevel(Game *game);
     ~TestLevel();
-    void render(TFT *tft);
+    void render();
     void update(float deltaTime);
 };
 

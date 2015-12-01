@@ -16,7 +16,7 @@ void Game::engine_update(float deltaTime) {
 
 void Game::engine_render() {
     if(this->level != 0) {
-        this->level->render(tft);
+        this->level->render();
     }
 }
 

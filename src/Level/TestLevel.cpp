@@ -23,7 +23,7 @@ void TestLevel::update(float deltaTime) {
     testAsteroid_->update(deltaTime);
 }
 
-void TestLevel::render(TFT *tft) {
+void TestLevel::render() {
     player_->render();
     testAsteroid_->render();
 }
