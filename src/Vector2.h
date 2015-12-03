@@ -2,81 +2,32 @@
 #define ARDUINOGAME_VECTOR2_H
 
 #include <math.h>
+#include "Matrix4.h"
 
 struct Vector2 {
     float x;
     float y;
 
-    Vector2() : x(0), y(0) {
-
-    }
-
-    Vector2(float xx, float yy) : x(xx), y(yy) {
-
-    }
-
-    inline void zero() {
-        x = 0;
-        y = 0;
-    }
-
-    inline bool is_zero() const {
-        return x == 0 && y == 0;
-    }
-
-    inline float length() {
-        return (float)sqrt(length_sq());
-    }
-
-    inline float length_sq() {
-        return x * x + y * y;
-    }
-
-    inline void normalize() {
-        float len = length();
-        x /= len;
-        y /= len;
-    }
-
-    inline Vector2 normalized() {
-        Vector2 r = *this;
-        r.normalize();
-        return r;
-    }
-
-    inline float dot(const Vector2 &v2) const {
-        return x*v2.x + y*v2.y;
-    }
-
-    inline float cross(const Vector2 &v2) const {
-        return x * v2.y - v2.x * y;
-    }
-
-    inline Vector2 operator=(Vector2 a) {
-        x = a.x;
-        y = a.y;
-        return a;
-    }
-
-    inline Vector2 operator+(Vector2 a) {
-        return Vector2(x + a.x, y + a.y);
-    }
-
-    inline Vector2 operator-(Vector2 a) {
-        return Vector2(x - a.x, y - a.y);
-    }
-
-    inline Vector2 operator/(float scalar) {
-        return Vector2(x / scalar, y / scalar);
-    }
-
-    inline bool operator==(Vector2 a) {
-        return a.x == x && a.y == y;
-    }
-
-    inline bool operator!=(Vector2 a) {
-        return a.x != x || a.y != y;
-    }
+    Vector2();
+    Vector2(float xx, float yy);
+    void zero();
+    bool is_zero() const;
+    float length();
+    float length_sq();
+    void normalize();
+    Vector2 normalized();
+    float dot(const Vector2 &v2) const;
+    float cross(const Vector2 &v2) const;
+    Vector2 transform(const struct Matrix4 &m) const;
+    Vector2 operator=(Vector2 a);
+    Vector2 operator+(Vector2 a);
+    Vector2 operator-(Vector2 a);
+    Vector2 operator-();
+    Vector2 operator/(float scalar);
+    Vector2 operator*(float multiplier);
+    bool operator==(Vector2 a);
+    Vector2 operator+=(Vector2 a);
+    bool operator!=(Vector2 a);
 };
 
 #endif //ARDUINOGAME_VECTOR2_H

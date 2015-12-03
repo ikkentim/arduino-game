@@ -1,19 +1,30 @@
-//
-// Created by Tim Potze on 23/11/15.
-//
-
-#include <stdio.h>
 #include "Game.h"
+#include "Level/TestLevel.h"
+#include "Level/MenuLevel.h"
 
-void Game::engine_update() {
+Game::Game(Nunchuck *nunchuck, TFT *tft) : Engine(nunchuck, tft) {
+    this->level = new MenuLevel(this);
+}
+
+void Game::engine_update(float deltaTime) {
     nunchuck->update();
+
+    if(this->level != 0){
+        this->level->update(deltaTime);
+    }
 }
 
 void Game::engine_render() {
-    if(test < 128)
-        tft->fillRect(5+(test < 128 ? test : 128 -(test-128)),5, 1,10, RGB(255,0,0));
-    else
-        tft->fillRect(5+(test < 128 ? test : 128 -(test-128)) + 9,5, 1,10, RGB(255,0,0));
-    if(++test >= 256)test=0;
-    tft->fillRect(5+(test < 128 ? test : 128 -(test-128)),5, 10,10, RGB(255,255,0));
+    if(this->level != 0) {
+        this->level->render();
+    }
+}
+
+void Game::set_level(Level *level) {
+    if (this->level != 0) {
+        delete this->level;
+        this->level = 0;
+    }
+    tft->fillScreen(0x00);
+    this->level = level;
 }

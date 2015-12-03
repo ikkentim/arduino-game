@@ -1,8 +1,8 @@
 {
-  "name": "MI0283QT9",
+  "name": "TFT",
   "keywords": "spi, graphics, display, lcd",
   "description": "MI0283QT-9 / -9A / -11 Display (ILI9341, SPI)",
-  "include": "MI0283QT9",
+  "include": "TFT",
   "repository":
   {
     "type": "git",

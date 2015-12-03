@@ -16,7 +16,7 @@
 #include "SPI.h"
 #include "digitalWriteFast.h"
 #include "GraphicsLib.h"
-#include "MI0283QT9.h"
+#include "TFT.h"
 
 
 //#define LCD_8BIT_SPI //use 8bit SPI for the display
@@ -154,7 +154,7 @@
 //-------------------- Constructor --------------------
 
 
-MI0283QT9::MI0283QT9(void) : GraphicsLib(LCD_WIDTH, LCD_HEIGHT)
+TFT::TFT(void) : GraphicsLib(LCD_WIDTH, LCD_HEIGHT)
 {
   return;
 }
@@ -163,7 +163,7 @@ MI0283QT9::MI0283QT9(void) : GraphicsLib(LCD_WIDTH, LCD_HEIGHT)
 //-------------------- Public --------------------
 
 
-void MI0283QT9::begin(uint_least8_t clock_div)
+void TFT::begin(uint_least8_t clock_div)
 {
   //init pins
 #if defined(RST_PIN)
@@ -224,13 +224,13 @@ void MI0283QT9::begin(uint_least8_t clock_div)
 }
 
 
-void MI0283QT9::begin(void)
+void TFT::begin(void)
 {
   return begin(SPI_CLOCK_DIV4);
 }
 
 
-void MI0283QT9::led(uint_least8_t power)
+void TFT::led(uint_least8_t power)
 {
   if(power == 0) //off
   {
@@ -251,7 +251,7 @@ void MI0283QT9::led(uint_least8_t power)
 }
 
 
-void MI0283QT9::invertDisplay(uint_least8_t invert)
+void TFT::invertDisplay(uint_least8_t invert)
 {
   if(invert == 0)
   {
@@ -266,7 +266,7 @@ void MI0283QT9::invertDisplay(uint_least8_t invert)
 }
 
 
-void MI0283QT9::setOrientation(uint_least16_t o)
+void TFT::setOrientation(uint_least16_t o)
 {
   uint_least8_t p;
 
@@ -322,7 +322,7 @@ void MI0283QT9::setOrientation(uint_least16_t o)
 }
 
 
-void MI0283QT9::setArea(int_least16_t x0, int_least16_t y0, int_least16_t x1, int_least16_t y1)
+void TFT::setArea(int_least16_t x0, int_least16_t y0, int_least16_t x1, int_least16_t y1)
 {
   wr_cmd(LCD_CMD_COLUMN);
   wr_data16(x0);
@@ -336,7 +336,7 @@ void MI0283QT9::setArea(int_least16_t x0, int_least16_t y0, int_least16_t x1, in
 }
 
 
-void MI0283QT9::drawStart(void)
+void TFT::drawStart(void)
 {
   wr_cmd(LCD_CMD_WRITE);
   CS_ENABLE();
@@ -345,7 +345,7 @@ void MI0283QT9::drawStart(void)
 }
 
 
-void MI0283QT9::draw(uint_least16_t color)
+void TFT::draw(uint_least16_t color)
 {
 #if defined(LCD_8BIT_SPI)
 //  RS_HIGH(); //data
@@ -385,7 +385,7 @@ void MI0283QT9::draw(uint_least16_t color)
 }
 
 
-void MI0283QT9::drawStop(void)
+void TFT::drawStop(void)
 {
   CS_DISABLE();
 
@@ -393,7 +393,7 @@ void MI0283QT9::drawStop(void)
 }
 
 
-uint_least8_t MI0283QT9::touchRead(void)
+uint_least8_t TFT::touchRead(void)
 {
 #if defined(ADS7846)
   uint_least8_t p, a1, a2, b1, b2;
@@ -510,7 +510,7 @@ uint_least8_t MI0283QT9::touchRead(void)
 }
 
 
-void MI0283QT9::touchStartCal(void)
+void TFT::touchStartCal(void)
 {
   uint_least8_t i;
   CAL_POINT lcd_points[3] = {CAL_POINT1, CAL_POINT2, CAL_POINT3}; //calibration point postions
@@ -636,7 +636,7 @@ const uint8_t initdataQT9[] PROGMEM =
 };
 
 
-void MI0283QT9::reset(void)
+void TFT::reset(void)
 {
   uint_least8_t c, i;
   const PROGMEM uint8_t *ptr;
@@ -689,7 +689,7 @@ void MI0283QT9::reset(void)
 }
 
 
-void MI0283QT9::wr_cmd(uint_least8_t cmd)
+void TFT::wr_cmd(uint_least8_t cmd)
 {
   CS_ENABLE();
 
@@ -720,7 +720,7 @@ void MI0283QT9::wr_cmd(uint_least8_t cmd)
 }
 
 
-void MI0283QT9::wr_data16(uint_least16_t data)
+void TFT::wr_data16(uint_least16_t data)
 {
   CS_ENABLE();
 
@@ -764,7 +764,7 @@ void MI0283QT9::wr_data16(uint_least16_t data)
 }
 
 
-void MI0283QT9::wr_data(uint_least8_t data)
+void TFT::wr_data(uint_least8_t data)
 {
   CS_ENABLE();
 
@@ -791,7 +791,7 @@ void MI0283QT9::wr_data(uint_least8_t data)
 }
 
 
-uint_least8_t MI0283QT9::rd_spi(void)
+uint_least8_t TFT::rd_spi(void)
 {
 #if defined(SOFTWARE_SPI)
   uint_least8_t data=0;
@@ -817,7 +817,7 @@ uint_least8_t MI0283QT9::rd_spi(void)
 }
 
 
-void MI0283QT9::wr_spi(uint_least8_t data)
+void TFT::wr_spi(uint_least8_t data)
 {
 #if defined(SOFTWARE_SPI)
   for(uint_least8_t mask=0x80; mask!=0; mask>>=1)

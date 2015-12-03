@@ -1,8 +1,13 @@
 cmake_minimum_required(VERSION 3.2)
 project(ArduinoGame)
 
-set(ENV{PATH} "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin")
-set(PLATFORMIO_CMD "/usr/local/bin/platformio")
+if(WIN32)
+
+else()
+    set(ENV{PATH} "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin")
+    set(PLATFORMIO_CMD "/usr/local/bin/platformio")
+endif()
+
 
 include_directories("$ENV{HOME}/.platformio/packages/framework-arduinoavr/variants/standard")
 include_directories("$ENV{HOME}/.platformio/packages/framework-arduinoavr/cores/arduino")
@@ -39,7 +44,7 @@ add_custom_target(
 
 include_directories("$ENV{HOME}/.platformio/packages/framework-arduinoavr/libraries/Wire/")
 include_directories("lib/digitalWriteFast")
-include_directories("lib/MI0283QT9")
+include_directories("lib/TFT")
 include_directories("lib/GraphicsLib")
 
 add_subdirectory (src)
