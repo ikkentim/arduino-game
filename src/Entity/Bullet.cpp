@@ -1,7 +1,6 @@
 #include "Bullet.h"
 
-Bullet::Bullet(Game *game) : (game) {
-
+Bullet::Bullet(Game *game, Player *player) : (game) {
 }
 
 void Bullet::render() {
