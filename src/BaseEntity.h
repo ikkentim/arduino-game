@@ -31,7 +31,9 @@ public:
     float old_rotation = 0;
     //Shape for this object
     //Shape* shape;
-    bool collision_check = false;
+    bool collision_check;
+    int collision_radius;
+    virtual void collided(BaseEntity* other) = 0;
 protected:
     Game *game_;
 };

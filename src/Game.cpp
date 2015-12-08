@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "Game.h"
 #include "Level/TestLevel.h"
 #include "Level/MenuLevel.h"
@@ -15,16 +16,16 @@ void Game::engine_update(float deltaTime) {
 }
 
 void Game::collision_detection() {
-    for(int i = 0; i < MAX_ENTITY_COUNT; i++){
+    for(int i = 0; i < this->level->entityCount; i++){
         BaseEntity* entity = this->level->entities[i];
 
-        if(entity != 0 && entity->collision_check) {
-            for (int j = 0; j < MAX_ENTITY_COUNT; ++j) {
+        if(entity->collision_check) {
+            for (int j = 0; j < this->level->entityCount; ++j) {
                 BaseEntity* entity2 = this->level->entities[j];
 
                 if(entity != entity2){
-                    if((entity->position - entity2->position).length() < 32) {
-                        tft->fillScreen(RGB(255, 0, 0));
+                    if((entity->position - entity2->position).length() < entity->collision_radius + entity2->collision_radius) {
+                        entity->collided(entity2);
                     }
                 }
             }

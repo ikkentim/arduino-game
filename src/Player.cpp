@@ -13,11 +13,14 @@ Player::Player(Game *game) : BaseEntity(game) {
     position = Vector2(50, 50);
 
     collision_check = true;
+    collision_radius = 16;
+
+    dead_ = false;
 }
 
 void Player::update(float delta) {
 
-    if (game_->nunchuck->button_z()) {
+    if (game_->nunchuck->button_z() && !dead_) {
         // add relative velocity so you get a drag effect
         velocity.y += fast_sin(rotation) * acceleration_ * delta;
         velocity.x += fast_cos(rotation) * acceleration_ * delta;
@@ -31,7 +34,9 @@ void Player::update(float delta) {
     }
 
     // add rotations
-    rotation += game_->nunchuck->joystick().x * rotation_speed_ * delta;
+    if(!dead_){
+        rotation += game_->nunchuck->joystick().x * rotation_speed_ * delta;
+    }
 
     position = position + velocity * delta;
 }
@@ -44,3 +49,6 @@ void Player::render() {
     old_position = position;
 }
 
+void Player::collided(BaseEntity *other) {
+    dead_ = true;
+}
