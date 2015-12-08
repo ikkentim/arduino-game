@@ -45,6 +45,7 @@ bool Engine::update() {
         float deltaTime = timeSinceUpdate_;
         timeSinceUpdate_ = 0;
         engine_update(deltaTime);
+        collision_detection();
     }
 
     if (awaitRender_ || true) {

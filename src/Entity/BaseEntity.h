@@ -5,6 +5,8 @@
 #ifndef ARDUINOGAME_BASEENTITY_H
 #define ARDUINOGAME_BASEENTITY_H
 
+class Game;
+
 //Base entity class, other entities inherit from this class.
 class BaseEntity {
 public:
@@ -29,6 +31,9 @@ public:
     float old_rotation = 0;
     //Shape for this object
     //Shape* shape;
+    bool collision_check;
+    int collision_radius;
+    virtual void collided(BaseEntity* other) = 0;
 protected:
     Game *game_;
 };

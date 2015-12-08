@@ -9,7 +9,7 @@ public:
     Asteroid(Game *game);
     void update(float delta);
     void render();
-
+    void collided(BaseEntity* other);
 };
 
 

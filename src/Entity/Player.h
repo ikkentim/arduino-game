@@ -12,12 +12,14 @@ public:
 
     void update(float delta);
     void render();
+    void collided(BaseEntity* other);
 
 private:
     float acceleration_ = 70;
     float deceleration_ = 0.90f;
     float max_speed_ = 200;
     float rotation_speed_ = 3;
+    bool dead_;
 };
 
 
