@@ -1,7 +1,9 @@
 #ifndef ARDUINOGAME_LEVEL_H
 #define ARDUINOGAME_LEVEL_H
+#define MAX_ENTITY_COUNT 15
 
 #include "Game.h"
+#include "BaseEntity.h"
 
 class Game;
 
@@ -11,7 +13,10 @@ public:
     virtual ~Level();
     virtual void update(float deltaTime) = 0;
     virtual void render() = 0;
-
+    void addEntity(BaseEntity *entity);
+    void removeEntity(BaseEntity *entity);
+    BaseEntity* entities[MAX_ENTITY_COUNT];
+    int entityCount = 0;
 protected:
     Game *game;
 };

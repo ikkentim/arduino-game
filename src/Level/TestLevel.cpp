@@ -9,9 +9,13 @@ float r = 0;
 float xx = 100;
 
 TestLevel::TestLevel(Game *game) : Level(game) {
+
 //    testEntity_ = new TestEntity(game);
     player_ = new Player(game);
     testAsteroid_ = new Asteroid(game);
+
+    addEntity(player_);
+    addEntity(testAsteroid_);
 }
 
 TestLevel::~TestLevel()  {

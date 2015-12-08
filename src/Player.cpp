@@ -11,6 +11,8 @@ const int8_t playerShape[] PROGMEM = {
 
 Player::Player(Game *game) : BaseEntity(game) {
     position = Vector2(50, 50);
+
+    collision_check = true;
 }
 
 void Player::update(float delta) {
