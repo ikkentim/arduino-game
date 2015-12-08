@@ -267,3 +267,8 @@ uint8_t ShapeRenderer::buffer_get_pixel(uint32_t *buffer, int x, int y) {
     if (!IN_RANGE(x, 0, BUFFER_SIZE) || !IN_RANGE(y, 0, BUFFER_SIZE)) return 0;
     return buffer[y] & ((uint32_t) 1 << x) ? 1 : 0;
 }
+
+void ShapeRenderer::buffer_clear(uint32_t *buffer) {
+    for(uint8_t i=0;i<32;i++)
+        buffer[i]=0;
+}

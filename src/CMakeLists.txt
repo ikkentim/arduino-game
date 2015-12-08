@@ -16,4 +16,3 @@ add_executable(ArduinoGame
         Asteroid.cpp
 		Random.cpp
 		)
-)
