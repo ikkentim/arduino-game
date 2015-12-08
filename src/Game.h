@@ -17,6 +17,7 @@ public:
 protected:
     virtual void engine_update(float deltaTime);
     virtual void engine_render();
+    virtual void collision_detection();
 
 };
 

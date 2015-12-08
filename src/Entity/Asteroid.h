@@ -9,7 +9,7 @@ public:
     Asteroid(Game *game, TestLevel *level);
     void update(float delta);
     void render();
-
+    void collided(BaseEntity* other);
 };
 
 

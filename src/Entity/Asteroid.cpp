@@ -30,4 +30,10 @@ void Asteroid::render() {
 
 Asteroid::Asteroid(Game *game, TestLevel *level) : BaseEntity(game, level) {
     position = Vector2(150, 50);
+    collision_check = false;
+    collision_radius = 16;
+}
+
+void Asteroid::collided(BaseEntity *other) {
+
 }
