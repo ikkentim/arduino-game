@@ -17,6 +17,7 @@ public:
     TFT *tft;
 protected:
     virtual void engine_update(float deltaTime) = 0;
+    virtual void collision_detection() = 0;
     virtual void engine_render() = 0;
 private:
     bool awaitRender_;

@@ -1,8 +1,9 @@
 #include "BaseEntity.h"
-#include "Player.h"
 
 #ifndef ARDUINOGAME_BULLET_H
 #define ARDUINOGAME_BULLET_H
+
+class Player;
 
 class Bullet : BaseEntity {
 public:
