@@ -12,12 +12,12 @@ public:
     Game(Nunchuck *nunchuck, TFT *tft);
     void set_level(Level *level);
 
+    Level *level;
+
 protected:
     virtual void engine_update(float deltaTime);
     virtual void engine_render();
 
-private:
-    Level *level;
 };
 
 

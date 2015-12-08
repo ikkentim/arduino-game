@@ -2,7 +2,6 @@
 #define ARDUINOGAME_ENGINE_H
 
 #include <TFT.h>
-
 #include "Color.h"
 #include "Nunchuck.h"
 #include "ShapeRenderer.h"

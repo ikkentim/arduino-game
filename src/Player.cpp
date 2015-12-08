@@ -1,6 +1,7 @@
 #include "Player.h"
 #include <avr/pgmspace.h>
 #include "FastMath.h"
+#include "Level/TestLevel.h"
 
 const int8_t playerShape[] PROGMEM = {
         -5, 6, 0, 0,
@@ -9,7 +10,7 @@ const int8_t playerShape[] PROGMEM = {
         -5, -6, 15, 0
 };
 
-Player::Player(Game *game) : BaseEntity(game) {
+Player::Player(Game *game, TestLevel *level) : BaseEntity(game, level) {
     position = Vector2(50, 50);
 }
 
@@ -35,10 +36,12 @@ void Player::update(float delta) {
 }
 
 void Player::render() {
-    game_->sr.render(game_->tft, (int8_t *) playerShape, 4, RGB(255, 255, 255), (int) old_position.x,
-                     (int) old_position.y, old_rotation, (int) position.x, (int) position.y, rotation);
+    Vector2 draw_position = position - level_->viewport.position();
+
+    game_->sr.render(game_->tft, (int8_t *) playerShape, 4, RGB(255, 255, 255), (int) (old_position.x),
+                     (int) old_position.y, old_rotation, (int) draw_position.x, (int) draw_position.y, rotation);
 
     old_rotation = rotation;
-    old_position = position;
+    old_position = draw_position;
 }
 

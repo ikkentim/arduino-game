@@ -1,17 +1,23 @@
 #include "Vector2.h"
 #include "Game.h"
 #include "ShapeRenderer.h"
+#include "Level/TestLevel.h"
 
 #ifndef ARDUINOGAME_BASEENTITY_H
 #define ARDUINOGAME_BASEENTITY_H
 
+class TestLevel;
 //Base entity class, other entities inherit from this class.
 class BaseEntity {
 public:
-    BaseEntity(Game *game) { game_ = game; }
+    BaseEntity(Game *game, TestLevel *level) :
+        game_(game),
+        level_(level) {
+
+    }
 
     //Always make base classes' destructors virtual when they're meant to be manipulated polymorphically.
-    virtual ~BaseEntity(){};
+    virtual ~BaseEntity() { };
 
     //Updates this entity.
     virtual void update(float delta) = 0;
@@ -31,6 +37,7 @@ public:
     //Shape* shape;
 protected:
     Game *game_;
+    TestLevel *level_;
 };
 
 #endif //ARDUINOGAME_BASEENTITY_H

@@ -3,15 +3,20 @@
 
 #include "../Level.h"
 #include "../BaseEntity.h"
-#include "../Player.h"
-#include "../Asteroid.h"
+#include "../Viewport.h"
+
+class Asteroid;
+class Player;
 
 class TestLevel : public Level {
 private:
     BaseEntity* testEntity_;
     Player* player_;
     Asteroid* testAsteroid_;
+
+    void update_viewport();
 public:
+    Viewport viewport;
     TestLevel(Game *game);
     ~TestLevel();
     void render();
