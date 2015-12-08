@@ -3,7 +3,7 @@
 #include "TestLevel.h"
 #include "../Entity/TestEntity.h"
 #include "../ShapeRenderer.h"
-#include "../Asteroid.h"
+#include "../Entity/Asteroid.h"
 
 float r = 0;
 float xx = 100;

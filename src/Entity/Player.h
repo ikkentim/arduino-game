@@ -3,6 +3,7 @@
 
 
 #include "BaseEntity.h"
+#include "../Game.h"
 
 class Player : public BaseEntity {
 

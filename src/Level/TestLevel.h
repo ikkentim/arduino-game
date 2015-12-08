@@ -1,10 +1,10 @@
 #ifndef ARDUINOGAME_TESTLEVEL_H
 #define ARDUINOGAME_TESTLEVEL_H
 
-#include "../Level.h"
-#include "../BaseEntity.h"
-#include "../Player.h"
-#include "../Asteroid.h"
+#include "Level.h"
+#include "../Entity/BaseEntity.h"
+#include "../Entity/Player.h"
+#include "../Entity/Asteroid.h"
 
 class TestLevel : public Level {
 private:

@@ -1,7 +1,7 @@
 #ifndef ARDUINOGAME_LEVEL_H
 #define ARDUINOGAME_LEVEL_H
 
-#include "Game.h"
+#include "../Game.h"
 
 class Game;
 

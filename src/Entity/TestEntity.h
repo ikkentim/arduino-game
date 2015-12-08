@@ -1,7 +1,9 @@
 //
 // Created by Roelof on 11/25/2015.
 //
-#include "../BaseEntity.h"
+
+#include "BaseEntity.h"
+
 #ifndef ARDUINOGAME_TESTENTITY_H
 #define ARDUINOGAME_TESTENTITY_H
 class Game;
