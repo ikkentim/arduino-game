@@ -1,4 +1,5 @@
 #include "Asteroid.h"
+#include "../Random.h"
 #include <avr/pgmspace.h>
 
 const int8_t shape1[] PROGMEM = {
@@ -26,6 +27,38 @@ void Asteroid::render() {
     old_position = position;
 }
 
-Asteroid::Asteroid(Game *game) : BaseEntity(game) {
-    position = Vector2(150, 50);
+Asteroid::Asteroid(Game *game,
+                   const float max_speed=15.0f,
+                   const float min_speed=2.0f
+                  ) : BaseEntity(game) {
+
+    this->min_speed = min_speed;
+    this->max_speed = max_speed;
+    reset();
+}
+
+void Asteroid::reset() {
+    Random rand;
+    //level->viewport->x y width height
+    float vX, vY, vW, vH;
+    vX = 0.0f;    vY = 0.0f;
+    vW = 320;     vH = 240;
+
+    Vector2 direction(
+            rand.rand_float(0, 1.0f),
+            rand.rand_float(0, 1.0f)
+    );
+    direction.normalize();
+
+    direction.x = vW * direction.x;
+    direction.y = vH * direction.y;
+
+    position = direction * rand.rand_float(1.2f, 1.7f);
+
+
+    velocity = Vector2(
+            rand.rand_float(min_speed, max_speed),
+            rand.rand_float(min_speed, max_speed)
+    );
+
 }
