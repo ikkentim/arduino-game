@@ -2,10 +2,8 @@
 #define ARDUINOGAME_LEVEL_H
 #define MAX_ENTITY_COUNT 15
 
-#include "../Game.h"
-#include "../Entity/BaseEntity.h"
-
 class Game;
+class BaseEntity;
 
 class Level {
 public:

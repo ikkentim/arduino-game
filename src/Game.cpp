@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "Level/TestLevel.h"
 #include "Level/MenuLevel.h"
+#include "Entity/BaseEntity.h"
 
 Game::Game(Nunchuck *nunchuck, TFT *tft) : Engine(nunchuck, tft) {
     this->level = new MenuLevel(this);

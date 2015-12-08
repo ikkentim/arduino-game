@@ -3,14 +3,13 @@
 
 #include "Level.h"
 #include "../Viewport.h"
-#include "../Entity/BaseEntity.h"
 
 class Asteroid;
 class Player;
+class Game;
 
 class TestLevel : public Level {
 private:
-    BaseEntity* testEntity_;
     Player* player_;
     Asteroid* testAsteroid_;
 

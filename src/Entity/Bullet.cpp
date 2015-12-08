@@ -1,6 +1,6 @@
 #include "Bullet.h"
 
-Bullet::Bullet(Game *game) : BaseEntity(game) {
+Bullet::Bullet(Game *game, TestLevel *level) : BaseEntity(game, level) {
 
 }
 
