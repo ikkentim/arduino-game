@@ -1,9 +1,9 @@
 #ifndef ARDUINOGAME_TESTLEVEL_H
 #define ARDUINOGAME_TESTLEVEL_H
 
-#include "../Level.h"
-#include "../BaseEntity.h"
+#include "Level.h"
 #include "../Viewport.h"
+#include "../Entity/BaseEntity.h"
 
 class Asteroid;
 class Player;

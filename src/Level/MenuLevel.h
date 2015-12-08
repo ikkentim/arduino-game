@@ -1,7 +1,7 @@
 #ifndef ARDUINOGAME_MENULEVEL_H
 #define ARDUINOGAME_MENULEVEL_H
 
-#include "../Level.h"
+#include "Level.h"
 
 
 class MenuLevel : public Level {

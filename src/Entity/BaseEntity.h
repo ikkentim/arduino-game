@@ -1,7 +1,7 @@
-#include "Vector2.h"
-#include "Game.h"
-#include "ShapeRenderer.h"
-#include "Level/TestLevel.h"
+#include "../Level/TestLevel.h"
+#include "../Vector2.h"
+#include "../Game.h"
+#include "../ShapeRenderer.h"
 
 #ifndef ARDUINOGAME_BASEENTITY_H
 #define ARDUINOGAME_BASEENTITY_H

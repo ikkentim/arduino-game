@@ -1,14 +1,13 @@
 #include <stdio.h>
 #include "TestLevel.h"
-#include "../Asteroid.h"
-#include "../Player.h"
+#include "../Entity/TestEntity.h"
+#include "../Entity/Asteroid.h"
 
 #define VIEWPORT_PADDING    50
 
 TestLevel::TestLevel(Game *game) :
     Level(game),
     viewport(Viewport(0, 0, game->tft->lcd_width, game->tft->lcd_height)) {
-//    testEntity_ = new TestEntity(game);
     player_ = new Player(game, this);
     testAsteroid_ = new Asteroid(game, this);
 }
@@ -17,7 +16,6 @@ TestLevel::~TestLevel() {
 }
 
 void TestLevel::update(float deltaTime) {
-//    testEntity_->update(deltaTime);
     player_->update(deltaTime);
     testAsteroid_->update(deltaTime);
 

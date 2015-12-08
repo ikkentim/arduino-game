@@ -6,12 +6,12 @@ add_executable(ArduinoGame
         Nunchuck.cpp
         Vector2.cpp
         Vector3.cpp
-        Level.cpp
+		Level/Level.cpp
         Level/TestLevel.cpp
         Level/MenuLevel.cpp
         FastMath.cpp
         ShapeRenderer.cpp
-        Player.cpp
-        Asteroid.cpp
+        Entity/Player.cpp
+        Entity/Asteroid.cpp
         Random.cpp
 )

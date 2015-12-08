@@ -1,7 +1,7 @@
 #include "Player.h"
 #include <avr/pgmspace.h>
-#include "FastMath.h"
-#include "Level/TestLevel.h"
+#include "../Level/TestLevel.h"
+#include "../FastMath.h"
 
 const int8_t playerShape[] PROGMEM = {
         -5, 6, 0, 0,
