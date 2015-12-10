@@ -18,9 +18,9 @@ TestLevel::TestLevel(Game *game) :
 TestLevel::~TestLevel() {
 }
 
-void TestLevel::update(float deltaTime) {
-    player_->update(deltaTime);
-    testAsteroid_->update(deltaTime);
+void TestLevel::update(float delta) {
+    player_->update(delta);
+    testAsteroid_->update(delta);
 
     update_viewport();
 }
