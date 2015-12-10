@@ -4,6 +4,9 @@
 #include "MenuLevel.h"
 #include "TestLevel.h"
 #include "../Random.h"
+#include "../Color.h"
+#include "../Game.h"
+
 MenuLevel::MenuLevel(Game *game) : Level(game) {
     seed_ticks_ = 0;
 }

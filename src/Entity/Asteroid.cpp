@@ -15,10 +15,12 @@ const int8_t shape1[] PROGMEM = {
 
 
 void Asteroid::update(float delta) {
-    rotation += 0.1f * delta;
+    position += velocity * delta;
 }
 
 void Asteroid::render() {
+    Vector2 draw_position = position - level_->viewport.position();
+
     game_->sr.render(game_->tft, (int8_t *) shape1, 8, RGB(255, 255, 255),
                      (int) old_position.x, (int) old_position.y, old_rotation,
                      (int) position.x, (int) position.y, rotation);
@@ -27,11 +29,12 @@ void Asteroid::render() {
     old_position = position;
 }
 
-Asteroid::Asteroid(Game *game,
-                   const float max_speed=15.0f,
-                   const float min_speed=2.0f
-                  ) : BaseEntity(game) {
-
+Asteroid::Asteroid(Game *game, TestLevel *level,
+                   const float max_speed,
+                   const float min_speed
+                  ) : BaseEntity(game, level) {
+    collision_check = false;
+    collision_radius = 16;
     this->min_speed = min_speed;
     this->max_speed = max_speed;
     reset();
@@ -39,10 +42,9 @@ Asteroid::Asteroid(Game *game,
 
 void Asteroid::reset() {
     Random rand;
-    //level->viewport->x y width height
-    float vX, vY, vW, vH;
-    vX = 0.0f;    vY = 0.0f;
-    vW = 320;     vH = 240;
+
+    Vector2 viewport_position = level_->viewport.position();
+    Vector2 viewport_size = level_->viewport.size();
 
     Vector2 direction(
             rand.rand_float(0, 1.0f),
@@ -50,15 +52,24 @@ void Asteroid::reset() {
     );
     direction.normalize();
 
-    direction.x = vW * direction.x;
-    direction.y = vH * direction.y;
+    position = direction * viewport_size;
 
-    position = direction * rand.rand_float(1.2f, 1.7f);
+    position = position * rand.rand_float(1.2f, 1.7f);
 
+    position = viewport_position + position; //convert to global position
 
     velocity = Vector2(
-            rand.rand_float(min_speed, max_speed),
-            rand.rand_float(min_speed, max_speed)
+            rand.rand_float(0.0f, 1.0f),
+            rand.rand_float(0.0f, 1.0f)
     );
+
+    velocity.normalize();
+    velocity = velocity * ( direction + Vector2(0.5f, 0.5f) );
+
+    velocity.normalize();
+    velocity = velocity * rand.rand_float(min_speed, max_speed);
+}
+
+void Asteroid::collided(BaseEntity *other) {
 
 }
