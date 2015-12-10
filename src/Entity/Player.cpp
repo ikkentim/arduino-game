@@ -2,6 +2,9 @@
 #include <avr/pgmspace.h>
 #include "../Level/TestLevel.h"
 #include "../FastMath.h"
+#include "Bullet.h"
+
+#define FIRING_COOLDOWN 0.5f
 
 const int8_t playerShape[] PROGMEM = {
         -5, 6, 0, 0,
@@ -16,6 +19,7 @@ Player::Player(Game *game, TestLevel *level) : BaseEntity(game, level) {
     collision_check = true;
     collision_radius = 16;
 
+    firing_cooldown_ = 0;
     dead_ = false;
 }
 
@@ -26,6 +30,19 @@ void Player::update(float delta) {
         velocity.x += fast_cos(rotation) * acceleration_ * delta;
     } else {
         velocity += -velocity * deceleration_ * delta;
+    }
+
+    // If cooldown is currently active
+    if (firing_cooldown_ > 0) {
+        firing_cooldown_ -= delta;
+    }
+    // Check if cooldown is done and the firing button is held down
+    if (game_->nunchuck->button_c() && firing_cooldown_ <= 0)
+    {
+        // Set the cooldown
+        firing_cooldown_ = FIRING_COOLDOWN;
+
+        level_->addEntity(new Bullet(game_, this, level_));
     }
 
     // if speed is faster than max speed, clamp it
