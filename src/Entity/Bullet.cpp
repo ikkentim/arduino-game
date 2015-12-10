@@ -4,7 +4,7 @@
 #include "../FastMath.h"
 
 const int8_t bulletShape[] PROGMEM = {
-    0,2
+    0, 2, 0, 0
 };
 
 Bullet::Bullet(Game *game, Player *player, TestLevel *level) : BaseEntity(game, level) {

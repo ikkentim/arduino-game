@@ -37,7 +37,7 @@ void Player::update(float delta) {
         firing_cooldown_ -= delta;
     }
     // Check if cooldown is done and the firing button is held down
-    if (game_->nunchuck->button_c() && firing_cooldown_ <= 0)
+    if (game_->nunchuck->button_c() && firing_cooldown_ <= 0 && !dead_)
     {
         // Set the cooldown
         firing_cooldown_ = FIRING_COOLDOWN;
