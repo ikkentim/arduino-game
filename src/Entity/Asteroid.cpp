@@ -18,14 +18,22 @@ void Asteroid::update(float delta) {
 }
 
 void Asteroid::render() {
+    Vector2 draw_position = position - level_->viewport.position();
+
     game_->sr.render(game_->tft, (int8_t *) shape1, 8, RGB(255, 255, 255),
                      (int) old_position.x, (int) old_position.y, old_rotation,
-                     (int) position.x, (int) position.y, rotation);
+                     (int) draw_position.x, (int) draw_position.y, rotation);
 
     old_rotation = rotation;
-    old_position = position;
+    old_position = draw_position;
 }
 
-Asteroid::Asteroid(Game *game) : BaseEntity(game) {
+Asteroid::Asteroid(Game *game, TestLevel *level) : BaseEntity(game, level) {
     position = Vector2(150, 50);
+    collision_check = false;
+    collision_radius = 16;
+}
+
+void Asteroid::collided(BaseEntity *other) {
+
 }

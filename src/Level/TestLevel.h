@@ -2,16 +2,20 @@
 #define ARDUINOGAME_TESTLEVEL_H
 
 #include "Level.h"
-#include "../Entity/BaseEntity.h"
-#include "../Entity/Player.h"
-#include "../Entity/Asteroid.h"
+#include "../Viewport.h"
+
+class Asteroid;
+class Player;
+class Game;
 
 class TestLevel : public Level {
 private:
-    BaseEntity* testEntity_;
     Player* player_;
     Asteroid* testAsteroid_;
+
+    void update_viewport();
 public:
+    Viewport viewport;
     TestLevel(Game *game);
     ~TestLevel();
     void render();

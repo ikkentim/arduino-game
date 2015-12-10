@@ -3,11 +3,13 @@
 #ifndef ARDUINOGAME_BULLET_H
 #define ARDUINOGAME_BULLET_H
 
+class Game;
+class TestLevel;
 class Player;
 
 class Bullet : BaseEntity {
 public:
-    Bullet(Game *game, Player *player);
+    Bullet(Game *game, Player *player, TestLevel *level);
 
     void update(float delta);
     void render();

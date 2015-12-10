@@ -3,11 +3,7 @@
 #include "Player.h"
 #include "../FastMath.h"
 
-const int8_t bulletShape[] PROGMEM = {
-        0,2
-};
-
-Bullet::Bullet(Game *game, Player *player) : BaseEntity(game) {
+Bullet::Bullet(Game *game, Player *player, TestLevel *level) : BaseEntity(game) {
     // Set base values for the bullet, depending on player position/speed/rotation
     velocity.x = (player->velocity.x + defaultVelocity);
     velocity.y = (player->velocity.y + defaultVelocity);
@@ -24,5 +20,5 @@ void Bullet::render() {
 }
 
 void Bullet::update(float delta) {
-   position = position + velocity * delta;
+    position = position + velocity * delta;
 }

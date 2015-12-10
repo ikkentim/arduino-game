@@ -6,10 +6,10 @@
 class Asteroid : public BaseEntity {
 
 public:
-    Asteroid(Game *game);
+    Asteroid(Game *game, TestLevel *level);
     void update(float delta);
     void render();
-
+    void collided(BaseEntity* other);
 };
 
 

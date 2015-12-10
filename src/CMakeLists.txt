@@ -9,10 +9,9 @@ add_executable(ArduinoGame
 		Level/Level.cpp
         Level/TestLevel.cpp
         Level/MenuLevel.cpp
-        Entity/TestEntity.cpp
         FastMath.cpp
         ShapeRenderer.cpp
-		Entity/Player.cpp
-		Entity/Asteroid.cpp
+        Entity/Player.cpp
+        Entity/Asteroid.cpp
         Random.cpp
 )

@@ -132,8 +132,7 @@ void GraphicsLib::fillScreen(uint_least16_t color)
 
 void GraphicsLib::drawPixel(int_least16_t x0, int_least16_t y0, uint_least16_t color)
 {
-  if((x0 >= lcd_width) ||
-     (y0 >= lcd_height))
+  if(x0 >= lcd_width || y0 >= lcd_height || x0 < 0 || y0 < 0)
   {
     return;
   }
@@ -152,23 +151,26 @@ void GraphicsLib::drawLine(int_least16_t x0, int_least16_t y0, int_least16_t x1,
 {
   int_least16_t dx, dy, dx2, dy2, err, stepx, stepy;
 
-  if(x0 == x1) //horizontal line
+  if(x0 == x1) //vertical line
   {
+    if(x0 < 0 || x0 >= lcd_width || (y0 < 0 && y1 < 0) || (y0 >= lcd_height && y1 >= lcd_height)) return;
     if(y0 > y1){ SWAP(y1, y0); }
+    if(y0 < 0) y0 = 0;
+    if(y1 >= lcd_height) y1 = lcd_height - 1;
+
     fillRect(x0, y0, 1, y1-y0+1, color);
   }
-  else if(y0 == y1) //vertical line
+  else if(y0 == y1) //horizontal line
   {
+    if(y0 < 0 || y0 >= lcd_height || (x0 < 0 && x1 < 0) || (x0 >= lcd_width && x1 >= lcd_width)) return;
     if(x0 > x1){ SWAP(x1, x0); }
+    if(x0 < 0) x0 = 0;
+    if(x1 >= lcd_width) x1 = lcd_width - 1;
+
     fillRect(x0, y0, x1-x0+1, 1, color);
   }
   else
   {
-    //check parameter
-    if(x0 >= lcd_width)  { x0 = lcd_width-1;  }
-    if(y0 >= lcd_height) { y0 = lcd_height-1; }
-    if(x1 >= lcd_width)  { x1 = lcd_width-1;  }
-    if(y1 >= lcd_height) { y1 = lcd_height-1; }
     //calculate direction
     dx = x1 - x0;
     dy = y1 - y0;

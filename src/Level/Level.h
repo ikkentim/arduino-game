@@ -6,6 +6,7 @@
 #include "../Entity/BaseEntity.h"
 
 class Game;
+class BaseEntity;
 
 class Level {
 public:
