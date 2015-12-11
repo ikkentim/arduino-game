@@ -15,7 +15,8 @@ public:
     BaseEntity(Game *game, TestLevel *level) :
         game_(game),
         level_(level) {
-
+        rotation = 0;
+        old_rotation = 0;
     }
 
     //Always make base classes' destructors virtual when they're meant to be manipulated polymorphically.
@@ -33,8 +34,8 @@ public:
     //The speed and direction of this object
     Vector2 velocity;
     //Rotation of the sprite
-    float rotation = 0;
-    float old_rotation = 0;
+    float rotation;
+    float old_rotation;
     //Shape for this object
     //Shape* shape;
     bool collision_check;

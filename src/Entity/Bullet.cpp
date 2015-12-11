@@ -1,22 +1,20 @@
-#include <avr/pgmspace.h>
 #include "Bullet.h"
-#include "Player.h"
 #include "../FastMath.h"
+#include <avr/pgmspace.h>
+#include "Player.h"
 
 const int8_t bulletShape[] PROGMEM = {
-    0, 2, 0, 0
+        0, 1, 0, 0
 };
 
-Bullet::Bullet(Game *game, Player *player, TestLevel *level) : BaseEntity(game, level) {
-    // Set base values for the bullet, depending on player position/speed/rotation
-    velocity.x = (player->velocity.x + defaultVelocity);
-    velocity.y = (player->velocity.y + defaultVelocity);
+Bullet::Bullet(Game *game, TestLevel *level, Player *player) : BaseEntity(game, level) {
+    collision_radius = 1;
     rotation = player->rotation;
-
-    // Set position + offset so bullet fires from the tip
-    position = player->position;
-    position.x += fast_cos(rotation) * 17;
-    position.y += fast_sin(rotation) * 17;
+    // Calculate velocity depending on player rotation and velocity
+    velocity.x = fast_cos(rotation) * (player->velocity.x + default_velocity);
+    velocity.y = fast_sin(rotation) * (player->velocity.y + default_velocity);
+    position.x = player->position.x + fast_cos(rotation) * 17;
+    position.y = player->position.y + fast_sin(rotation) * 17;
 }
 
 void Bullet::render() {

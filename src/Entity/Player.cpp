@@ -19,7 +19,6 @@ Player::Player(Game *game, TestLevel *level) : BaseEntity(game, level) {
     collision_check = true;
     collision_radius = 16;
 
-    firing_cooldown_ = 0;
     dead_ = false;
 }
 
@@ -32,17 +31,17 @@ void Player::update(float delta) {
         velocity += -velocity * deceleration_ * delta;
     }
 
-    // If cooldown is currently active
-    if (firing_cooldown_ > 0) {
+    // Check if cooldown is active
+    if (firing_cooldown_ > 0)
+    {
         firing_cooldown_ -= delta;
     }
-    // Check if cooldown is done and the firing button is held down
+    // If cooldown isn't active, fire a bullet
     if (game_->nunchuck->button_c() && firing_cooldown_ <= 0 && !dead_)
     {
-        // Set the cooldown
-        firing_cooldown_ = FIRING_COOLDOWN;
+        level_->addEntity(new Bullet(game_, level_, this));
 
-        level_->addEntity(new Bullet(game_, this, level_));
+        firing_cooldown_ = FIRING_COOLDOWN;
     }
 
     // if speed is faster than max speed, clamp it

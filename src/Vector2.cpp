@@ -82,6 +82,10 @@ Vector2 Vector2::operator*(float multiplier) {
     return Vector2(x * multiplier, y * multiplier);
 }
 
+Vector2 Vector2::operator*(Vector2 multiplier) {
+    return Vector2(x * multiplier.x, y * multiplier.y);
+}
+
 Vector2 Vector2::operator+=(Vector2 a) {
     x = x + a.x;
     y = y + a.y;
