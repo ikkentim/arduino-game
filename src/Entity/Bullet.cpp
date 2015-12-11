@@ -2,12 +2,15 @@
 #include "../FastMath.h"
 #include <avr/pgmspace.h>
 #include "Player.h"
+#include "Asteroid.h"
 
 const int8_t bulletShape[] PROGMEM = {
         0, 2, 0, 0
 };
 
 Bullet::Bullet(Game *game, TestLevel *level, Player *player) : BaseEntity(game, level) {
+    entity_type = TYPE_BULLET;
+
     collision_radius = 1;
     rotation = player->rotation;
     // Calculate velocity depending on player rotation and velocity
@@ -40,5 +43,9 @@ void Bullet::update(float delta) {
 }
 
 void Bullet::collided(BaseEntity *other) {
+    if (other->entity_type == TYPE_ASTEROID) {
+        ((Asteroid*) other)->reset();
+        level_->removeEntity(this);
+    }
 
 }

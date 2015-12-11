@@ -9,6 +9,11 @@
 class TestLevel;
 class Game;
 
+typedef uint8_t EntityType;
+#define TYPE_ASTEROID 0
+#define TYPE_PLAYER 1
+#define TYPE_BULLET 2
+
 //Base entity class, other entities inherit from this class.
 class BaseEntity {
 public:
@@ -41,6 +46,7 @@ public:
     bool collision_check;
     int collision_radius;
     virtual void collided(BaseEntity* other) = 0;
+    EntityType entity_type;
 protected:
     Game *game_;
     TestLevel *level_;

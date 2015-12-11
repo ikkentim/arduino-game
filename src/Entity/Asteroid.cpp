@@ -38,6 +38,7 @@ Asteroid::Asteroid(Game *game, TestLevel *level,
                    const float max_speed,
                    const float min_speed
                   ) : BaseEntity(game, level) {
+    entity_type = TYPE_ASTEROID;
     collision_check = false;
     collision_radius = 16;
     this->min_speed = min_speed;
