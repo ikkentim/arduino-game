@@ -28,6 +28,13 @@ void TestLevel::update(float delta) {
 void TestLevel::render() {
     player_->render();
     testAsteroid_->render();
+
+    if(game->score->has_changed()) {
+        char buf[32];
+        sprintf(buf, "Score: %d", game->score->get_score());
+
+        game->tft->drawText(5, 225, buf, RGB(255, 255, 255), RGB(0, 0, 0), 1);
+    }
 }
 
 void TestLevel::update_viewport() {

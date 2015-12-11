@@ -4,6 +4,7 @@
 
 #include "Engine.h"
 #include "Level/Level.h"
+#include "Score.h"
 
 class Level;
 
@@ -13,6 +14,7 @@ public:
     void set_level(Level *level);
 
     Level *level;
+    Score *score;
 
 protected:
     virtual void engine_update(float deltaTime);
