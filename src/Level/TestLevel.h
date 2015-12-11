@@ -22,7 +22,7 @@ public:
     TestLevel(Game *game);
     ~TestLevel();
     void render();
-    void update(float deltaTime);
+    void update(float delta);
 };
 
 

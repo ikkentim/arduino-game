@@ -4,13 +4,18 @@
 
 class Game;
 class TestLevel;
+class Player;
 
-class Bullet : BaseEntity {
+class Bullet : public BaseEntity {
 public:
-    Bullet(Game *game, TestLevel *level);
+    Bullet(Game *game, TestLevel *level, Player *player);
 
     void update(float delta);
     void render();
+    void collided(BaseEntity* other);
+
+private:
+    float default_velocity = 300.0f;
 };
 
 #endif //ARDUINOGAME_BULLET_H

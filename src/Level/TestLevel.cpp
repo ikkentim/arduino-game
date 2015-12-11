@@ -16,15 +16,15 @@ TestLevel::TestLevel(Game *game) :
     {
         //Asteroid sets its own position
         addEntity(new Asteroid(game, this));
-    }
+}
 }
 
 TestLevel::~TestLevel() {
 }
 
-void TestLevel::update(float deltaTime) {
+void TestLevel::update(float delta) {
     for( int i = 0; i < entityCount; i++){
-        entities[i]->update(deltaTime);
+        entities[i]->update(delta);
     }
     update_viewport();
 }
