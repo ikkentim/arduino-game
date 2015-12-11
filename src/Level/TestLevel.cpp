@@ -22,9 +22,9 @@ TestLevel::TestLevel(Game *game) :
 TestLevel::~TestLevel() {
 }
 
-void TestLevel::update(float delta) {
+void TestLevel::update(float deltaTime) {
     for( int i = 0; i < entityCount; i++){
-        entities[i]->update(delta);
+        entities[i]->update(deltaTime);
     }
     update_viewport();
 }
