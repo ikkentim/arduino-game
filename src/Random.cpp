@@ -17,13 +17,13 @@ void Random::generate_seed(uint8_t ticks, Nunchuck *nunchuck) {
             aY = accel.y,
             aZ = accel.z;
 
-    unsigned int seed = (unsigned int) (
+    int seed = 
             (int) (aX * p1 +
                    aY * p2 +
                    aZ * p3 +
-                   ticks * ticks) % p4);
+                   ticks * ticks) % p4;
 	//Add the seed to the _seed value so that it overflows
-    Random::seed_ += seed;
+    Random::seed_ += (unsigned int)seed;
     srand(Random::seed_); //Set the rand seed.
 }
 
