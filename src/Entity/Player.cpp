@@ -23,6 +23,7 @@ Player::Player(Game *game, TestLevel *level) : BaseEntity(game, level) {
 }
 
 void Player::update(float delta) {
+
     if (game_->nunchuck->button_z() && !dead_) {
         // add relative velocity so you get a drag effect
         velocity.y += fast_sin(rotation) * acceleration_ * delta;
