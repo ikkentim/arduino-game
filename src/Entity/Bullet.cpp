@@ -28,6 +28,12 @@ void Bullet::render() {
 
 void Bullet::update(float delta) {
     position = position + velocity * delta;
+
+    // Check if bullet exits viewport, if so, remove the bullet
+    if (!level_->viewport.is_in_range(position, 20))
+    {
+        level_->removeEntity(this);
+    }
 }
 
 void Bullet::collided(BaseEntity *other) {
