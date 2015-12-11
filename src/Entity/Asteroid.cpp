@@ -16,6 +16,11 @@ const int8_t shape1[] PROGMEM = {
 
 void Asteroid::update(float delta) {
     position += velocity * delta;
+	float range = collision_radius * 4;
+	if (!level_->viewport.is_in_range(position,range))
+	{
+		reset();
+	} 
 }
 
 void Asteroid::render() {
@@ -23,10 +28,10 @@ void Asteroid::render() {
 
     game_->sr.render(game_->tft, (int8_t *) shape1, 8, RGB(255, 255, 255),
                      (int) old_position.x, (int) old_position.y, old_rotation,
-                     (int) position.x, (int) position.y, rotation);
+					 (int)draw_position.x, (int)draw_position.y, rotation);
 
     old_rotation = rotation;
-    old_position = position;
+    old_position = draw_position;
 }
 
 Asteroid::Asteroid(Game *game, TestLevel *level,
@@ -46,25 +51,25 @@ void Asteroid::reset() {
     Vector2 viewport_position = level_->viewport.position();
     Vector2 viewport_size = level_->viewport.size();
 
-    Vector2 direction(
-            rand.rand_float(0, 1.0f),
-            rand.rand_float(0, 1.0f)
+    position = Vector2(
+            rand.rand_float(-10.0f, 10.0f),
+            rand.rand_float(-10.0f, 10.0f)
     );
-    direction.normalize();
+    position.normalize();
 
-    position = direction * viewport_size;
+	position = (viewport_position + viewport_size / 2) + position * viewport_size.length()/2;
 
-    position = position * rand.rand_float(1.2f, 1.7f);
-
-    position = viewport_position + position; //convert to global position
+  //  position = viewport_position + position; //convert to global position
 
     velocity = Vector2(
-            rand.rand_float(0.0f, 1.0f),
-            rand.rand_float(0.0f, 1.0f)
+            rand.rand_float(-1.0f, 1.0f),
+            rand.rand_float(-1.0f, 1.0f)
     );
 
+	Vector2 target = (viewport_position + viewport_size / 2) - position;
+	target.normalize();
     velocity.normalize();
-    velocity = velocity * ( direction + Vector2(0.5f, 0.5f) );
+	velocity = target + velocity * 0.5f;// Vector2(0.5f, 0.5f) );
 
     velocity.normalize();
     velocity = velocity * rand.rand_float(min_speed, max_speed);
