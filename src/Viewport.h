@@ -8,8 +8,8 @@ struct Viewport {
     int width;
     int height;
 
-    Viewport(int a, int b, int w, int h)
-        : x(a), y(b), width(w), height(h) {
+    Viewport(int a, int b, int w, int h) : x(a), y(b), width(w), height(h) {
+
     }
 
     Vector2 position() {

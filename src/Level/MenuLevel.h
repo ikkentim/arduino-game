@@ -8,7 +8,7 @@ class MenuLevel : public Level {
 public:
     MenuLevel(Game *game);
     void render();
-    void update(float deltaTime);
+    void update(float delta);
 private:
     const char *menu_title_ = "Asteroids";
     uint8_t seed_ticks_;

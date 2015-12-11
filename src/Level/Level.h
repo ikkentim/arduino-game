@@ -9,7 +9,7 @@ class Level {
 public:
     Level(Game *game);
     virtual ~Level();
-    virtual void update(float deltaTime) = 0;
+    virtual void update(float delta) = 0;
     virtual void render() = 0;
     void addEntity(BaseEntity *entity);
     void removeEntity(BaseEntity *entity);

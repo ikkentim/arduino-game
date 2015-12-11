@@ -14,4 +14,5 @@ add_executable(ArduinoGame
         Entity/Player.cpp
         Entity/Asteroid.cpp
         Random.cpp
+        Score.cpp
 )

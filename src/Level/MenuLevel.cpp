@@ -32,7 +32,7 @@ void MenuLevel::render() {
     game->tft->drawText(left, top, text, white, black, 1);
 }
 
-void MenuLevel::update(float deltaTime) {
+void MenuLevel::update(float delta) {
     // Check if the screen is touched
     if (game->tft->touchRead()) {
         // Set new level
