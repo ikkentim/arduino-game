@@ -20,13 +20,15 @@ Bullet::Bullet(Game *game, TestLevel *level, Player *player) : BaseEntity(game, 
 void Bullet::render() {
     Vector2 draw_position = position - level_->viewport.position();
 
-    game_->sr.render(game_->tft, (int8_t *) bulletShape, 1, RGB(255, 255, 255), (int) (old_position.x),
-                     (int) old_position.y, rotation, (int) draw_position.x, (int) draw_position.y, rotation);
+    game_->sr.render(game_->tft, (int8_t *) bulletShape, 1, RGB(255, 255, 255), old_position_x,
+                    old_position_y, rotation, (int) draw_position.x, (int) draw_position.y, rotation);
 
-    old_position = draw_position;
+
+	old_position_x = draw_position.x;
+	old_position_y = draw_position.y;
 }
 
-void Bullet::update(float delta) {
+void Bullet::update(const float& delta) {
     position = position + velocity * delta;
 
     // Check if bullet exits viewport, if so, remove the bullet

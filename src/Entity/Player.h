@@ -12,7 +12,7 @@ class Player : public BaseEntity {
 public:
     Player(Game *game, TestLevel *level);
 
-    void update(float delta);
+	void update(const float& delta);
     void render();
     void collided(BaseEntity* other);
 
