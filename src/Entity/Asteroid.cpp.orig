@@ -29,20 +29,25 @@ const int8_t shape2[] PROGMEM = {
 };
 
 const int8_t shape3[] PROGMEM = {
-	-6, -12, 0, -6,
-	0, -6, 6, -12,
-	6, -12, 15, -6,
-	15, -6, 9, -3,
-	9, -3, 15, 3,
-	15, 3, 9, 12,
-	9, 12, 0, 9,
-	0, 9, -3, 12,
-	-3, 12, -12, 9,
-	-12, 9, -9, 3,
-	-9, 2, -12, -6,
-	-12, -6, -6, -12//12
+     -6,-12,  0, -6,
+      0, -6,  6,-12,
+      6,-12, 15, -6,
+     15, -6,  9, -3,
+      9, -3, 15,  3,
+     15,  3,  9, 12,
+      9, 12,  0,  9,
+      0,  9, -3, 12,
+     -3, 12,-12,  9,
+    -12,  9, -9,  3,
+     -9,  2,-12, -6,
+    -12, -6, -6,-12//12
 };
 
+
+<<<<<<< HEAD
+void Asteroid::update(float delta) {
+    //rotation += 0.1f * delta;
+=======
 void Asteroid::update(const float& delta) {
     position += velocity * delta;
 	float range = collision_radius * 4;
@@ -50,32 +55,16 @@ void Asteroid::update(const float& delta) {
 	{
 		reset();
 	} 
+>>>>>>> feature/asteroidgeneration
 }
 
 void Asteroid::render() {
-	
     Vector2 draw_position = position - level_->viewport.position();
-	int8_t* shape;
-	uint8_t lines = 12;
-	switch (shape_)
-	{
-	case 0:
-		shape = (int8_t *)shape1;
-		lines = 8;
-		break;
-	case 1:
-		shape = (int8_t *)shape2;
-		break;
-	default:
-		shape = (int8_t *)shape1;
-		break;
-	}
-		
-	
-	game_->sr.render(game_->tft, shape, lines, RGB(255, 255, 255),
+
+    game_->sr.render(game_->tft, (int8_t *) shape1, 8, RGB(255, 255, 255),
                      old_position_x, old_position_y, old_rotation,
-					 (int)draw_position.x, (int)draw_position.y, rotation, scale_);
-	
+					 (int)draw_position.x, (int)draw_position.y, rotation);
+
     old_rotation = rotation;
 	old_position_x = draw_position.x;
 	old_position_y = draw_position.y;
@@ -93,14 +82,10 @@ Asteroid::Asteroid(Game *game, TestLevel *level,
     reset();
 }
 
-void Asteroid::reset() {
-	
-	shape_ = rand_uint8_t(0, 3);
-	scale_ = rand_float(0.5f, 1.0f);
-	collision_radius = (uint8_t)(16 * scale_);
+void Asteroid::reset() { 
     Vector2 viewport_position = level_->viewport.position();
     Vector2 viewport_size = level_->viewport.size();
-	rotation = rand_float(0.0f, 6.28f);
+
     position = Vector2(
             rand_float(-10.0f, 10.0f),
             rand_float(-10.0f, 10.0f)

@@ -8,10 +8,8 @@ class Nunchuck;
 
 class Random {
 public:
-    int rand_integer(const int& range_min, const int& range_max = RAND_MAX);
-    uint8_t rand_uint8_t(const uint8_t& range_min, const uint8_t& range_max = 255);
-    float rand_float(const float& range_min, const float& range_max = RAND_MAX);
-    int get_seed() const;
+    
+	static int get_seed();
 private:
     //The seed for the random generator
     static unsigned int seed_;
@@ -21,5 +19,7 @@ protected:
     static void generate_seed(uint8_t ticks, Nunchuck* nunchuck);
 };
 
-
+int rand_integer(const int& range_min, const int& range_max = RAND_MAX);
+uint8_t rand_uint8_t(const uint8_t& range_min, const uint8_t& range_max = 255);
+float rand_float(const float& range_min, const float& range_max = RAND_MAX);
 #endif //ARDUINOGAME_RANDOM_H
