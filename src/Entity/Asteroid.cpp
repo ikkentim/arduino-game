@@ -67,7 +67,7 @@ void Asteroid::render() {
 		shape = (int8_t *)shape2;
 		break;
 	default:
-		shape = (int8_t *)shape1;
+		shape = (int8_t *)shape3;
 		break;
 	}
 		
