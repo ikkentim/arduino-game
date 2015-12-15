@@ -15,7 +15,7 @@ const int8_t playerShape[] PROGMEM = {
 
 Player::Player(Game *game, TestLevel *level) : BaseEntity(game, level) {
     entity_type = TYPE_PLAYER;
-    position = Vector2(50, 50);
+    position = Vector2(150, 150);
 
     collision_check = true;
     collision_radius = 16;

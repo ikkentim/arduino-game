@@ -11,6 +11,7 @@ const int8_t bulletShape[] PROGMEM = {
 Bullet::Bullet(Game *game, TestLevel *level, Player *player) : BaseEntity(game, level) {
     entity_type = TYPE_BULLET;
 
+    collision_check = true;
     collision_radius = 1;
     rotation = player->rotation;
     // Calculate velocity depending on player rotation and velocity
@@ -23,7 +24,7 @@ Bullet::Bullet(Game *game, TestLevel *level, Player *player) : BaseEntity(game, 
 void Bullet::render() {
     Vector2 draw_position = position - level_->viewport.position();
 
-    game_->sr.render(game_->tft, (int8_t *) bulletShape, 1, RGB(255, 255, 255), (int) (old_position.x),
+    game_->sr.render(game_->tft, (int8_t *) bulletShape, 1, RGB(255, 120, 0), (int) (old_position.x),
                      (int) old_position.y, rotation, (int) draw_position.x, (int) draw_position.y, rotation);
 
     old_position = draw_position;
@@ -45,6 +46,11 @@ void Bullet::update(float delta) {
 void Bullet::collided(BaseEntity *other) {
     if (other->entity_type == TYPE_ASTEROID) {
         ((Asteroid*) other)->reset();
+
+        Vector2 draw_position = position - level_->viewport.position();
+        game_->sr.render(game_->tft, (int8_t *) bulletShape, 1, RGB(0, 0, 0), (int) (old_position.x),
+                         (int) old_position.y, rotation, (int) draw_position.x, (int) draw_position.y, rotation);
+
         level_->removeEntity(this);
     }
 

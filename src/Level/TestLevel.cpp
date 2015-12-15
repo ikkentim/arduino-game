@@ -3,8 +3,8 @@
 #include "../Entity/Asteroid.h"
 #include "../Entity/Player.h"
 
-#define VIEWPORT_PADDING    50
-const uint8_t TestLevel::MAX_ASTEROID_COUNT = 5;
+#define VIEWPORT_PADDING    100
+const uint8_t TestLevel::MAX_ASTEROID_COUNT = 4;
 
 TestLevel::TestLevel(Game *game) :
     Level(game),
