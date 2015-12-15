@@ -27,6 +27,8 @@ void TestLevel::update(float delta) {
         entities[i]->update(delta);
     }
     update_viewport();
+
+    time_since_score_ -= delta;
 }
 
 void TestLevel::render() {
@@ -34,11 +36,12 @@ void TestLevel::render() {
         entities[i]->render();
     }
 
-    if(game->score->has_changed()) {
+    if(game->score->has_changed() || time_since_score_ <= 0) {
         char buf[32];
         sprintf(buf, "Score: %d", game->score->get_score());
 
         game->tft->drawText(5, 225, buf, RGB(255, 255, 255), RGB(0, 0, 0), 1);
+        time_since_score_ = 1.0f;
     }
 }
 
