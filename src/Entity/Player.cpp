@@ -23,8 +23,7 @@ Player::Player(Game *game, TestLevel *level) : BaseEntity(game, level) {
     dead_ = false;
 }
 
-void Player::update(float delta) {
-
+void Player::update(const float& delta) {
     if (game_->nunchuck->button_z() && !dead_) {
         // add relative velocity so you get a drag effect
         velocity.y += fast_sin(rotation) * acceleration_ * delta;
@@ -62,11 +61,13 @@ void Player::update(float delta) {
 void Player::render() {
     Vector2 draw_position = position - level_->viewport.position();
 
-    game_->sr.render(game_->tft, (int8_t *) playerShape, 4, RGB(255, 255, 255), (int) (old_position.x),
-                     (int) old_position.y, old_rotation, (int) draw_position.x, (int) draw_position.y, rotation);
+    game_->sr.render(game_->tft, (int8_t *) playerShape, 4, RGB(255, 255, 255), old_position_x,
+                     old_position_y, old_rotation, (int) draw_position.x, (int) draw_position.y, rotation);
 
     old_rotation = rotation;
-    old_position = draw_position;
+
+	old_position_x = draw_position.x;
+	old_position_y = draw_position.y;
 }
 
 void Player::collided(BaseEntity *other) {

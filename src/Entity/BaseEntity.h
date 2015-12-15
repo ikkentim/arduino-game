@@ -28,14 +28,16 @@ public:
     virtual ~BaseEntity() { };
 
     //Updates this entity.
-    virtual void update(float delta) = 0;
+    virtual void update(const float& delta) = 0;
 
     //Render this entity.
     virtual void render() = 0;
 
     //The position in the level
     Vector2 position;
-    Vector2 old_position;
+	int old_position_x;
+	int old_position_y;
+
     //The speed and direction of this object
     Vector2 velocity;
     //Rotation of the sprite
@@ -44,7 +46,7 @@ public:
     //Shape for this object
     //Shape* shape;
     bool collision_check;
-    int collision_radius;
+    uint8_t collision_radius;
     virtual void collided(BaseEntity* other) = 0;
     EntityType entity_type;
 protected:

@@ -6,6 +6,7 @@
 
 Game::Game(Nunchuck *nunchuck, TFT *tft) : Engine(nunchuck, tft) {
     this->level = new MenuLevel(this);
+    this->score = new Score;
 }
 
 void Game::engine_update(float deltaTime) {

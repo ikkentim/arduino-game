@@ -27,20 +27,20 @@ void Random::generate_seed(uint8_t ticks, Nunchuck *nunchuck) {
     srand(Random::seed_); //Set the rand seed.
 }
 
-int Random::rand_integer(const int &range_min, const int &range_max) {
-    return (rand() + range_min) % range_max;
-}
-
-uint8_t Random::rand_uint8_t(const uint8_t &range_min, const uint8_t &range_max) {
-    return (uint8_t)((rand() + (int) range_min) % (int) range_max);
-}
-
-float Random::rand_float(const float &range_min, const float &range_max) {
-    float frand = (float) rand() / (float) RAND_MAX;
-    float max = range_max - range_min;
-    return frand * max + range_min;
-}
-
-int Random::get_seed() const {
+int Random::get_seed() {
     return Random::seed_;
+}
+
+int rand_integer(const int &range_min, const int &range_max) {
+	return (rand() + range_min) % range_max;
+}
+
+uint8_t rand_uint8_t(const uint8_t &range_min, const uint8_t &range_max) {
+	return (uint8_t)((rand() + (int)range_min) % (int)range_max);
+}
+
+float rand_float(const float &range_min, const float &range_max) {
+	float frand = (float)rand() / (float)RAND_MAX;
+	float max = range_max - range_min;
+	return frand * max + range_min;
 }

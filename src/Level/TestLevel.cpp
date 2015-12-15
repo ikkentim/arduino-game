@@ -4,7 +4,7 @@
 #include "../Entity/Player.h"
 
 #define VIEWPORT_PADDING    100
-const uint8_t TestLevel::MAX_ASTEROID_COUNT = 4;
+const uint8_t TestLevel::MAX_ASTEROID_COUNT = 3;
 
 TestLevel::TestLevel(Game *game) :
     Level(game),
@@ -32,6 +32,13 @@ void TestLevel::update(float delta) {
 void TestLevel::render() {
     for( int i = 0; i < entityCount; i++){
         entities[i]->render();
+    }
+
+    if(game->score->has_changed()) {
+        char buf[32];
+        sprintf(buf, "Score: %d", game->score->get_score());
+
+        game->tft->drawText(5, 225, buf, RGB(255, 255, 255), RGB(0, 0, 0), 1);
     }
 }
 
