@@ -11,8 +11,6 @@ public:
     void render();
     void collided(BaseEntity* other);
     void reset(bool undraw = true);
-    bool destroyed;
-
     uint8_t max_speed;
 	uint8_t min_speed;
 private:

@@ -50,6 +50,7 @@ void Bullet::collided(BaseEntity *other) {
         game_->sr.render(game_->tft, (int8_t *) bulletShape, 1, RGB(0, 0, 0), (int) (old_position_x),
                          (int) old_position_y, rotation, (int) draw_position.x, (int) draw_position.y, rotation);
 
+        game_->score->add_score(3);
         level_->removeEntity(this);
     }
 

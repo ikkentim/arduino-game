@@ -10,6 +10,7 @@
 
 MenuLevel::MenuLevel(Game *game) : Level(game) {
     seed_ticks_ = 0;
+    game->score->set_score(0);
 }
 
 void MenuLevel::render() {
@@ -31,7 +32,7 @@ void MenuLevel::update(float delta) {
     // Check if the screen is touched
     if (game->tft->touchRead()) {
         // Set new level
-        game->set_level(new GameOver(game));
+        game->set_level(new TestLevel(game));
     }
 
     seed_ticks_++;

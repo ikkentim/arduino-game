@@ -3,6 +3,8 @@
 #include "../Level/TestLevel.h"
 #include "../FastMath.h"
 #include "Bullet.h"
+#include "BaseEntity.h"
+#include "../Level/GameOver.h"
 
 #define FIRING_COOLDOWN 0.5f
 
@@ -66,10 +68,11 @@ void Player::render() {
 
     old_rotation = rotation;
 
-	old_position_x = draw_position.x;
-	old_position_y = draw_position.y;
+	old_position_x = (int)draw_position.x;
+	old_position_y = (int)draw_position.y;
 }
 
 void Player::collided(BaseEntity *other) {
     dead_ = true;
+    game_->set_level(new GameOver(game_));
 }
