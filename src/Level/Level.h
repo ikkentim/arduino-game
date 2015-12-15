@@ -11,6 +11,7 @@ public:
     virtual ~Level();
     virtual void update(float delta) = 0;
     virtual void render() = 0;
+    virtual void pre_render() = 0;
     void addEntity(BaseEntity *entity);
     void removeEntity(BaseEntity *entity);
     BaseEntity* entities[MAX_ENTITY_COUNT];

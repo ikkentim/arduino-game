@@ -53,3 +53,7 @@ void TestLevel::update_viewport() {
     if(bottom < VIEWPORT_PADDING)
         viewport.y += (VIEWPORT_PADDING - bottom);
 }
+
+void TestLevel::pre_render() {
+
+}

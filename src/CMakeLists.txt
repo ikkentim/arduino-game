@@ -15,4 +15,4 @@ add_executable(ArduinoGame
         Entity/Asteroid.cpp
         Random.cpp
         Score.cpp
-)
+        Level/GameOver.cpp Level/GameOver.h)

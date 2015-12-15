@@ -5,7 +5,8 @@
 #include "Entity/BaseEntity.h"
 
 Game::Game(Nunchuck *nunchuck, TFT *tft) : Engine(nunchuck, tft) {
-    this->level = new MenuLevel(this);
+    this->level = 0;
+    set_level(new MenuLevel(this));
     this->score = new Score;
 }
 
@@ -48,4 +49,6 @@ void Game::set_level(Level *level) {
     }
     tft->fillScreen(0x00);
     this->level = level;
+
+    this->level->pre_render();
 }

@@ -19,6 +19,7 @@ public:
     TestLevel(Game *game);
     ~TestLevel();
     void render();
+    void pre_render();
     void update(float delta);
 };
 
