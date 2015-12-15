@@ -1,6 +1,7 @@
 #ifndef ARDUINOGAME_TESTLEVEL_H
 #define ARDUINOGAME_TESTLEVEL_H
 
+#include <stdint.h>
 #include "Level.h"
 #include "../Viewport.h"
 
@@ -14,6 +15,8 @@ private:
     Asteroid* testAsteroid_;
 
     void update_viewport();
+
+    static const uint8_t MAX_ASTEROID_COUNT;
 public:
     Viewport viewport;
     TestLevel(Game *game);

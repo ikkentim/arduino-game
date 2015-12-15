@@ -26,6 +26,9 @@ void Level::removeEntity(BaseEntity *entity) {
     for(int i = 0; i < entityCount; i++) {
         if (entities[i] == entity) {
             entities[i] = entities[--entityCount];
+            // Remove the entity
+            delete entity;
+            entity = 0;
 
             return;
         }

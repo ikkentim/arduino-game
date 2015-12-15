@@ -3,31 +3,36 @@
 #include "../Entity/Asteroid.h"
 #include "../Entity/Player.h"
 
-#define VIEWPORT_PADDING    50
+#define VIEWPORT_PADDING    100
+const uint8_t TestLevel::MAX_ASTEROID_COUNT = 3;
 
 TestLevel::TestLevel(Game *game) :
     Level(game),
     viewport(Viewport(0, 0, game->tft->lcd_width, game->tft->lcd_height)) {
     player_ = new Player(game, this);
-    testAsteroid_ = new Asteroid(game, this);
 
     addEntity(player_);
-    addEntity(testAsteroid_);
+    for (int i = 0; i < MAX_ASTEROID_COUNT; i++)
+    {
+        //Asteroid sets its own position
+        addEntity(new Asteroid(game, this));
+}
 }
 
 TestLevel::~TestLevel() {
 }
 
 void TestLevel::update(float delta) {
-    player_->update(delta);
-    testAsteroid_->update(delta);
-
+    for( int i = 0; i < entityCount; i++){
+        entities[i]->update(delta);
+    }
     update_viewport();
 }
 
 void TestLevel::render() {
-    player_->render();
-    testAsteroid_->render();
+    for( int i = 0; i < entityCount; i++){
+        entities[i]->render();
+    }
 
     if(game->score->has_changed()) {
         char buf[32];

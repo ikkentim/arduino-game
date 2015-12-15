@@ -26,9 +26,10 @@ void Game::collision_detection() {
             for (int j = 0; j < this->level->entityCount; ++j) {
                 BaseEntity* entity2 = this->level->entities[j];
 
-                if(entity != entity2){
+                if(entity != entity2) {
                     if((entity->position - entity2->position).length() < entity->collision_radius + entity2->collision_radius) {
                         entity->collided(entity2);
+                        break;
                     }
                 }
             }

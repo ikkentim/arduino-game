@@ -8,7 +8,7 @@
 class ShapeRenderer {
 public:
     void render(TFT *tft, int8_t *shape, int length, Color color, int oldx, int oldy, float oldr, int newx,
-                int newy, float newr);
+                int newy, float newr, float scale = 1);
 private:
     void buffer_draw_line(uint32_t *buffer, int startX, int startY, int endX, int endY);
     void buffer_set_pixel(uint32_t *buffer, int x, int y, uint8_t value);

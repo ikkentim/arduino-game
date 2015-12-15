@@ -48,7 +48,7 @@ bool Engine::update() {
         collision_detection();
     }
 
-    if (awaitRender_ || true) {
+    if (awaitRender_) {
         awaitRender_ = false;
         frames_++;
         engine_render();

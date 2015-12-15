@@ -21,10 +21,10 @@ struct Viewport {
     }
 
     bool is_in_range(Vector2 position, float range) {
-        return (position.x < x - range) &&
-               (position.x > x + width + range) &&
-               (position.y < y - range) &&
-               (position.y > y + height + range);
+        return (position.x > x - range) &&
+               (position.x < x + width + range) &&
+               (position.y > y - range) &&
+               (position.y < y + height + range);
     }
 };
 
