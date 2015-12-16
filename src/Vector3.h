@@ -2,7 +2,6 @@
 #define ARDUINOGAME_VECTOR3_H
 
 #include <math.h>
-#include "Matrix4.h"
 
 struct Vector3 {
     float x;
@@ -28,8 +27,6 @@ struct Vector3 {
     float dot(const Vector3 &v3) const;
 
     Vector3 cross(const Vector3 &v3) const;
-
-    Vector3 transform(const struct Matrix4 &m) const;
 
     Vector3 operator=(Vector3 a);
 

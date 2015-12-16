@@ -45,13 +45,6 @@ float Vector2::cross(const Vector2 &v2) const {
     return x * v2.y - v2.x * y;
 }
 
-Vector2 Vector2::transform(const Matrix4 &m) const {
-    return Vector2(
-        (x * m.m11) + (y * m.m21) + m.m41,
-        (x * m.m12) + (y * m.m22) + m.m42
-    );
-}
-
 Vector2 Vector2::operator=(Vector2 a) {
     x = a.x;
     y = a.y;
