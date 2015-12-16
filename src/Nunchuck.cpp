@@ -14,6 +14,7 @@
 
 Nunchuck::Nunchuck() {
     type_ = 0;
+    calibrate = true;
 }
 
 bool Nunchuck::begin() {
@@ -180,22 +181,26 @@ uint8_t Nunchuck::clear_input() {
 }
 
 void Nunchuck::wrap(Vector2 *vector) {
-    if(fabs(vector->x) < 0.1f){
-        vector->x = 0;
-    }
-    if(fabs(vector->y) < 0.1f){
-        vector->y = 0;
+    if(calibrate){
+        if(fabs(vector->x) < 0.1f){
+            vector->x = 0;
+        }
+        if(fabs(vector->y) < 0.1f){
+            vector->y = 0;
+        }
     }
 }
 
 void Nunchuck::wrap(Vector3 *vector) {
-    if(fabs(vector->x) < 0.1f){
-        vector->x = 0;
-    }
-    if(fabs(vector->y) < 0.1f){
-        vector->y = 0;
-    }
-    if(fabs(vector->z) < 0.1f){
-        vector->z = 0;
+    if(calibrate) {
+        if (fabs(vector->x) < 0.1f) {
+            vector->x = 0;
+        }
+        if (fabs(vector->y) < 0.1f) {
+            vector->y = 0;
+        }
+        if (fabs(vector->z) < 0.1f) {
+            vector->z = 0;
+        }
     }
 }

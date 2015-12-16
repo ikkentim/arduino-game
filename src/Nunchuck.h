@@ -21,6 +21,8 @@ public:
     bool button_c();
     // gets a value indicating whether the z button is being pressed.
     bool button_z();
+    // round the joystick from <0.1 to 0
+    bool calibrate;
 private:
     bool init();
     uint8_t clear_input();

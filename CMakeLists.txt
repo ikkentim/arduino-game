@@ -43,6 +43,7 @@ add_custom_target(
 )
 
 include_directories("$ENV{HOME}/.platformio/packages/framework-arduinoavr/libraries/Wire/")
+include_directories("$ENV{HOME}/.platformio/packages/framework-arduinoavr/libraries/EEPROM/")
 include_directories("lib/digitalWriteFast")
 include_directories("lib/TFT")
 include_directories("lib/GraphicsLib")

@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <EEPROM.h>
 #include "MenuLevel.h"
 #include "TestLevel.h"
 #include "../Random.h"
 #include "../Color.h"
 #include "../Game.h"
 #include "GameOver.h"
+#include "../Highscore.h"
 
 MenuLevel::MenuLevel(Game *game) : Level(game) {
     seed_ticks_ = 0;
@@ -49,4 +51,16 @@ void MenuLevel::pre_render() {
     left = (game->tft->lcd_width / 2) - (((float) strlen(text) / 2) * 8);
     top = game->tft->lcd_height - 20;
     game->tft->drawText(left, top, text, white, black, 1);
+
+    Highscore highscore;
+    EEPROM.begin();
+    EEPROM.get(0, highscore);
+    EEPROM.end();
+
+    if(highscore.is_valid()) {
+        char buf[16];
+        sprintf(buf, "%s: %d", highscore.name, highscore.score);
+
+        game->tft->drawText(left, top-30, buf, white, black, 1);
+    }
 }

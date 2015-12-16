@@ -3,11 +3,12 @@
 #include "Level/TestLevel.h"
 #include "Level/MenuLevel.h"
 #include "Entity/BaseEntity.h"
+#include "Level/GameOver.h"
 
 Game::Game(Nunchuck *nunchuck, TFT *tft) : Engine(nunchuck, tft) {
     this->level = 0;
-    set_level(new MenuLevel(this));
     this->score = new Score;
+    set_level(new MenuLevel(this));
 }
 
 void Game::engine_update(float deltaTime) {
