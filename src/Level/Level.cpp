@@ -9,11 +9,13 @@ Level::Level(Game* game) {
 }
 
 Level::~Level() {
-
+    for(int i =0;i<entityCount;i++) {
+        delete entities[i];
+    }
+    entityCount = 0;
 }
 
 void Level::update(float delta) {
-
 }
 
 void Level::addEntity(BaseEntity *entity) {

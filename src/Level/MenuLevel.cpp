@@ -30,7 +30,7 @@ void MenuLevel::render() {
 
 void MenuLevel::update(float delta) {
     // Check if the screen is touched
-    if (game->tft->touchRead()) {
+    if (game->tft->touchRead() || game->nunchuck->button_z()) {
         // Set new level
         game->set_level(new TestLevel(game));
     }

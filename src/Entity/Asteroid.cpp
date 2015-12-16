@@ -77,8 +77,8 @@ void Asteroid::render() {
 					 (int)draw_position.x, (int)draw_position.y, rotation, scale_);
 	
     old_rotation = rotation;
-	old_position_x = draw_position.x;
-	old_position_y = draw_position.y;
+	old_position_x = (int)draw_position.x;
+	old_position_y = (int)draw_position.y;
 
 }
 
@@ -144,6 +144,14 @@ void Asteroid::reset(bool undraw) {
 
     velocity.normalize();
     velocity = velocity * rand_float(min_speed, max_speed);
+
+	float multiplier = (float)(game_->score->get_score() - 20) / 50.0f;
+
+	if(multiplier > 1)
+	{
+		if(multiplier > 5) multiplier = 5.0f;
+		velocity = velocity * multiplier;
+	}
 }
 
 void Asteroid::collided(BaseEntity *other) {

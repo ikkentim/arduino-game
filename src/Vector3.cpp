@@ -50,14 +50,6 @@ Vector3 Vector3::cross(const Vector3 &v3) const {
     return Vector3(xx, yy, zz);
 }
 
-Vector3 Vector3::transform(const struct Matrix4 &m) const {
-    return Vector3(
-        (x * m.m11) + (y * m.m21) + (z * m.m31) + m.m41,
-        (x * m.m12) + (y * m.m22) + (z * m.m32) + m.m42,
-        (x * m.m13) + (y * m.m23) + (z * m.m33) + m.m43
-    );
-}
-
 Vector3 Vector3::operator=(Vector3 a) {
     x = a.x;
     y = a.y;
