@@ -15,6 +15,7 @@ public:
 	void update(const float& delta);
     void render();
     void collided(BaseEntity* other);
+    void set_level(Level *level);
 
 private:
     float acceleration_ = 70;

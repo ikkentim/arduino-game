@@ -8,7 +8,7 @@ class Player;
 
 class Bullet : public BaseEntity {
 public:
-    Bullet(Game *game, TestLevel *level, Player *player);
+    Bullet(Game *game, Level *level, Player *player);
 
 	void update(const float& delta);
     void render();

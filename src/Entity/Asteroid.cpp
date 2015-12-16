@@ -82,7 +82,7 @@ void Asteroid::render() {
 
 }
 
-Asteroid::Asteroid(Game *game, TestLevel *level,
+Asteroid::Asteroid(Game *game, Level *level,
 					const uint8_t& max_speed,
 					const uint8_t& min_speed
                   ) : BaseEntity(game, level) {

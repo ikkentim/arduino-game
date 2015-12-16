@@ -1,5 +1,8 @@
 #ifndef ARDUINOGAME_LEVEL_H
 #define ARDUINOGAME_LEVEL_H
+
+#include "../Viewport.h"
+
 #define MAX_ENTITY_COUNT 15
 
 class Game;
@@ -16,6 +19,7 @@ public:
     void removeEntity(BaseEntity *entity);
     BaseEntity* entities[MAX_ENTITY_COUNT];
     int entityCount = 0;
+    Viewport viewport = Viewport(0, 0, 0, 0);
 protected:
     Game *game;
 };

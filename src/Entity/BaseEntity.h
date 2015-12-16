@@ -17,7 +17,7 @@ typedef uint8_t EntityType;
 //Base entity class, other entities inherit from this class.
 class BaseEntity {
 public:
-    BaseEntity(Game *game, TestLevel *level) :
+    BaseEntity(Game *game, Level *level) :
         game_(game),
         level_(level) {
         rotation = 0;
@@ -51,7 +51,7 @@ public:
     EntityType entity_type;
 protected:
     Game *game_;
-    TestLevel *level_;
+    Level *level_;
 };
 
 #endif //ARDUINOGAME_BASEENTITY_H

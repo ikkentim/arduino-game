@@ -18,7 +18,6 @@ private:
 
     static const uint8_t MAX_ASTEROID_COUNT;
 public:
-    Viewport viewport;
     TestLevel(Game *game);
     ~TestLevel();
     void render();

@@ -8,7 +8,7 @@ const int8_t bulletShape[] PROGMEM = {
         0, 2, 0, 0
 };
 
-Bullet::Bullet(Game *game, TestLevel *level, Player *player) : BaseEntity(game, level) {
+Bullet::Bullet(Game *game, Level *level, Player *player) : BaseEntity(game, level) {
     entity_type = TYPE_BULLET;
 
     collision_check = true;

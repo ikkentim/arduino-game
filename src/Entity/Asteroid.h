@@ -6,7 +6,7 @@
 class Asteroid : public BaseEntity {
 
 public:
-	Asteroid(Game *game, TestLevel *level, const uint8_t& max_speed = 50, const uint8_t& min_speed = 10);
+	Asteroid(Game *game, Level *level, const uint8_t& max_speed = 50, const uint8_t& min_speed = 10);
 	void update(const float& delta);
     void render();
     void collided(BaseEntity* other);

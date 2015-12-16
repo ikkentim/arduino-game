@@ -6,9 +6,9 @@
 #define VIEWPORT_PADDING    100
 const uint8_t TestLevel::MAX_ASTEROID_COUNT = 3;
 
-TestLevel::TestLevel(Game *game) :
-    Level(game),
-    viewport(Viewport(0, 0, game->tft->lcd_width, game->tft->lcd_height)) {
+TestLevel::TestLevel(Game *game) : Level(game) {
+    viewport = Viewport(0, 0, game->tft->lcd_width, game->tft->lcd_height);
+
     player_ = new Player(game, this);
 
     addEntity(player_);

@@ -1,4 +1,5 @@
 #include "Level.h"
+#include "../Game.h"
 
 Level::Level(Game* game) {
     this->game = game;
