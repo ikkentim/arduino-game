@@ -13,6 +13,7 @@ add_executable(ArduinoGame
         ShapeRenderer.cpp
         Entity/Player.cpp
         Entity/Asteroid.cpp
+		Entity/Bullet.cpp
         Random.cpp
         Score.cpp
         Level/GameOver.cpp Level/GameOver.h Keyboard.cpp Keyboard.h Highscore.h)

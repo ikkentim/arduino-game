@@ -14,8 +14,6 @@ public:
     void render();
     void collided(BaseEntity* other);
 
-private:
-    float _default_velocity = 300.0f;
 };
 
 #endif //ARDUINOGAME_BULLET_H
