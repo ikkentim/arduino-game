@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
-#include <eeprom.h>
+#include <EEPROM.h>
 #include "GameOver.h"
 #include "../Color.h"
 #include "../Game.h"
