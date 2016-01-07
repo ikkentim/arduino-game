@@ -13,6 +13,7 @@ typedef uint8_t EntityType;
 #define TYPE_ASTEROID 0
 #define TYPE_PLAYER 1
 #define TYPE_BULLET 2
+#define TYPE_POWERUP 3
 
 //Base entity class, other entities inherit from this class.
 class BaseEntity {

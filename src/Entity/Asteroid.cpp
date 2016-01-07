@@ -1,5 +1,6 @@
 #include "Asteroid.h"
 #include "../Random.h"
+#include "PowerUp.h"
 #include <avr/pgmspace.h>
 
 const int8_t shape1[] PROGMEM = {

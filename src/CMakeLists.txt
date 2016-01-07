@@ -16,4 +16,4 @@ add_executable(ArduinoGame
 		Entity/Bullet.cpp
         Random.cpp
         Score.cpp
-        Level/GameOver.cpp Level/GameOver.h Keyboard.cpp Keyboard.h Highscore.h)
+        Level/GameOver.cpp Level/GameOver.h Keyboard.cpp Keyboard.h Highscore.h Entity/PowerUp.cpp Entity/PowerUp.h)

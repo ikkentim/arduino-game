@@ -7,12 +7,12 @@
 
 class Asteroid;
 class Player;
+class PowerUp;
 class Game;
 
 class TestLevel : public Level {
 private:
     Player* player_;
-    Asteroid* testAsteroid_;
     float time_since_score_;
     void update_viewport();
 
@@ -23,6 +23,7 @@ public:
     void render();
     void pre_render();
     void update(float delta);
+
 };
 
 

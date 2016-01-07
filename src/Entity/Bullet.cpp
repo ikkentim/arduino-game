@@ -3,6 +3,8 @@
 #include <avr/pgmspace.h>
 #include "Player.h"
 #include "Asteroid.h"
+#include "../Random.h"
+
 #define DEFAULT_VELOCITY 300.0f
 
 const int8_t bulletShape[] PROGMEM = {
@@ -45,7 +47,9 @@ void Bullet::update(const float& delta) {
 
 void Bullet::collided(BaseEntity *other) {
     if (other->entity_type == TYPE_ASTEROID) {
-        ((Asteroid*) other)->reset();
+        Asteroid* asteroid = ((Asteroid*) other);
+        if (rand_uint8_t(0) > 200 && )
+            ->reset();
 
         Vector2 draw_position = position - level_->viewport.position();
         game_->sr.render(game_->tft, (int8_t *) bulletShape, 1, RGB(0, 0, 0), (int) (old_position_x),

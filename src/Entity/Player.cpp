@@ -3,10 +3,12 @@
 #include "../Level/TestLevel.h"
 #include "../FastMath.h"
 #include "Bullet.h"
+#include "PowerUp.h"
 #include "BaseEntity.h"
 #include "../Level/GameOver.h"
 
 #define FIRING_COOLDOWN 0.5f
+#define POWERUP_INCREMENT 20
 
 const int8_t playerShape[] PROGMEM = {
         -5, 6, 0, 0,
@@ -21,7 +23,7 @@ Player::Player(Game *game, TestLevel *level) : BaseEntity(game, level) {
 
     collision_check = true;
     collision_radius = 16;
-
+    has_powerup = false;
     dead_ = false;
 }
 
@@ -62,9 +64,14 @@ void Player::update(const float& delta) {
 
 void Player::render() {
     Vector2 draw_position = position - level_->viewport.position();
-
-    game_->sr.render(game_->tft, (int8_t *) playerShape, 4, RGB(255, 255, 255), old_position_x,
-                     old_position_y, old_rotation, (int) draw_position.x, (int) draw_position.y, rotation);
+    if (has_powerup)
+        powerup_frame_ += POWERUP_INCREMENT;
+    
+    game_->sr.render(game_->tft, (int8_t *) playerShape, 4, 
+                     RGB(200, 200+powerup_frame_/(255/55), 200+powerup_frame_/(255/55)), 
+                     old_position_x, old_position_y, old_rotation, 
+                     (int) draw_position.x, (int) draw_position.y, 
+                     rotation);
 
     old_rotation = rotation;
 
@@ -73,6 +80,30 @@ void Player::render() {
 }
 
 void Player::collided(BaseEntity *other) {
-    dead_ = true;
-    game_->set_level(new GameOver(game_));
+    
+    if (other->entity_type == TYPE_POWERUP)
+    {
+        PowerUp* pupp = ((PowerUp*)other);
+        if (pupp->active)
+        {
+            pupp->active = false;
+            this->has_powerup = true;
+        }
+        
+    }
+    else if (other->entity_type == TYPE_ASTEROID)
+    {
+        if (has_powerup)
+        {
+            has_powerup = false;
+            powerup_frame_ = 0;
+        }
+        else
+        {
+            dead_ = true;
+            game_->set_level(new GameOver(game_)); //call this method last
+        }
+
+    }
 }
+
