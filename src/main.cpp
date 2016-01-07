@@ -31,6 +31,7 @@ ISR(TIMER2_OVF_vect) {
 int main(void) {
     // some arduino functions are still used throughout the code.
     // let arduino do some initializing.
+
     init();
 
     // enable the timer 2 interrupt.

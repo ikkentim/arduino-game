@@ -3,6 +3,7 @@
 #include <avr/pgmspace.h>
 #include "Player.h"
 #include "Asteroid.h"
+#define DEFAULT_VELOCITY 300.0f
 
 const int8_t bulletShape[] PROGMEM = {
         0, 2, 0, 0
@@ -15,8 +16,8 @@ Bullet::Bullet(Game *game, Level *level, Player *player) : BaseEntity(game, leve
     collision_radius = 1;
     rotation = player->rotation;
     // Calculate velocity depending on player rotation and velocity
-    velocity.x = fast_cos(rotation) * default_velocity + player->velocity.x;
-    velocity.y = fast_sin(rotation) * default_velocity + player->velocity.y;
+    velocity.x = fast_cos(rotation) * DEFAULT_VELOCITY + player->velocity.x;
+    velocity.y = fast_sin(rotation) * DEFAULT_VELOCITY + player->velocity.y;
     position.x = player->position.x + fast_cos(rotation) * 25;
     position.y = player->position.y + fast_sin(rotation) * 25;
 }
