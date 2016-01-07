@@ -1,3 +1,5 @@
+#include <stdlib.h>
+#include <string.h>
 #include "Keyboard.h"
 
 #define LETTER_SIZE 24
@@ -21,7 +23,7 @@ void Keyboard::update(const float &delta) {
 
 void Keyboard::render() {
     // render de oude cursor weer zwart zodat hij niet meer zichtbaar is
-    game_->tft->fillCircle(old_cursor_position.x, old_cursor_position.y, CURSOR_RADIUS, RGB(0, 0, 0));
+    game_->tft->fill_circle(old_cursor_position.x, old_cursor_position.y, CURSOR_RADIUS, RGB(0, 0, 0));
 
     int check[4];
     int i = 0;
@@ -54,7 +56,7 @@ void Keyboard::render() {
         }
     }
     
-    game_->tft->fillCircle(cursor_position.x, cursor_position.y, CURSOR_RADIUS, RGB(255, 0, 0));
+    game_->tft->fill_circle(cursor_position.x, cursor_position.y, CURSOR_RADIUS, RGB(255, 0, 0));
 
     old_cursor_position = cursor_position;
 }
@@ -74,7 +76,7 @@ void Keyboard::render_char(int index) {
         l = index;
     }
 
-    game_->tft->drawChar(l * LETTER_SIZE + START_X + t * PINCREMENT_X,
+    game_->tft->draw_char(l * LETTER_SIZE + START_X + t * PINCREMENT_X,
                          t * LETTER_SIZE + START_Y,
                          letters[index],
                          RGB(255, 255, 255),

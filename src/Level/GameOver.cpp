@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <EEPROM.h>
+#include <stdio.h>
 #include "GameOver.h"
 #include "../Color.h"
 #include "../Game.h"
@@ -84,7 +85,7 @@ void GameOver::update(float delta) {
 
 void GameOver::render() {
     if (keyboard_ != 0) {
-        game->tft->drawText(game->tft->lcd_width / 2 - 48, game->tft->lcd_height / 2 - 40, name, RGB(255, 255, 255),
+        game->tft->draw_text(game->tft->width / 2 - 48, game->tft->height / 2 - 40, name, RGB(255, 255, 255),
                             RGB(0, 0, 0), 4);
 
         keyboard_->render();
@@ -102,18 +103,18 @@ void GameOver::pre_render() {
     black = RGB(0, 0, 0);
     white = RGB(255, 255, 255);
 
-    left = (game->tft->lcd_width / 2) - (((float) strlen(text) / 2) * 8 * title_size);
-    top = game->tft->lcd_height / 6;
+    left = (game->tft->width / 2) - (((float) strlen(text) / 2) * 8 * title_size);
+    top = game->tft->height / 6;
     // Render the coolest title in the world (Math to center it horizontally, the 8 is because of 8 bits)
-    game->tft->drawText(left, top, text, randColor, black, title_size);
+    game->tft->draw_text(left, top, text, randColor, black, title_size);
 
     char buf[32];
     sprintf(buf, "Your score: %d", game->score->get_score());
 
 
-    left = (game->tft->lcd_width / 2) - (((float) strlen(buf) / 2) * 8);
-    top = game->tft->lcd_height / 2;
-    game->tft->drawText(left, top, buf, white, black, 1);
+    left = (game->tft->width / 2) - (((float) strlen(buf) / 2) * 8);
+    top = game->tft->height / 2;
+    game->tft->draw_text(left, top, buf, white, black, 1);
 
     if (keyboard_ != 0) {
         keyboard_->pre_render();

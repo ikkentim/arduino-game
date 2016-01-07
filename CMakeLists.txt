@@ -42,10 +42,6 @@ add_custom_target(
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-include_directories("$ENV{HOME}/.platformio/packages/framework-arduinoavr/libraries/Wire/")
 include_directories("$ENV{HOME}/.platformio/packages/framework-arduinoavr/libraries/EEPROM/")
-include_directories("lib/digitalWriteFast")
-include_directories("lib/TFT")
-include_directories("lib/GraphicsLib")
 
 add_subdirectory (src)

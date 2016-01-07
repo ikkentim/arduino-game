@@ -2,7 +2,6 @@ add_executable(ArduinoGame
         main.cpp
         Engine.cpp
         Game.cpp
-       # Matrix4.cpp
         Nunchuck.cpp
         Vector2.cpp
         Vector3.cpp
@@ -16,4 +15,8 @@ add_executable(ArduinoGame
 		Entity/Bullet.cpp
         Random.cpp
         Score.cpp
-        Level/GameOver.cpp Level/GameOver.h Keyboard.cpp Keyboard.h Highscore.h)
+        Level/GameOver.cpp
+		Keyboard.cpp
+		TWI.cpp
+		TFTScreen.cpp
+		fonts/font_8x8.c)

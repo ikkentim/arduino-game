@@ -7,7 +7,7 @@
 const uint8_t TestLevel::MAX_ASTEROID_COUNT = 3;
 
 TestLevel::TestLevel(Game *game) : Level(game) {
-    viewport = Viewport(0, 0, game->tft->lcd_width, game->tft->lcd_height);
+    viewport = Viewport(0, 0, game->tft->width, game->tft->height);
 
     player_ = new Player(game, this);
 
@@ -40,7 +40,7 @@ void TestLevel::render() {
         char buf[32];
         sprintf(buf, "Score: %d", game->score->get_score());
 
-        game->tft->drawText(5, 225, buf, RGB(255, 255, 255), RGB(0, 0, 0), 1);
+        game->tft->draw_text(5, 225, buf, RGB(255, 255, 255), RGB(0, 0, 0), 1);
         time_since_score_ = 1.0f;
     }
 }

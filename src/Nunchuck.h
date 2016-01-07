@@ -3,12 +3,11 @@
 
 #include "Vector3.h"
 #include "Vector2.h"
+#include "TWI.h"
 
 class Nunchuck {
 public:
     Nunchuck();
-    // initializes the ports used by the device.
-    bool begin();
     // pulls data from the device.
     void update();
     // gets the type of the device.
@@ -21,12 +20,13 @@ public:
     bool button_c();
     // gets a value indicating whether the z button is being pressed.
     bool button_z();
-    // round the joystick from <0.1 to 0
+
     bool calibrate;
 private:
     bool init();
-    uint8_t clear_input();
-    void send_request();
+    bool send_request();
+    bool send_init(uint8_t a, uint8_t b);
+    uint8_t read_byte();
     bool receive_data();
     float range_from_10bits(uint8_t byte, uint8_t bits, uint16_t min, uint16_t max);
     float range_from_8bits(uint8_t byte, uint8_t min, uint8_t max);
@@ -35,6 +35,7 @@ private:
     uint8_t type_; // 0 - disconnected, 1 - old, 2 - new
     uint8_t buffer_[8];
 
+    TWI *twi_;
     Vector2 position_;
     Vector3 acceleration_;
     bool z_pressed_;

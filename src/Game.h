@@ -10,7 +10,7 @@ class Level;
 
 class Game : public Engine {
 public:
-    Game(Nunchuck *nunchuck, TFT *tft);
+    Game(Nunchuck *nunchuck, TFTScreen *tft);
     void set_level(Level *level);
 
     Level *level;

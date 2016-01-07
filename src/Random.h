@@ -1,6 +1,7 @@
 #ifndef ARDUINOGAME_RANDOM_H
 #define ARDUINOGAME_RANDOM_H
 
+#include <stdlib.h>
 #include <stdint.h>
 
 class MenuLevel;

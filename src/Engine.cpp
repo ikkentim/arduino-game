@@ -4,7 +4,7 @@
 #define RATE_RENDER     (30)
 #define RATE_UPDATE     (30)
 
-Engine::Engine(Nunchuck *n, TFT *t) {
+Engine::Engine(Nunchuck *n, TFTScreen *t) {
     nunchuck = n;
     tft = t;
     awaitRender_ = false;
@@ -68,7 +68,7 @@ void Engine::display_free_ram() {
         char buf[32];
         sprintf(buf, "Free mem: %d, %d fps    ", freeRam, fps_);
 
-        tft->drawText(2, 2, buf, RGB(255, 255, 255), RGB(0, 0, 0), 1);
+        tft->draw_text(2, 2, buf, RGB(255, 255, 255), RGB(0, 0, 0), 1);
         awaitDebug_ = false;
     }
 }

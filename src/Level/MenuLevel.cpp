@@ -23,16 +23,16 @@ void MenuLevel::render() {
 
     randColor = RGB(rand() % 200 + 55, rand() % 200 + 55, rand() % 200 + 55);
 
-    left = (game->tft->lcd_width / 2) - (((float) strlen(menu_title_) / 2) * 8 * title_size);
-    top = game->tft->lcd_height / 4;
+    left = (game->tft->width / 2) - (((float) strlen(menu_title_) / 2) * 8 * title_size);
+    top = game->tft->height / 4;
     // Render the coolest title in the world (Math to center it horizontally, the 8 is because of 8 bits)
-    game->tft->drawText(left, top, menu_title_, randColor, black, title_size);
+    game->tft->draw_text(left, top, menu_title_, randColor, black, title_size);
 
 }
 
 void MenuLevel::update(float delta) {
     // Check if the screen is touched
-    if (game->tft->touchRead() || game->nunchuck->button_z()) {
+    if (game->tft->touch_read() || game->nunchuck->button_z()) {
         // Set new level
         game->set_level(new TestLevel(game));
     }
@@ -48,9 +48,9 @@ void MenuLevel::pre_render() {
     black = RGB(0, 0, 0);
     white = RGB(255, 255, 255);
 
-    left = (game->tft->lcd_width / 2) - (((float) strlen(text) / 2) * 8);
-    top = game->tft->lcd_height - 20;
-    game->tft->drawText(left, top, text, white, black, 1);
+    left = (game->tft->width / 2) - (((float) strlen(text) / 2) * 8);
+    top = game->tft->height - 20;
+    game->tft->draw_text(left, top, text, white, black, 1);
 
     Highscore highscore;
     EEPROM.begin();
@@ -61,6 +61,6 @@ void MenuLevel::pre_render() {
         char buf[16];
         sprintf(buf, "%s: %d", highscore.name, highscore.score);
 
-        game->tft->drawText(left, top-30, buf, white, black, 1);
+        game->tft->draw_text(left, top-30, buf, white, black, 1);
     }
 }

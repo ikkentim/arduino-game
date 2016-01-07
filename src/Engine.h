@@ -1,19 +1,17 @@
 #ifndef ARDUINOGAME_ENGINE_H
 #define ARDUINOGAME_ENGINE_H
 
-#include <TFT.h>
-#include "Color.h"
 #include "Nunchuck.h"
 #include "ShapeRenderer.h"
 
 class Engine {
 public:
-    Engine(Nunchuck *nunchuck, TFT *tft);
+    Engine(Nunchuck *nunchuck, TFTScreen *tft);
     void tick(float timeElapsed);
     bool update();
     Nunchuck *nunchuck;
     ShapeRenderer sr;
-    TFT *tft;
+    TFTScreen *tft;
 protected:
     virtual void engine_update(float deltaTime) = 0;
     virtual void collision_detection() = 0;

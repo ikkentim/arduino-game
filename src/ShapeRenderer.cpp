@@ -7,7 +7,7 @@
 
 #define BUFFER_SIZE     (32)
 
-void ShapeRenderer::render(TFT *tft, int8_t *shape, int length, Color color, int oldx, int oldy, float oldr,
+void ShapeRenderer::render(TFTScreen *tft, int8_t *shape, int length, Color color, int oldx, int oldy, float oldr,
                            int newx, int newy, float newr, float scale) {
     if (scale > 1) scale = 1;
     if (scale < 0.1f) scale = 0.1f;
@@ -59,7 +59,7 @@ void ShapeRenderer::render(TFT *tft, int8_t *shape, int length, Color color, int
                          endY + BUFFER_SIZE / 2);
 
         // Draw the line on the screen.
-        tft->drawLine(startX + newx, startY + newy, endX + newx, endY + newy, color);
+        tft->draw_line(startX + newx, startY + newy, endX + newx, endY + newy, color);
     }
 
     // Pre-calculate sine and cosine of the old rotation.
@@ -117,7 +117,7 @@ void ShapeRenderer::render(TFT *tft, int8_t *shape, int length, Color color, int
                 // If the pixel is not set in the buffer, clear it from the screen by setting it black.
                 if (!buffer_get_pixel(buffer1_, startX + (oldx - newx) + BUFFER_SIZE / 2,
                                       y + (oldy - newy) + BUFFER_SIZE / 2))
-                    tft->drawPixel(startX + oldx, y + oldy, 0);
+                    tft->draw_pixel(startX + oldx, y + oldy, 0);
             }
         }
             // If the startY and endY are equal, the line must be horizontal.
@@ -130,7 +130,7 @@ void ShapeRenderer::render(TFT *tft, int8_t *shape, int length, Color color, int
                 // If the pixel is not set in the buffer, clear it from the screen by setting it black.
                 if (!buffer_get_pixel(buffer1_, x + (oldx - newx) + BUFFER_SIZE / 2,
                                       startY + (oldy - newy) + BUFFER_SIZE / 2))
-                    tft->drawPixel(x + oldx, startY + oldy, 0);
+                    tft->draw_pixel(x + oldx, startY + oldy, 0);
             }
         }
         else {
@@ -155,7 +155,7 @@ void ShapeRenderer::render(TFT *tft, int8_t *shape, int length, Color color, int
             {
                 if (!buffer_get_pixel(buffer1_, startX + (oldx - newx) + BUFFER_SIZE / 2,
                                       startY + (oldy - newy) + BUFFER_SIZE / 2))
-                    tft->drawPixel(startX + oldx, startY + oldy, 0);
+                    tft->draw_pixel(startX + oldx, startY + oldy, 0);
             }
             // If the line is wide...
             if (dx > dy) {
@@ -177,7 +177,7 @@ void ShapeRenderer::render(TFT *tft, int8_t *shape, int length, Color color, int
                     // If the pixel is not set in the buffer, clear it from the screen by setting it black.
                     if (!buffer_get_pixel(buffer1_, startX + (oldx - newx) + BUFFER_SIZE / 2,
                                           startY + (oldy - newy) + BUFFER_SIZE / 2))
-                        tft->drawPixel(startX + oldx, startY + oldy, 0);
+                        tft->draw_pixel(startX + oldx, startY + oldy, 0);
                 }
             }
                 // If the line is high...
@@ -200,7 +200,7 @@ void ShapeRenderer::render(TFT *tft, int8_t *shape, int length, Color color, int
                     // If the pixel is not set in the buffer, clear it from the screen by setting it black.
                     if (!buffer_get_pixel(buffer1_, startX + (oldx - newx) + BUFFER_SIZE / 2,
                                           startY + (oldy - newy) + BUFFER_SIZE / 2))
-                        tft->drawPixel(startX + oldx, startY + oldy, 0);
+                        tft->draw_pixel(startX + oldx, startY + oldy, 0);
                 }
             }
         }
