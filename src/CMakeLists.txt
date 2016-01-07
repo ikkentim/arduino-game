@@ -13,6 +13,7 @@ add_executable(ArduinoGame
         Entity/Player.cpp
         Entity/Asteroid.cpp
 		Entity/Bullet.cpp
+		Entity/PowerUp.cpp
         Random.cpp
         Score.cpp
         Level/GameOver.cpp

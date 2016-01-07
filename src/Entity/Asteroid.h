@@ -2,7 +2,7 @@
 #define ARDUINOGAME_ASTERIOID_H
 
 #include "BaseEntity.h"
-
+class PowerUp;
 class Asteroid : public BaseEntity {
 
 public:
@@ -14,6 +14,8 @@ public:
     uint8_t max_speed;
 	uint8_t min_speed;
 private:
+	friend class PowerUp;
+	static PowerUp* POWERUP = NULL;
 	uint8_t shape_;
 	float scale_;
 };
