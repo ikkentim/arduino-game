@@ -47,7 +47,7 @@ int main(void) {
     // create an instance of the game.
     game = new Game(&nc, &tft);
 
-    // keep updating the game until the end of time (or the power is cut).
+    // keep updating the game until the end of time (or the power is cut (or the arduino is broken)).
     for (; ;) {
         game->update();
     }
