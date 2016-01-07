@@ -32,21 +32,21 @@ Nunchuck::Nunchuck() {
 
 bool Nunchuck::init() {
     if (!send_init(NC1_INIT_REGISTER, NC1_INIT_DATA)) return false;
-    _delay_ms(50);
+    _delay_ms(5);
 
     if(!send_request()) {
         return false;}
-    _delay_ms(50);
+    _delay_ms(5);
 
     if (read_byte() != 255) {
         type_ = 1;
     }
     else {
         if (!send_init(NC2_INIT_REGISTER, NC2_INIT_DATA)) return false;
-        _delay_ms(50);
+        _delay_ms(5);
 
         if(!send_request()) return false;
-        _delay_ms(50);
+        _delay_ms(5);
 
         if (read_byte() != 255) {
             type_ = 2;
@@ -55,6 +55,9 @@ bool Nunchuck::init() {
             return false;
         }
     }
+
+    send_request();
+    _delay_ms(5);
 
     return true;
 }
@@ -102,10 +105,6 @@ bool Nunchuck::send_request() {
 }
 
 bool Nunchuck::receive_data() {
-    // request 6 bytes from the device to write to the buffer.
-    if(!send_request()) return false;
-    _delay_us(500);
-
     twi_->startWait(NC_ADDRESS, true);
 
     for (uint8_t i = 0; i < 6; i++) {
@@ -116,6 +115,10 @@ bool Nunchuck::receive_data() {
     }
 
     twi_->stop();
+
+    // request 6 bytes from the device to write to the buffer.
+    if(!send_request()) return false;
+    _delay_us(500);
 
     return true;
 }
