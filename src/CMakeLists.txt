@@ -2,6 +2,7 @@ add_executable(ArduinoGame
         main.cpp
         Engine.cpp
         Game.cpp
+       # Matrix4.cpp
         Nunchuck.cpp
         Vector2.cpp
         Vector3.cpp
@@ -10,6 +11,7 @@ add_executable(ArduinoGame
         Level/MenuLevel.cpp
         FastMath.cpp
         ShapeRenderer.cpp
+		Entity/BaseEntity.h
         Entity/Player.cpp
         Entity/Asteroid.cpp
 		Entity/Bullet.cpp

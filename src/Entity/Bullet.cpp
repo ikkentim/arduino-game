@@ -27,12 +27,13 @@ Bullet::Bullet(Game *game, Level *level, Player *player) : BaseEntity(game, leve
 void Bullet::render() {
     Vector2 draw_position = position - level_->viewport.position();
 
-    game_->sr.render(game_->tft, (int8_t *) bulletShape, 1, RGB(255, 120, 0), old_position_x_,
-                    old_position_y_, rotation, (int) draw_position.x, (int) draw_position.y, rotation);
+    game_->sr.render(game_->tft, (int8_t *) bulletShape, 1, RGB(255, 120, 0), old_draw_position_x,
+                    old_draw_position_y, rotation, (int) draw_position.x, (int) draw_position.y, rotation);
 
 
-	old_position_x_ = draw_position.x;
-	old_position_y_ = draw_position.y;
+    old_draw_position_x = (int)draw_position.x;
+    old_draw_position_y = (int)draw_position.y;
+
 }
 
 void Bullet::update(const float& delta) {
@@ -48,10 +49,10 @@ void Bullet::update(const float& delta) {
 void Bullet::collided(BaseEntity *other) {
     if (other->entity_type == TYPE_ASTEROID) {
         Asteroid* asteroid = ((Asteroid*) other);
-
+        asteroid->reset(true);
         Vector2 draw_position = position - level_->viewport.position();
-        game_->sr.render(game_->tft, (int8_t *) bulletShape, 1, RGB(0, 0, 0), old_position_x_,
-                         old_position_y_, rotation, (int) draw_position.x, (int) draw_position.y, rotation);
+        game_->sr.render(game_->tft, (int8_t *) bulletShape, 1, RGB(0, 0, 0), old_draw_position_x,
+                         old_draw_position_y, rotation, (int) draw_position.x, (int) draw_position.y, rotation);
 
         game_->score->add_score(3);
         level_->removeEntity(this);

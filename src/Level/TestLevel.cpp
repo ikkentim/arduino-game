@@ -12,13 +12,14 @@ TestLevel::TestLevel(Game *game) : Level(game) {
     player_ = new Player(game, this);
 
     addEntity(player_);
+    addEntity(new PowerUp(game, this));
+
     for (int i = 0; i < MAX_ASTEROID_COUNT; i++)
     {
         //Asteroid sets its own position
         addEntity(new Asteroid(game, this));
     }
 
-    addEntity(new PowerUp(game, this));
 }
 
 TestLevel::~TestLevel() {

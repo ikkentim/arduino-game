@@ -1,6 +1,6 @@
 #include "Level.h"
 #include "../Game.h"
-
+#include "../Entity/BaseEntity.h" //to avoid: "invalid use of incomplete type 'class BaseEntity'" Warnings.
 Level::Level(Game* game) {
     this->game = game;
 

@@ -74,12 +74,12 @@ void Asteroid::render() {
 		
 	
 	game_->sr.render(game_->tft, shape, lines, RGB(255, 255, 255),
-                     old_position_x_, old_position_y_, old_rotation,
+                     old_draw_position_x, old_draw_position_y, old_rotation,
 					 (int)draw_position.x, (int)draw_position.y, rotation, scale_);
 	
     old_rotation = rotation;
-	old_position_x_ = (int)draw_position.x;
-	old_position_y_ = (int)draw_position.y;
+	old_draw_position_x = (int)draw_position.x;
+	old_draw_position_y = (int)draw_position.y;
 
 }
 
@@ -114,15 +114,17 @@ void Asteroid::reset(bool undraw) {
 				break;
 		}
 
-		game_->sr.render(game_->tft, shape, lines, RGB(0, 0, 0),
-						 old_position_x_, old_position_y_, old_rotation,
-						 (int)draw_position.x, (int)draw_position.y, rotation, scale_);
+		game_->sr.render(
+				game_->tft, shape, lines, RGB(0, 0, 0),
+				old_draw_position_x, old_draw_position_y, old_rotation,
+				(int)draw_position.x, (int)draw_position.y, rotation, scale_);
 	}
 
 	PowerUp* prup = PowerUp::POWERUP;
-	if (prup != NULL && prup->should_spawn())
+	if (level_->viewport.is_in_range(position, 0) && prup != NULL && prup->should_spawn())
 	{
 		prup->reset(position);
+		prup->active = true;
 	}
 	shape_ = rand_uint8_t(0, 3);
 	scale_ = rand_float(0.5f, 1.0f);

@@ -18,8 +18,6 @@ public:
     void set_level(Level *level);
 
 	bool has_powerup;
-	int old_position_x_;
-	int old_position_y_;
 private:
     float acceleration_ = 70;
     float deceleration_ = 0.90f;
@@ -27,7 +25,7 @@ private:
     float rotation_speed_ = 3;
     float firing_cooldown_ = 0;
 
-	uint8_t powerup_frame_;
+	int8_t powerup_frame_;
     bool dead_;
 };
 
