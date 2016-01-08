@@ -2,6 +2,7 @@
 #include "TestLevel.h"
 #include "../Entity/Asteroid.h"
 #include "../Entity/Player.h"
+#include "../Entity/Stars.h"
 
 #define VIEWPORT_PADDING    100
 const uint8_t TestLevel::MAX_ASTEROID_COUNT = 3;
@@ -10,13 +11,13 @@ TestLevel::TestLevel(Game *game) : Level(game) {
     viewport = Viewport(0, 0, game->tft->width, game->tft->height);
 
     player_ = new Player(game, this);
-
     addEntity(player_);
+    addEntity(new Stars(game, this));
     for (int i = 0; i < MAX_ASTEROID_COUNT; i++)
     {
         //Asteroid sets its own position
         addEntity(new Asteroid(game, this));
-}
+    }
 }
 
 TestLevel::~TestLevel() {
