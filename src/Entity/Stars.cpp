@@ -22,7 +22,7 @@ Stars::~Stars() {
 void Stars::update(const float &delta) {
     for (int i = 0; i < MAX_STAR_COUNT; i++) {
         Star* star = stars_[i];
-        star->offset++;
+        star->offset+=50;
 
         // Move stars
 
@@ -36,26 +36,14 @@ void Stars::render() {
         Star* star = stars_[i];
         // Magic
         uint8_t brightness = star->brightness + abs((float) star->offset) / 127.f * MAX_OFFSET;
-        uint16_t color;
-        switch (star->type) {
-            case RED_STAR:
-                color = RGB(brightness, 50, 50);
-                break;
-            case YELLOW_STAR:
-                color = RGB(brightness, brightness, 50);
-                break;
-            default:
-                color = RGB(50, 50, brightness);
-                break;
-        }
 
-        game_->tft->draw_pixel(star->x, star->y, color);
+        game_->tft->draw_pixel(star->x, star->y, RGB(brightness, brightness, brightness));
     }
 }
 
 void Stars::reset_star(Star *star) {
     uint8_t type = rand_uint8_t(0, 2); // determines the star color
-    uint8_t brightness = rand_uint8_t(100, 175);
+    uint8_t brightness = rand_uint8_t(50, 155);
 
     float x = rand_float(0, game_->tft->width);
     float y = rand_float(0, game_->tft->height);

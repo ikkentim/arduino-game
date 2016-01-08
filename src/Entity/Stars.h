@@ -10,7 +10,7 @@ class TestLevel;
 #define RED_STAR 0
 #define YELLOW_STAR 1
 #define BLUE_STAR 2
-#define MAX_OFFSET 50
+#define MAX_OFFSET 100
 
 typedef struct {
     float x;
