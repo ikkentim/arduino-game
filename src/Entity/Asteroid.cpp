@@ -74,12 +74,12 @@ void Asteroid::render() {
 		
 	
 	game_->sr.render(game_->tft, shape, lines, RGB(255, 255, 255),
-                     old_position_x, old_position_y, old_rotation,
+                     old_position_x_, old_position_y_, old_rotation,
 					 (int)draw_position.x, (int)draw_position.y, rotation, scale_);
 	
     old_rotation = rotation;
-	old_position_x = (int)draw_position.x;
-	old_position_y = (int)draw_position.y;
+	old_position_x_ = (int)draw_position.x;
+	old_position_y_ = (int)draw_position.y;
 
 }
 
@@ -115,7 +115,7 @@ void Asteroid::reset(bool undraw) {
 		}
 
 		game_->sr.render(game_->tft, shape, lines, RGB(0, 0, 0),
-						 old_position_x, old_position_y, old_rotation,
+						 old_position_x_, old_position_y_, old_rotation,
 						 (int)draw_position.x, (int)draw_position.y, rotation, scale_);
 	}
 
@@ -158,8 +158,4 @@ void Asteroid::reset(bool undraw) {
 		if(multiplier > 5) multiplier = 5.0f;
 		velocity = velocity * multiplier;
 	}
-}
-
-void Asteroid::collided(BaseEntity *other) {
-
 }

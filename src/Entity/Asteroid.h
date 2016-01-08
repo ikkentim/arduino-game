@@ -9,7 +9,6 @@ public:
 	Asteroid(Game *game, Level *level, const uint8_t& max_speed = 50, const uint8_t& min_speed = 10);
 	void update(const float& delta);
     void render();
-    void collided(BaseEntity* other);
     void reset(bool undraw = true);
     uint8_t max_speed;
 	uint8_t min_speed;

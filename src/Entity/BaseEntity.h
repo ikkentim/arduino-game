@@ -47,7 +47,7 @@ public:
     //Shape* shape;
     bool collision_check;
     uint8_t collision_radius;
-    virtual void collided(BaseEntity* other) = 0;
+    virtual void collided(BaseEntity* other) {};
     EntityType entity_type;
 protected:
     Game *game_;
