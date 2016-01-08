@@ -119,6 +119,11 @@ void Asteroid::reset(bool undraw) {
 						 (int)draw_position.x, (int)draw_position.y, rotation, scale_);
 	}
 
+	PowerUp* prup = PowerUp::POWERUP;
+	if (prup != NULL && prup->should_spawn())
+	{
+		prup->reset(position);
+	}
 	shape_ = rand_uint8_t(0, 3);
 	scale_ = rand_float(0.5f, 1.0f);
 	collision_radius = (uint8_t)(16 * scale_);
