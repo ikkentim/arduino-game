@@ -15,6 +15,7 @@ typedef uint8_t EntityType;
 #define TYPE_BULLET 2
 #define TYPE_POWERUP 3
 
+
 //Base entity class, other entities inherit from this class.
 class BaseEntity {
 public:
@@ -36,8 +37,6 @@ public:
 
     //The position in the level
     Vector2 position;
-	int old_position_x;
-	int old_position_y;
 
     //The speed and direction of this object
     Vector2 velocity;

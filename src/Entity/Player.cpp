@@ -69,14 +69,14 @@ void Player::render() {
     
     game_->sr.render(game_->tft, (int8_t *) playerShape, 4, 
                      RGB(200, 200+powerup_frame_/(255/55), 200+powerup_frame_/(255/55)), 
-                     old_position_x, old_position_y, old_rotation, 
+                     old_position_x_, old_position_y_, old_rotation,
                      (int) draw_position.x, (int) draw_position.y, 
                      rotation);
 
     old_rotation = rotation;
 
-	old_position_x = (int)draw_position.x;
-	old_position_y = (int)draw_position.y;
+	old_position_x_ = (int)draw_position.x;
+	old_position_y_ = (int)draw_position.y;
 }
 
 void Player::collided(BaseEntity *other) {

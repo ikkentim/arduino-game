@@ -13,6 +13,9 @@ public:
 	void update(const float& delta);
     void render();
     void collided(BaseEntity* other);
+private:
+	int old_position_x_;
+	int old_position_y_;
 
 };
 
