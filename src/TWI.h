@@ -11,6 +11,9 @@ public:
     void stop();
     uint8_t read(bool sendAck);
     void write(uint8_t value);
+private:
+    bool waitForFlag();
+    bool isStatus(uint8_t code);
 };
 
 #endif // ARDUINOGAME_TWI_H

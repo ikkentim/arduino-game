@@ -18,18 +18,14 @@ TFTScreen::TFTScreen() :
 
     DDRB |= _BV(PORTB5) | _BV(PORTB3) | _BV(PORTB2) | _BV(PORTB1) | _BV(PORTB0);
     DDRB &= ~_BV(PORTB4);
-
     DDRD |= _BV(PORTD7) | _BV(PORTD6);
-
-    PORTB |= _BV(PORTB2);
 
     SPCR = _BV(SPE) | _BV(MSTR);
 
-    RST_ENABLE();
-    LED_ENABLE();
-    CS_DISABLE();
+    PORTB &= ~_BV(PORTB0);// enable rst
+    PORTB |= _BV(PORTB6) | _BV(PORTB2) | _BV(PORTB1);// enable led, disable adscs
+    PORTD |= _BV(PORTD7);// disable cs
 
-    ADSCS_DISABLE();
     reset();
 }
 
@@ -44,7 +40,7 @@ void TFTScreen::set_area(int16_t x0, int16_t y0, int16_t x1, int16_t y1) {
 
 void TFTScreen::draw_start() {
     transfer_command(LCD_CMD_WRITE);
-    CS_ENABLE();
+    PORTD &= ~_BV(PORTD7);// enable cs
 }
 
 void TFTScreen::draw(Color color) {
@@ -53,7 +49,7 @@ void TFTScreen::draw(Color color) {
 }
 
 void TFTScreen::draw_stop() {
-    CS_DISABLE();
+    PORTD |= _BV(PORTD7);// disable cs
 }
 
 void TFTScreen::reset() {
@@ -61,10 +57,10 @@ void TFTScreen::reset() {
     const uint8_t *ptr;
 
     //reset
-    CS_DISABLE();
-    RST_ENABLE();
+    PORTD |= _BV(PORTD7);// disable cs
+    PORTB &= ~_BV(PORTB0);// enable rst
     _delay_ms(50);
-    RST_DISABLE();
+    PORTB |= _BV(PORTB0);// disable rst
     _delay_ms(120);
 
     //send init commands and data
@@ -98,34 +94,34 @@ void TFTScreen::reset() {
 }
 
 void TFTScreen::transfer_command(uint8_t cmd) {
-    CS_ENABLE();
+    PORTD &= ~_BV(PORTD7);// enable cs
     transfer(cmd, 0);
-    CS_DISABLE();
+    PORTD |= _BV(PORTD7);// disable cs
 }
 
 void TFTScreen::transfer_word(uint16_t data) {
-    CS_ENABLE();
+    PORTD &= ~_BV(PORTD7);// enable cs
     transfer(data >> 8, 1);
     transfer(data, 1);
-    CS_DISABLE();
+    PORTD |= _BV(PORTD7);// disable cs
 }
 
 void TFTScreen::transfer_byte(uint8_t data) {
-    CS_ENABLE();
+    PORTD &= ~_BV(PORTD7);// enable cs
     transfer(data, 1);
-    CS_DISABLE();
+    PORTD |= _BV(PORTD7);// disable cs
 }
 
 uint8_t TFTScreen::transfer(uint8_t data, uint8_t high) {
     if (high == 1)
-        MOSI_HIGH();
+        PORTB |= _BV(PORTD3);// high mosi
     else if (high == 0)
-        MOSI_LOW();
+        PORTB &= ~_BV(PORTD3);// low mosi
 
     if (high != 2) {
-        SCK_LOW();
+        PORTB &= ~_BV(PORTB5);// low sck
         SPCR &= ~(1 << SPE);
-        SCK_HIGH();
+        PORTB |= _BV(PORTB5);// high sck
         SPCR |= (1 << SPE);
     }
 
@@ -259,7 +255,6 @@ int16_t TFTScreen::draw_text(int16_t x, int16_t y, const char *s, Color color, C
 
 int16_t TFTScreen::draw_text_pgm(int16_t x, int16_t y, PGM_P s, Color color, Color bg, uint8_t size) {
     char c = (char) pgm_read_byte(s++);
-
     while (c != 0) {
         x = draw_char(x, y, c, color, bg, size);
         if (x > lcd_width) break;
@@ -344,17 +339,17 @@ uint_least8_t TFTScreen::touch_read() {
 
 
     //get pressure
-    ADSCS_ENABLE();
+    PORTB &= ~_BV(PORTD6);// enable adscs
     transfer(ADS_CMD_START | ADS_CMD_8BIT | ADS_CMD_DIFF | ADS_CMD_Z1_POS, 2);
     a1 = transfer(0x00, 2) & 0x7F;
     transfer(ADS_CMD_START | ADS_CMD_8BIT | ADS_CMD_DIFF | ADS_CMD_Z2_POS, 2);
     b1 = (255 - transfer(0x00, 2)) & 0x7F;
-    ADSCS_DISABLE();
+    PORTB |= _BV(PORTD6);// disable adscs
     p = a1 + b1;
 
     if (p > MIN_PRESSURE) {
         //using 2 samples for x and y position
-        ADSCS_ENABLE();
+        PORTB &= ~_BV(PORTD6);// enable adscs
         //get X data
         transfer(ADS_CMD_START | ADS_CMD_12BIT | ADS_CMD_DIFF | ADS_CMD_X_POS, 2);
         a1 = transfer(0x00, 2);
@@ -383,7 +378,7 @@ uint_least8_t TFTScreen::touch_read() {
                 lcd_z = p;
             }
         }
-        ADSCS_DISABLE();
+        PORTB |= _BV(PORTD6);// disable adscs
     }
     else {
         lcd_z = 0;
