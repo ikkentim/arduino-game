@@ -12,7 +12,7 @@ TestLevel::TestLevel(Game *game) : Level(game) {
 
     player_ = new Player(game, this);
     addEntity(player_);
-    addEntity(new Stars(game, this));
+    addEntity(new Stars(game, this, player_));
     for (int i = 0; i < MAX_ASTEROID_COUNT; i++)
     {
         //Asteroid sets its own position

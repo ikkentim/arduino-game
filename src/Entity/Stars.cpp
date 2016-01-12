@@ -1,15 +1,23 @@
 #include "Stars.h"
 #include "../Random.h"
+#include "Player.h"
 #include "../Level/Level.h"
 #include <math.h>
 
-Stars::Stars(Game *game, TestLevel *level) : BaseEntity(game, level) {
+Stars::Stars(Game *game, TestLevel *level, Player *player) : BaseEntity(game, level) {
+    player_ = player;
+    // initial star offset
+    stars_position_offset_ = Vector2();
     // Fill the initial background with stars
     for (int i = 0; i < MAX_STAR_COUNT; i++)
     {
         // Add a new star and immediately reset it
         Star* star = new Star();
-        reset_star(star);
+        star->brightness = rand_uint8_t(50, 155);
+        // Generate initial position within viewport
+        star->position = Vector2(
+                rand_float(level->viewport.position().x, level->viewport.size().x),
+                rand_float(level->viewport.position().y, level->viewport.size().y));
         stars_[i] = star;
     }
 }
@@ -23,14 +31,13 @@ Stars::~Stars() {
 void Stars::update(const float &delta) {
     for (int i = 0; i < MAX_STAR_COUNT; i++) {
         Star* star = stars_[i];
-        star->offset+=50;
+        star->offset += 50;
 
-        // Move stars
-
+        // Calculate how far stars have to move in the next render call, opposite of the player velocity/4 for parallax
+        stars_position_offset_ = (player_->velocity * -1 / 4) * delta;
 
         // Check if stars are off screen
-        if (!level_->viewport.is_in_range(position, 30))
-        {
+        if (!level_->viewport.is_in_range(level_->viewport.position() + star->position, 30)) {
             reset_star(star);
         }
     }
@@ -42,21 +49,37 @@ void Stars::render() {
         // Roelof's mathemagic
         uint8_t brightness = star->brightness + abs((float) star->offset) / 127.f * MAX_OFFSET;
 
-        game_->tft->draw_pixel(star->x, star->y, RGB(brightness, brightness, brightness));
+        // Calculate new position since last updates.
+        Vector2 last_position = star->position;
+        star->position = star->position + stars_position_offset_;
+
+        // Undraw if position has changed
+        if (star->position != last_position) {
+            game_->tft->draw_pixel(last_position.x, last_position.y, 0);
+        }
+
+        game_->tft->draw_pixel(star->position.x, star->position.y, RGB(brightness, brightness, brightness));
     }
 }
 
 void Stars::reset_star(Star *star) {
-    uint8_t type = rand_uint8_t(0, 2); // determines the star color
+    // undraw the old star
+    game_->tft->draw_pixel(star->position.x, star->position.y, 0);
     uint8_t brightness = rand_uint8_t(50, 155);
 
-    float x = rand_float(0, game_->tft->width);
-    float y = rand_float(0, game_->tft->height);
+    Vector2 viewport_position = level_->viewport.position();
+    Vector2 viewport_size = level_->viewport.size();
 
-    star->type = type;
+    // Generate position in the direction the player is going
+    Vector2 position = player_->position - (viewport_position + viewport_size /2);
+    position.normalize();
+    position.x += rand_float(-1, 1);
+    position.y += rand_float(-1, 1);
+    position.normalize();
+    position = (viewport_position + viewport_size / 2) + position * viewport_size.length() / 2 - viewport_position;
+
     star->brightness = brightness;
-    star->x = x;
-    star->y = y;
+    star->position = position;
 }
 
 void Stars::collided(BaseEntity *other) {
