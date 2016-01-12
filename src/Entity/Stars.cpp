@@ -1,5 +1,6 @@
 #include "Stars.h"
 #include "../Random.h"
+#include "../Level/Level.h"
 #include <math.h>
 
 Stars::Stars(Game *game, TestLevel *level) : BaseEntity(game, level) {
@@ -26,15 +27,19 @@ void Stars::update(const float &delta) {
 
         // Move stars
 
+
         // Check if stars are off screen
-        // Reset star
+        if (!level_->viewport.is_in_range(position, 30))
+        {
+            reset_star(star);
+        }
     }
 }
 
 void Stars::render() {
     for (int i = 0; i < MAX_STAR_COUNT; i++) {
         Star* star = stars_[i];
-        // Magic
+        // Roelof's mathemagic
         uint8_t brightness = star->brightness + abs((float) star->offset) / 127.f * MAX_OFFSET;
 
         game_->tft->draw_pixel(star->x, star->y, RGB(brightness, brightness, brightness));
