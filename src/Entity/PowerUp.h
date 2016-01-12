@@ -27,7 +27,6 @@ public:
     //Spawn a powerup with a one in {spawn_rate} chance
     uint8_t spawn_rate;
 
-    static PowerUp* POWERUP;
     bool should_spawn();
 
 };

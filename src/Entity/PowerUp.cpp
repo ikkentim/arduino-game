@@ -1,7 +1,6 @@
 #include "PowerUp.h"
 #include <avr/pgmspace.h>
 #include "../Random.h"
-PowerUp* PowerUp::POWERUP = NULL;
 const int8_t diamond[] PROGMEM = {
         -8, 0, 0, -8,
         0, -8, 8, 0,
@@ -14,15 +13,11 @@ PowerUp::PowerUp(Game *game, Level *level)  : BaseEntity(game, level) {
     collision_check = false;
     collision_radius = 16;
     active = false;
-
-    POWERUP = this;
     spawn_rate = 1;
 }
 
 PowerUp::~PowerUp()
 {
-    if (POWERUP == this)
-        POWERUP = NULL;
 }
 
 void PowerUp::render() {

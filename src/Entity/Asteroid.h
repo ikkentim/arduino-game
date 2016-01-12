@@ -2,11 +2,12 @@
 #define ARDUINOGAME_ASTERIOID_H
 
 #include "BaseEntity.h"
+#include "PowerUp.h"
 
 class Asteroid : public BaseEntity {
 
 public:
-	Asteroid(Game *game, Level *level, const uint8_t& max_speed = 50, const uint8_t& min_speed = 10);
+	Asteroid(Game *game, Level *level, PowerUp* powerUp, const uint8_t& max_speed = 50, const uint8_t& min_speed = 10);
 	void update(const float& delta);
     void render();
     void reset(bool undraw = true);
@@ -15,10 +16,9 @@ public:
 
 
 private:
+	PowerUp* powerUp_;
 	uint8_t shape_;
 	float scale_;
-	int old_position_x_;
-	int old_position_y_;
 };
 
 
