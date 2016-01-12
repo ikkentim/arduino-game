@@ -1,12 +1,16 @@
 #include "Player.h"
 #include <avr/pgmspace.h>
+#include <stdlib.h>
 #include "../Level/TestLevel.h"
 #include "../FastMath.h"
 #include "Bullet.h"
+#include "PowerUp.h"
+#include "Asteroid.h"
 #include "BaseEntity.h"
 #include "../Level/GameOver.h"
 
 #define FIRING_COOLDOWN 0.5f
+#define POWERUP_INCREMENT 20
 
 const int8_t playerShape[] PROGMEM = {
         -5, 6, 0, 0,
@@ -21,7 +25,7 @@ Player::Player(Game *game, TestLevel *level) : BaseEntity(game, level) {
 
     collision_check = true;
     collision_radius = 16;
-
+    has_powerup = false;
     dead_ = false;
 }
 
@@ -58,21 +62,50 @@ void Player::update(const float& delta) {
     }
 
     position = position + velocity * delta;
+
 }
 
 void Player::render() {
     Vector2 draw_position = position - level_->viewport.position();
-
-    game_->sr.render(game_->tft, (int8_t *) playerShape, 4, RGB(255, 255, 255), old_position_x,
-                     old_position_y, old_rotation, (int) draw_position.x, (int) draw_position.y, rotation);
+    if (has_powerup)
+        powerup_frame_ += POWERUP_INCREMENT;
+    
+    game_->sr.render(game_->tft, (int8_t *) playerShape, 4, 
+                     RGB(120, 115+abs(powerup_frame_/1.5), 115+abs(powerup_frame_)),
+                     old_draw_position_x, old_draw_position_y, old_rotation,
+                     (int) draw_position.x, (int) draw_position.y, 
+                     rotation);
 
     old_rotation = rotation;
-
-	old_position_x = (int)draw_position.x;
-	old_position_y = (int)draw_position.y;
+    old_draw_position_x = (int)draw_position.x;
+    old_draw_position_y = (int)draw_position.y;
 }
 
 void Player::collided(BaseEntity *other) {
-    dead_ = true;
-    game_->set_level(new GameOver(game_));
+    if (other->entity_type == TYPE_POWERUP)
+    {
+        PowerUp* pupp = ((PowerUp*)other);
+        if (pupp->active)
+        {
+            pupp->active = false;
+            has_powerup = true;
+            powerup_frame_ = 0;
+        }
+    }
+    else if (other->entity_type == TYPE_ASTEROID)
+    {
+        if (has_powerup)
+        {
+            has_powerup = false;
+            powerup_frame_ = 0;
+            ((Asteroid*)other)->reset(true);
+        }
+        else
+        {
+            dead_ = true;
+            game_->set_level(new GameOver(game_)); //call this method last
+        }
+
+    }
 }
+

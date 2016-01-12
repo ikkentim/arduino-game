@@ -8,7 +8,7 @@ struct Viewport {
     int width;
     int height;
 
-    Viewport(int a, int b, int w, int h) : x(a), y(b), width(w), height(h) {
+    Viewport(const int& a, const int& b, const int& w, const int& h) : x(a), y(b), width(w), height(h) {
 
     }
 
@@ -20,7 +20,7 @@ struct Viewport {
         return Vector2((float) width, (float) height);
     }
 
-    bool is_in_range(Vector2 position, float range) {
+    bool is_in_range(const Vector2& position, const float& range) {
         return (position.x > x - range) &&
                (position.x < x + width + range) &&
                (position.y > y - range) &&

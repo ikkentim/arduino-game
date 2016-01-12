@@ -30,4 +30,6 @@ struct Vector2 {
     bool operator!=(Vector2 a);
 };
 
+
+
 #endif //ARDUINOGAME_VECTOR2_H
