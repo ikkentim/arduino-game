@@ -1,17 +1,18 @@
 #ifndef ARDUINOGAME_SCORE_H
 #define ARDUINOGAME_SCORE_H
 
+#include <inttypes.h>
 
 class Score {
 public:
     Score();
-    void add_score(int score);
-    void sub_score(int score);
-    void set_score(int score);
+    void add_score(uint8_t score);
+    void sub_score(uint8_t score);
+    void set_score(uint8_t score);
     int get_score();
     bool has_changed();
 private:
-    int score;
+    uint16_t score;
     bool changed;
 };
 

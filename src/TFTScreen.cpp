@@ -333,109 +333,21 @@ int16_t TFTScreen::draw_char(int16_t x, int16_t y, char c, Color color, Color bg
     return ret;
 }
 
-uint_least8_t TFTScreen::touch_read() {
-    uint_least8_t p, a1, a2, b1, b2;
-    uint_least16_t x, y;
-
+uint8_t TFTScreen::touch_read() {
+    uint_least8_t p, a, b;
 
     //get pressure
     PORTB &= ~_BV(PORTD6);// enable adscs
     transfer(ADS_CMD_START | ADS_CMD_8BIT | ADS_CMD_DIFF | ADS_CMD_Z1_POS, 2);
-    a1 = transfer(0x00, 2) & 0x7F;
+    a = transfer(0x00, 2) & 0x7F;
     transfer(ADS_CMD_START | ADS_CMD_8BIT | ADS_CMD_DIFF | ADS_CMD_Z2_POS, 2);
-    b1 = (255 - transfer(0x00, 2)) & 0x7F;
+    b = (255 - transfer(0x00, 2)) & 0x7F;
     PORTB |= _BV(PORTD6);// disable adscs
-    p = a1 + b1;
+    p = a + b;
 
-    if (p > MIN_PRESSURE) {
-        //using 2 samples for x and y position
-        PORTB &= ~_BV(PORTD6);// enable adscs
-        //get X data
-        transfer(ADS_CMD_START | ADS_CMD_12BIT | ADS_CMD_DIFF | ADS_CMD_X_POS, 2);
-        a1 = transfer(0x00, 2);
-        b1 = transfer(0x00, 2);
-        transfer(ADS_CMD_START | ADS_CMD_12BIT | ADS_CMD_DIFF | ADS_CMD_X_POS, 2);
-        a2 = transfer(0x00, 2);
-        b2 = transfer(0x00, 2);
-
-        if (a1 == a2) {
-            x = 1023 - ((a2 << 2) | (b2 >> 6));
-
-            //get Y data
-            transfer(ADS_CMD_START | ADS_CMD_12BIT | ADS_CMD_DIFF | ADS_CMD_Y_POS, 2);
-            a1 = transfer(0x00, 2);
-            b1 = transfer(0x00, 2);
-            transfer(ADS_CMD_START | ADS_CMD_12BIT | ADS_CMD_DIFF | ADS_CMD_Y_POS, 2);
-            a2 = transfer(0x00, 2);
-            b2 = transfer(0x00, 2);
-
-            if (a1 == a2) {
-                y = ((a2 << 2) | (b2 >> 6));
-                if (x && y) {
-                    tp_x = x;
-                    tp_y = y;
-                }
-                lcd_z = p;
-            }
-        }
-        PORTB |= _BV(PORTD6);// disable adscs
-    }
-    else {
-        lcd_z = 0;
-    }
-
-    if (lcd_z != 0) {
-        return 1;
-    }
-    return 0;
+    return (uint8_t)(p > MIN_PRESSURE);
 }
 
-
-void TFTScreen::touch_calibrate() {
-    uint8_t i;
-    CAL_POINT lcd_points[3] = {CAL_POINT1, CAL_POINT2, CAL_POINT3}; //calibration point postions
-    CAL_POINT tp_points[3];
-    uint16_t o;
-
-    //clear screen
-    fill_screen(RGB(255, 255, 255));
-
-    draw_text_pgm((lcd_width / 2) - 50, (lcd_height / 2) - 10, PSTR("Calibration"), RGB(0, 0, 0), RGB(255, 255, 255),
-                  1);
-    while (touch_read()); //wait for touch release
-
-    //show calibration points
-    for (i = 0; i < 3;) {
-        //draw points
-        draw_circle(lcd_points[i].x, lcd_points[i].y, 2, RGB(0, 0, 0));
-        draw_circle(lcd_points[i].x, lcd_points[i].y, 5, RGB(0, 0, 0));
-        draw_circle(lcd_points[i].x, lcd_points[i].y, 10, RGB(255, 0, 0));
-
-        //press dectected? -> save point
-        if (touch_read()) {
-            fill_circle(lcd_points[i].x, lcd_points[i].y, 2, RGB(255, 0, 0));
-            tp_points[i].x = (uint32_t) tp_x;
-            tp_points[i].y = (uint32_t) tp_y;
-            i++;
-
-            //wait and redraw screen
-            _delay_ms(100);
-            fill_screen(RGB(255, 255, 255));
-            if (i < 3) {
-                draw_text_pgm((lcd_width / 2) - 50, (lcd_height / 2) - 10, PSTR("Calibration"), RGB(0, 0, 0),
-                              RGB(255, 255, 255), 1);
-            }
-        }
-    }
-
-    //calulate calibration matrix
-    touch_set_cal(lcd_points, tp_points);
-
-    //wait for touch release
-    while (touch_read()); //wait for touch release
-
-    return;
-}
 
 void TFTScreen::draw_circle(int16_t x, int16_t y, int16_t radius, Color color) {
     int16_t err, xx, yy;
@@ -483,78 +395,4 @@ void TFTScreen::fill_circle(int16_t x, int16_t y, int16_t radius, Color color) {
             err = err - xx - xx;
         }
     }
-}
-
-void TFTScreen::touch_set_cal(CAL_POINT *lcd, CAL_POINT *tp) {
-    tp_matrix.div = ((tp[0].x - tp[2].x) * (tp[1].y - tp[2].y)) -
-                    ((tp[1].x - tp[2].x) * (tp[0].y - tp[2].y));
-
-    if (tp_matrix.div == 0)
-        return;
-
-    tp_matrix.a = ((lcd[0].x - lcd[2].x) * (tp[1].y - tp[2].y)) -
-                  ((lcd[1].x - lcd[2].x) * (tp[0].y - tp[2].y));
-
-    tp_matrix.b = ((tp[0].x - tp[2].x) * (lcd[1].x - lcd[2].x)) -
-                  ((lcd[0].x - lcd[2].x) * (tp[1].x - tp[2].x));
-
-    tp_matrix.c = (tp[2].x * lcd[1].x - tp[1].x * lcd[2].x) * tp[0].y +
-                  (tp[0].x * lcd[2].x - tp[2].x * lcd[0].x) * tp[1].y +
-                  (tp[1].x * lcd[0].x - tp[0].x * lcd[1].x) * tp[2].y;
-
-    tp_matrix.d = ((lcd[0].y - lcd[2].y) * (tp[1].y - tp[2].y)) -
-                  ((lcd[1].y - lcd[2].y) * (tp[0].y - tp[2].y));
-
-    tp_matrix.e = ((tp[0].x - tp[2].x) * (lcd[1].y - lcd[2].y)) -
-                  ((lcd[0].y - lcd[2].y) * (tp[1].x - tp[2].x));
-
-    tp_matrix.f = (tp[2].x * lcd[1].y - tp[1].x * lcd[2].y) * tp[0].y +
-                  (tp[0].x * lcd[2].y - tp[2].x * lcd[0].y) * tp[1].y +
-                  (tp[1].x * lcd[0].y - tp[0].x * lcd[1].y) * tp[2].y;
-}
-
-void TFTScreen::touch_calculate() {
-    uint32_t x, y;
-
-    //calc x pos
-    if (tp_x != tp_last_x) {
-        tp_last_x = tp_x;
-        x = (uint32_t) tp_x;
-        y = (uint32_t) tp_y;
-        x = ((tp_matrix.a * x) + (tp_matrix.b * y) + tp_matrix.c) / tp_matrix.div;
-
-        if (x >= (width * 2)) x = 0;
-        else if (x >= (width * 1)) x = width - 1;
-
-        lcd_x = x;
-    }
-
-    //calc y pos
-    if (tp_y != tp_last_y) {
-        tp_last_y = tp_y;
-        x = (uint32_t) tp_x;
-        y = (uint32_t) tp_y;
-        y = ((tp_matrix.d * x) + (tp_matrix.e * y) + tp_matrix.f) / tp_matrix.div;
-
-        if (y >= (height * 2)) y = 0;
-        else if (y >= (height * 1)) y = height - 1;
-
-        lcd_y = y;
-    }
-}
-
-int16_t TFTScreen::touch_x() {
-    touch_calculate();
-    return lcd_x;
-}
-
-
-int16_t TFTScreen::touch_y() {
-    touch_calculate();
-    return lcd_y;
-}
-
-
-int16_t TFTScreen::touch_z() {
-    return lcd_z;
 }

@@ -8,7 +8,6 @@ else()
     set(PLATFORMIO_CMD "/usr/local/bin/platformio")
 endif()
 
-
 include_directories("$ENV{HOME}/.platformio/packages/framework-arduinoavr/variants/standard")
 include_directories("$ENV{HOME}/.platformio/packages/framework-arduinoavr/cores/arduino")
 include_directories("$ENV{HOME}/.platformio/packages/toolchain-atmelavr/avr/include")
