@@ -17,7 +17,7 @@ void Random::generate_seed(uint8_t ticks, Nunchuck *nunchuck) {
             aY = accel.y,
             aZ = accel.z;
 
-    int seed = 
+    int seed =
             (int) (aX * p1 +
                    aY * p2 +
                    aZ * p3 +
@@ -26,8 +26,3 @@ void Random::generate_seed(uint8_t ticks, Nunchuck *nunchuck) {
     Random::seed_ += (unsigned int)seed + rand();
     srand(Random::seed_); //Set the rand seed.
 }
-
-int Random::get_seed() {
-    return Random::seed_;
-}
-

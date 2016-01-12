@@ -8,16 +8,14 @@ class MenuLevel;
 class Nunchuck;
 
 class Random {
-public:
-    
-	static int get_seed();
 private:
     //The seed for the random generator
     static unsigned int seed_;
 protected:
     friend class MenuLevel;
+
     //Generate seed, use this method before calling any rand functions as this method calls srand().
-    static void generate_seed(uint8_t ticks, Nunchuck* nunchuck);
+    static void generate_seed(uint8_t ticks, Nunchuck *nunchuck);
 };
 
 inline int rand_integer(const int& range_min, const int& range_max = RAND_MAX){

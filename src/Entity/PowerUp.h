@@ -21,8 +21,6 @@ public:
     bool active;
     void reset(Vector2 position);
 
-    //The position in the level
-    Vector2 position;
 
     //Spawn a powerup with a one in {spawn_rate} chance
     uint8_t spawn_rate;

@@ -71,7 +71,7 @@ void Player::render() {
         powerup_frame_ += POWERUP_INCREMENT;
     
     game_->sr.render(game_->tft, (int8_t *) playerShape, 4, 
-                     RGB(200, 200+abs(powerup_frame_/(255/55)), 200+abs(powerup_frame_/(255/55))),
+                     RGB(120, 115+abs(powerup_frame_/1.5), 115+abs(powerup_frame_)),
                      old_draw_position_x, old_draw_position_y, old_rotation,
                      (int) draw_position.x, (int) draw_position.y, 
                      rotation);
@@ -84,7 +84,6 @@ void Player::render() {
 void Player::collided(BaseEntity *other) {
     if (other->entity_type == TYPE_POWERUP)
     {
-        dead_ = true;
         PowerUp* pupp = ((PowerUp*)other);
         if (pupp->active)
         {

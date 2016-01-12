@@ -7,7 +7,7 @@
 class Asteroid : public BaseEntity {
 
 public:
-	Asteroid(Game *game, Level *level, PowerUp* powerUp, const uint8_t& max_speed = 50, const uint8_t& min_speed = 10);
+	Asteroid(Game *game, Level *level, PowerUp* powerUp, const uint8_t& max_speed = 90, const uint8_t& min_speed = 30);
 	void update(const float& delta);
     void render();
     void reset(bool undraw = true);

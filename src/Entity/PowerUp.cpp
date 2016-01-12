@@ -11,9 +11,9 @@ const int8_t diamond[] PROGMEM = {
 PowerUp::PowerUp(Game *game, Level *level)  : BaseEntity(game, level) {
     entity_type = TYPE_POWERUP;
     collision_check = false;
-    collision_radius = 16;
+    collision_radius = 8;
     active = false;
-    spawn_rate = 1;
+    spawn_rate = 5;
 }
 
 PowerUp::~PowerUp()
