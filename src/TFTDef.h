@@ -10,28 +10,6 @@
 # define MISO_PIN       SPI_SW_MISO_PIN
 # define SCK_PIN        SPI_SW_SCK_PIN
 
-#define LED_ENABLE()    do{PORTB |= _BV(PORTB1);}while(0)
-#define LED_DISABLE()   do{PORTB &= ~_BV(PORTB1);}while(0)
-
-#define RST_DISABLE()   do{PORTB |= _BV(PORTB0);}while(0)
-#define RST_ENABLE()    do{PORTB &= ~_BV(PORTB0);}while(0)
-
-#define CS_DISABLE()    do{PORTD |= _BV(PORTD7);}while(0)
-#define CS_ENABLE()     do{PORTD &= ~_BV(PORTD7);}while(0)
-
-#define RS_HIGH()       do{PORTD |= _BV(PORTD5);}while(0)
-#define RS_LOW()        do{PORTD &= ~_BV(PORTD5);}while(0)
-
-#define MOSI_HIGH()     do{PORTB |= _BV(PORTD3);}while(0)
-#define MOSI_LOW()      do{PORTB &= ~_BV(PORTD3);}while(0)
-
-#define SCK_HIGH()      do{PORTB |= _BV(PORTB5);}while(0)
-#define SCK_LOW()       do{PORTB &= ~_BV(PORTB5);}while(0)
-
-#define ADSCS_DISABLE() do{PORTB |= _BV(PORTD6);}while(0)
-#define ADSCS_ENABLE()  do{PORTB &= ~_BV(PORTD6);}while(0)
-
-
 #ifndef LCD_WIDTH
 # define LCD_WIDTH      320
 # define LCD_HEIGHT     240

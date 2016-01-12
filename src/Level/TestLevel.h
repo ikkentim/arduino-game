@@ -15,8 +15,6 @@ private:
     Asteroid* testAsteroid_;
     float time_since_score_;
     void update_viewport();
-
-    static const uint8_t MAX_ASTEROID_COUNT;
 public:
     TestLevel(Game *game);
     ~TestLevel();

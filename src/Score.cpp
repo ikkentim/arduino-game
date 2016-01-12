@@ -1,18 +1,18 @@
 #include "Score.h"
 
-void Score::add_score(int score) {
+void Score::add_score(uint8_t score) {
     changed = true;
 
     this->score += score;
 }
 
-void Score::sub_score(int score) {
+void Score::sub_score(uint8_t score) {
     changed = true;
 
     this->score -= score;
 }
 
-void Score::set_score(int score) {
+void Score::set_score(uint8_t score) {
     changed = true;
 
     this->score = score;
