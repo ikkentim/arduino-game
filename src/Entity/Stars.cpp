@@ -34,7 +34,7 @@ void Stars::update(const float &delta) {
         star->offset += 50;
 
         // Calculate how far stars have to move in the next render call, opposite of the player velocity/4 for parallax
-        stars_position_offset_ = (player_->velocity * -1 / 4) * delta;
+        stars_position_offset_ = (player_->velocity * -1 * 0.8) * delta;
 
         // Check if stars are off screen
         if (!level_->viewport.is_in_range(level_->viewport.position() + star->position, 30)) {
@@ -65,7 +65,7 @@ void Stars::render() {
 void Stars::reset_star(Star *star) {
     // undraw the old star
     game_->tft->draw_pixel(star->position.x, star->position.y, 0);
-    uint8_t brightness = rand_uint8_t(50, 155);
+    uint8_t brightness = rand_uint8_t(75, 155);
 
     Vector2 viewport_position = level_->viewport.position();
     Vector2 viewport_size = level_->viewport.size();
