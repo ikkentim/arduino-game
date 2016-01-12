@@ -13,6 +13,9 @@ typedef uint8_t EntityType;
 #define TYPE_ASTEROID 0
 #define TYPE_PLAYER 1
 #define TYPE_BULLET 2
+#define TYPE_POWERUP 3
+
+
 
 //Base entity class, other entities inherit from this class.
 class BaseEntity {
@@ -22,6 +25,8 @@ public:
         level_(level) {
         rotation = 0;
         old_rotation = 0;
+        old_draw_position_x = 0;
+        old_draw_position_y = 0;
     }
 
     //Always make base classes' destructors virtual when they're meant to be manipulated polymorphically.
@@ -35,21 +40,20 @@ public:
 
     //The position in the level
     Vector2 position;
-	int old_position_x;
-	int old_position_y;
 
     //The speed and direction of this object
     Vector2 velocity;
     //Rotation of the sprite
     float rotation;
     float old_rotation;
-    //Shape for this object
-    //Shape* shape;
+
     bool collision_check;
     uint8_t collision_radius;
-    virtual void collided(BaseEntity* other) = 0;
+    virtual void collided(BaseEntity* other) {};
     EntityType entity_type;
 protected:
+    int old_draw_position_x;
+    int old_draw_position_y;
     Game *game_;
     Level *level_;
 };

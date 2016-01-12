@@ -6,8 +6,6 @@
 
 Stars::Stars(Game *game, TestLevel *level, Player *player) : BaseEntity(game, level) {
     player_ = player;
-    // initial star offset
-    stars_position_offset_ = Vector2();
     // Fill the initial background with stars
     for (int i = 0; i < MAX_STAR_COUNT; i++)
     {
@@ -80,10 +78,6 @@ void Stars::reset_star(Star *star) {
 
     star->brightness = brightness;
     star->position = position;
-}
-
-void Stars::collided(BaseEntity *other) {
-
 }
 
 

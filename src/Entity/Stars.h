@@ -7,9 +7,6 @@ class Game;
 class TestLevel;
 
 #define MAX_STAR_COUNT 10
-#define RED_STAR 0
-#define YELLOW_STAR 1
-#define BLUE_STAR 2
 #define MAX_OFFSET 100
 
 typedef struct {
@@ -25,7 +22,6 @@ public:
     ~Stars();
     void update(const float& delta);
     void render();
-    void collided(BaseEntity* other);
 private:
     Star* stars_[MAX_STAR_COUNT];
     Player* player_;

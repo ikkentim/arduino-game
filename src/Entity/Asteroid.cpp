@@ -1,5 +1,6 @@
 #include "Asteroid.h"
 #include "../Random.h"
+#include "PowerUp.h"
 #include <avr/pgmspace.h>
 
 const int8_t shape1[] PROGMEM = {
@@ -73,22 +74,24 @@ void Asteroid::render() {
 		
 	
 	game_->sr.render(game_->tft, shape, lines, RGB(255, 255, 255),
-                     old_position_x, old_position_y, old_rotation,
+                     old_draw_position_x, old_draw_position_y, old_rotation,
 					 (int)draw_position.x, (int)draw_position.y, rotation, scale_);
 	
     old_rotation = rotation;
-	old_position_x = (int)draw_position.x;
-	old_position_y = (int)draw_position.y;
+	old_draw_position_x = (int)draw_position.x;
+	old_draw_position_y = (int)draw_position.y;
 
 }
 
 Asteroid::Asteroid(Game *game, Level *level,
+				   PowerUp* powerUp,
 					const uint8_t& max_speed,
 					const uint8_t& min_speed
                   ) : BaseEntity(game, level) {
     entity_type = TYPE_ASTEROID;
     collision_check = false;
     collision_radius = 16;
+	powerUp_ = powerUp;
     this->min_speed = min_speed;
     this->max_speed = max_speed;
     reset(false);
@@ -113,11 +116,18 @@ void Asteroid::reset(bool undraw) {
 				break;
 		}
 
-		game_->sr.render(game_->tft, shape, lines, RGB(0, 0, 0),
-						 old_position_x, old_position_y, old_rotation,
-						 (int)draw_position.x, (int)draw_position.y, rotation, scale_);
+		game_->sr.render(
+				game_->tft, shape, lines, RGB(0, 0, 0),
+				old_draw_position_x, old_draw_position_y, old_rotation,
+				(int)draw_position.x, (int)draw_position.y, rotation, scale_);
 	}
 
+
+	if (level_->viewport.is_in_range(position, 0) && powerUp_->should_spawn())
+	{
+		powerUp_->reset(position);
+		powerUp_->active = true;
+	}
 	shape_ = rand_uint8_t(0, 3);
 	scale_ = rand_float(0.5f, 1.0f);
 	collision_radius = (uint8_t)(16 * scale_);
@@ -152,8 +162,4 @@ void Asteroid::reset(bool undraw) {
 		if(multiplier > 5) multiplier = 5.0f;
 		velocity = velocity * multiplier;
 	}
-}
-
-void Asteroid::collided(BaseEntity *other) {
-
 }
