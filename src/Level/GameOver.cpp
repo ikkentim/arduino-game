@@ -48,8 +48,6 @@ void GameOver::update(float delta) {
                 EEPROM.end();
 
                 game->nunchuck->calibrate = true;
-                delete keyboard_;
-                keyboard_ = 0;
                 game->set_level(new MenuLevel(game));
                 return;
             } else if (!keyboard_->is_pressed()) {

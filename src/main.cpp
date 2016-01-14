@@ -1,4 +1,5 @@
 #include <avr/interrupt.h>
+#include <EEPROM.h>
 #include "TFTScreen.h"
 #include "Nunchuck.h"
 #include "Game.h"
@@ -27,6 +28,12 @@ ISR(TIMER2_OVF_vect) {
 
 
 int main(void) {
+//#define RESET_HIGHSCORE
+#ifdef RESET_HIGHSCORE
+    EEPROM.begin();
+    EEPROM.put(2, 0);
+    EEPROM.end();
+#else
     // enable the timer 2 interrupt.
     enableTimer2Interrupt();
 
@@ -46,5 +53,6 @@ int main(void) {
     for (; ;) {
         game->update();
     }
+#endif
 }
 

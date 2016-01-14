@@ -19,14 +19,8 @@ protected:
 private:
     bool awaitRender_;
     bool awaitUpdate_;
-    bool awaitDebug_;
     float timeSinceRender_;
     float timeSinceUpdate_;
-    float timeSinceFps_;
-    int fps_;
-    int frames_;
-    uint8_t debugCounter_;
-    void display_free_ram();
 };
 
 

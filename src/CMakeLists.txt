@@ -17,7 +17,6 @@ add_executable(ArduinoGame
 		Entity/Bullet.cpp
 		Entity/PowerUp.cpp
         Random.cpp
-        Score.cpp
         Level/GameOver.cpp
 		Keyboard.cpp
 		TWI.cpp

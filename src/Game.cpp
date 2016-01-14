@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <util/delay.h>
 #include "Game.h"
 #include "Level/TestLevel.h"
 #include "Level/MenuLevel.h"
@@ -54,4 +55,9 @@ void Game::set_level(Level *level) {
     this->level = level;
 
     this->level->pre_render();
+
+    _delay_ms(100);
+    nunchuck->update();
+    _delay_ms(100);
+    nunchuck->update();
 }

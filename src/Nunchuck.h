@@ -11,15 +11,15 @@ public:
     // pulls data from the device.
     void update();
     // gets the type of the device.
-    uint8_t type();
+    inline uint8_t type() { return type_; }
     // gets the acceleration of the device. the components of the vector range from -1.0f to 1.0f.
-    Vector3 acceleration();
+    inline Vector3 acceleration() { return acceleration_;}
     // gets the position of the joystick on the device. the components of the vector range from -1.0f to 1.0f.
-    Vector2 joystick();
+    inline Vector2 joystick() { return position_; }
     // gets a value indicating whether the c button is being pressed.
-    bool button_c();
+    inline bool button_c() { return c_pressed_; }
     // gets a value indicating whether the z button is being pressed.
-    bool button_z();
+    inline bool button_z() { return z_pressed_; }
 
     bool calibrate;
 private:

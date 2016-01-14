@@ -1,5 +1,6 @@
 #include "FastMath.h"
 #include <math.h>
+#include <stdint.h>
 
 float fast_cos(float x, bool lessPrecision) {
     return fast_sin(x + 3.1415f / 2, lessPrecision);
@@ -28,7 +29,7 @@ float fast_sin(float x, bool lessPrecision) {
 }
 
 float fast_sqrt(float x) {
-    unsigned int i = *(unsigned int *) &x;
+    uint32_t i = *(uint32_t *) &x;
 
     // adjust bias
     i += 127 << 23;

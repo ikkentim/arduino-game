@@ -17,8 +17,8 @@ Keyboard::Keyboard(Game *game, Level *level) : BaseEntity(game, level) {
 void Keyboard::update(const float &delta) {
     Vector2 nuchuck_position = game_->nunchuck->joystick();
 
-    cursor_position.x = nuchuck_position.x * (320.0f / 2) + 160.0f;
-    cursor_position.y = -nuchuck_position.y * (120.0f / 2) + 180.0f;
+    cursor_position.x = nuchuck_position.x * (320.0f / 3) + 160.0f;
+    cursor_position.y = -nuchuck_position.y * (120.0f / 4) + 180.0f;
 }
 
 void Keyboard::render() {

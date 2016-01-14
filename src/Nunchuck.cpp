@@ -31,17 +31,17 @@ Nunchuck::Nunchuck() {
 }
 
 bool Nunchuck::init() {
-    if (!send_init(NC1_INIT_REGISTER, NC1_INIT_DATA)) return false;
-    _delay_ms(5);
+//    if (!send_init(NC1_INIT_REGISTER, NC1_INIT_DATA)) return false;
+//    _delay_ms(5);
 
-    if(!send_request()) {
-        return false;}
-    _delay_ms(5);
-
-    if (read_byte() != 255) {
-        type_ = 1;
-    }
-    else {
+//    if(!send_request()) {
+//        return false;}
+//    _delay_ms(5);
+//
+//    if (read_byte() != 255) {
+//        type_ = 1;
+//    }
+//    else {
         if (!send_init(NC2_INIT_REGISTER, NC2_INIT_DATA)) return false;
         _delay_ms(5);
 
@@ -54,7 +54,7 @@ bool Nunchuck::init() {
         else {
             return false;
         }
-    }
+//    }
 
     send_request();
     _delay_ms(5);
@@ -123,27 +123,6 @@ bool Nunchuck::receive_data() {
     return true;
 }
 
-Vector3 Nunchuck::acceleration() {
-    // if no device has been connected, return an empty vector. otherwise, return a vector filled with acceleration
-    // data.
-    return acceleration_;
-}
-
-Vector2 Nunchuck::joystick() {
-    // if no device has been connected, return an empty vector. otherwise, return a vector filled with joystick data.
-    return position_;
-}
-
-bool Nunchuck::button_z() {
-    // return a value indicating whether any device has been connected and the z button has been pressed.
-    return z_pressed_;
-}
-
-bool Nunchuck::button_c() {
-    // return a value indicating whether any device has been connected and the c button has been pressed.
-    return c_pressed_;
-}
-
 float Nunchuck::range_from_10bits(uint8_t byte, uint8_t bits, uint16_t min, uint16_t max) {
     // return a number between -1 and 1 based on the specified 10 bit number and range.
     uint16_t value = (byte << 2) | (bits & 3);
@@ -157,10 +136,6 @@ float Nunchuck::range_from_8bits(uint8_t byte, uint8_t min, uint8_t max) {
     byte -= min;
     max -= min;
     return ((float) byte / max) * 2 - 1;
-}
-
-uint8_t Nunchuck::type() {
-    return type_;
 }
 
 void Nunchuck::wrap(Vector2 *vector) {

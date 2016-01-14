@@ -1,6 +1,7 @@
 #ifndef ARDUINOGAME_TFT_H
 #define ARDUINOGAME_TFT_H
 
+#include <avr/io.h>
 #include <inttypes.h>
 #include "Color.h"
 
@@ -31,9 +32,26 @@ public:
 private:
     void reset();
     void transfer_command(uint8_t cmd);
-    void transfer_word(uint16_t data);
-    void transfer_byte(uint8_t data);
-    uint8_t transfer(uint8_t data, uint8_t high);
+    inline void transfer_word(uint16_t data);
+    inline void transfer_byte(uint8_t data);
+    inline uint8_t transfer(uint8_t data, uint8_t high) {
+        if (high == 1)
+            PORTB |= _BV(PORTD3);// high mosi
+        else if (high == 0)
+            PORTB &= ~_BV(PORTD3);// low mosi
+
+        if (high != 2) {
+            PORTB &= ~_BV(PORTB5);// low sck
+            SPCR &= ~(1 << SPE);
+            PORTB |= _BV(PORTB5);// high sck
+            SPCR |= (1 << SPE);
+        }
+
+        SPDR = data;
+        while (!(SPSR & (1 << SPIF)));
+
+        return SPDR;
+    }
 };
 
 #endif //ARDUINOGAME_TFT_H

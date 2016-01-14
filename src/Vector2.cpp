@@ -1,4 +1,5 @@
 #include "Vector2.h"
+#include "FastMath.h"
 
 Vector2::Vector2() : x(0), y(0) {
 
@@ -18,7 +19,7 @@ bool Vector2::is_zero() const {
 }
 
 float Vector2::length() {
-    return (float) sqrt(length_sq());
+    return (float)sqrt(length_sq());
 }
 
 float Vector2::length_sq() {

@@ -112,36 +112,29 @@ void TFTScreen::transfer_byte(uint8_t data) {
     PORTD |= _BV(PORTD7);// disable cs
 }
 
-uint8_t TFTScreen::transfer(uint8_t data, uint8_t high) {
-    if (high == 1)
-        PORTB |= _BV(PORTD3);// high mosi
-    else if (high == 0)
-        PORTB &= ~_BV(PORTD3);// low mosi
-
-    if (high != 2) {
-        PORTB &= ~_BV(PORTB5);// low sck
-        SPCR &= ~(1 << SPE);
-        PORTB |= _BV(PORTB5);// high sck
-        SPCR |= (1 << SPE);
-    }
-
-    SPDR = data;
-    while (!(SPSR & (1 << SPIF)));
-
-    return SPDR;
-}
+//uint8_t TFTScreen::transfer(uint8_t data, uint8_t high) {
+//    if (high == 1)
+//        PORTB |= _BV(PORTD3);// high mosi
+//    else if (high == 0)
+//        PORTB &= ~_BV(PORTD3);// low mosi
+//
+//    if (high != 2) {
+//        PORTB &= ~_BV(PORTB5);// low sck
+//        SPCR &= ~(1 << SPE);
+//        PORTB |= _BV(PORTB5);// high sck
+//        SPCR |= (1 << SPE);
+//    }
+//
+//    SPDR = data;
+//    while (!(SPSR & (1 << SPIF)));
+//
+//    return SPDR;
+//}
 
 void TFTScreen::fill_screen(Color color) {
     set_area(0, 0, width - 1, height - 1);
     draw_start();
-    for (uint32_t size = (((uint32_t) width * height) / 8U); size != 0; size--) {
-        draw(color);
-        draw(color);
-        draw(color);
-        draw(color);
-        draw(color);
-        draw(color);
-        draw(color);
+    for (uint32_t size = (((uint32_t) width * height)); size != 0; size--) {
         draw(color);
     }
     draw_stop();
@@ -222,6 +215,8 @@ void TFTScreen::draw_pixel(int16_t x, int16_t y, Color color) {
     draw_start();
     draw(color);
     draw_stop();
+
+    asm("");
 }
 
 void TFTScreen::fill_rectangle(int16_t x, int16_t y, int16_t w, int16_t h, Color color) {
@@ -266,6 +261,8 @@ int16_t TFTScreen::draw_text_pgm(int16_t x, int16_t y, PGM_P s, Color color, Col
 
 
 int16_t TFTScreen::draw_char(int16_t x, int16_t y, char c, Color color, Color bg, uint8_t size) {
+
+    if(c > 0x2f) c -= 15;
     int16_t
         ret,
         pos = (c - FONT_START) * (8 * FONT_HEIGHT / 8);

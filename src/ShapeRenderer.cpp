@@ -116,8 +116,9 @@ void ShapeRenderer::render(TFTScreen *tft, int8_t *shape, int length, Color colo
             for (int y = startY; y <= endY; y++) {
                 // If the pixel is not set in the buffer, clear it from the screen by setting it black.
                 if (!buffer_get_pixel(buffer1_, startX + (oldx - newx) + BUFFER_SIZE / 2,
-                                      y + (oldy - newy) + BUFFER_SIZE / 2))
+                                      y + (oldy - newy) + BUFFER_SIZE / 2)) {
                     tft->draw_pixel(startX + oldx, y + oldy, 0);
+                }
             }
         }
             // If the startY and endY are equal, the line must be horizontal.

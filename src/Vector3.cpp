@@ -1,4 +1,5 @@
 #include "Vector3.h"
+#include "FastMath.h"
 
 Vector3::Vector3() : x(0), y(0), z(0) {
 
@@ -19,7 +20,7 @@ bool Vector3::is_zero() const {
 }
 
 float Vector3::length() {
-    return (float)sqrt(length_sq());
+    return fast_sqrt(length_sq());
 }
 
 float Vector3::length_sq() {
