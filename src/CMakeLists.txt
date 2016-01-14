@@ -2,17 +2,23 @@ add_executable(ArduinoGame
         main.cpp
         Engine.cpp
         Game.cpp
-        Matrix4.cpp
+       # Matrix4.cpp
         Nunchuck.cpp
         Vector2.cpp
         Vector3.cpp
-        Level.cpp
+		Level/Level.cpp
         Level/TestLevel.cpp
         Level/MenuLevel.cpp
-        Entity/TestEntity.cpp
         FastMath.cpp
         ShapeRenderer.cpp
-        Player.cpp
-        Asteroid.cpp
+		Entity/BaseEntity.h
+        Entity/Player.cpp
+        Entity/Asteroid.cpp
+		Entity/Bullet.cpp
+		Entity/PowerUp.cpp
         Random.cpp
-)
+        Level/GameOver.cpp
+		Keyboard.cpp
+		TWI.cpp
+		TFTScreen.cpp
+		fonts/font_8x8.c)

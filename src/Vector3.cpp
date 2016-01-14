@@ -1,4 +1,5 @@
 #include "Vector3.h"
+#include "FastMath.h"
 
 Vector3::Vector3() : x(0), y(0), z(0) {
 
@@ -19,7 +20,7 @@ bool Vector3::is_zero() const {
 }
 
 float Vector3::length() {
-    return (float)sqrt(length_sq());
+    return fast_sqrt(length_sq());
 }
 
 float Vector3::length_sq() {
@@ -48,14 +49,6 @@ Vector3 Vector3::cross(const Vector3 &v3) const {
     float yy = -(x * v3.z - v3.x * z);
     float zz = x * v3.y - v3.x * y;
     return Vector3(xx, yy, zz);
-}
-
-Vector3 Vector3::transform(const struct Matrix4 &m) const {
-    return Vector3(
-        (x * m.m11) + (y * m.m21) + (z * m.m31) + m.m41,
-        (x * m.m12) + (y * m.m22) + (z * m.m32) + m.m42,
-        (x * m.m13) + (y * m.m23) + (z * m.m33) + m.m43
-    );
 }
 
 Vector3 Vector3::operator=(Vector3 a) {

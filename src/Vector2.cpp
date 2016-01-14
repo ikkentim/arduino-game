@@ -1,4 +1,5 @@
 #include "Vector2.h"
+#include "FastMath.h"
 
 Vector2::Vector2() : x(0), y(0) {
 
@@ -18,7 +19,7 @@ bool Vector2::is_zero() const {
 }
 
 float Vector2::length() {
-    return (float) sqrt(length_sq());
+    return (float)sqrt(length_sq());
 }
 
 float Vector2::length_sq() {
@@ -43,13 +44,6 @@ float Vector2::dot(const Vector2 &v2) const {
 
 float Vector2::cross(const Vector2 &v2) const {
     return x * v2.y - v2.x * y;
-}
-
-Vector2 Vector2::transform(const Matrix4 &m) const {
-    return Vector2(
-        (x * m.m11) + (y * m.m21) + m.m41,
-        (x * m.m12) + (y * m.m22) + m.m42
-    );
 }
 
 Vector2 Vector2::operator=(Vector2 a) {
@@ -80,6 +74,10 @@ bool Vector2::operator!=(Vector2 a) {
 
 Vector2 Vector2::operator*(float multiplier) {
     return Vector2(x * multiplier, y * multiplier);
+}
+
+Vector2 Vector2::operator*(Vector2 multiplier) {
+    return Vector2(x * multiplier.x, y * multiplier.y);
 }
 
 Vector2 Vector2::operator+=(Vector2 a) {

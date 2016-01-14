@@ -3,21 +3,24 @@
 
 
 #include "Engine.h"
-#include "Level.h"
+#include "Level/Level.h"
+#include "Score.h"
 
 class Level;
 
 class Game : public Engine {
 public:
-    Game(Nunchuck *nunchuck, TFT *tft);
+    Game(Nunchuck *nunchuck, TFTScreen *tft);
     void set_level(Level *level);
+
+    Level *level;
+    Score *score;
 
 protected:
     virtual void engine_update(float deltaTime);
     virtual void engine_render();
+    virtual void collision_detection();
 
-private:
-    Level *level;
 };
 
 

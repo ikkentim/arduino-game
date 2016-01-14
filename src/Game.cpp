@@ -1,21 +1,47 @@
+#include <stdio.h>
+#include <util/delay.h>
 #include "Game.h"
 #include "Level/TestLevel.h"
 #include "Level/MenuLevel.h"
+#include "Entity/BaseEntity.h"
+#include "Level/GameOver.h"
 
-Game::Game(Nunchuck *nunchuck, TFT *tft) : Engine(nunchuck, tft) {
-    this->level = new MenuLevel(this);
+Game::Game(Nunchuck *nunchuck, TFTScreen *tft) : Engine(nunchuck, tft) {
+    this->level = 0;
+    this->score = new Score;
+    set_level(new MenuLevel(this));
 }
 
 void Game::engine_update(float deltaTime) {
     nunchuck->update();
 
-    if(this->level != 0){
+    if (this->level != 0) {
         this->level->update(deltaTime);
     }
 }
 
+void Game::collision_detection() {
+    for(int i = 0; i < this->level->entityCount; i++){
+        BaseEntity* entity = this->level->entities[i];
+
+        if(entity->collision_check) {
+            for (int j = 0; j < this->level->entityCount; ++j) {
+                BaseEntity* entity2 = this->level->entities[j];
+
+
+                if(entity != entity2) {
+                    if((entity->position - entity2->position).length() < entity->collision_radius + entity2->collision_radius) {
+                        entity->collided(entity2);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
+
 void Game::engine_render() {
-    if(this->level != 0) {
+    if (this->level != 0) {
         this->level->render();
     }
 }
@@ -25,6 +51,13 @@ void Game::set_level(Level *level) {
         delete this->level;
         this->level = 0;
     }
-    tft->fillScreen(0x00);
+    tft->fill_screen(0x00);
     this->level = level;
+
+    this->level->pre_render();
+
+    _delay_ms(100);
+    nunchuck->update();
+    _delay_ms(100);
+    nunchuck->update();
 }
