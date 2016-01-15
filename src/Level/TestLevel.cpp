@@ -3,6 +3,8 @@
 #include "../Entity/Asteroid.h"
 #include "../Entity/Player.h"
 #include "../Entity/PowerUp.h"
+#include "../Entity/Stars.h"
+
 #define VIEWPORT_PADDING    100
 #define MAX_ASTEROID_COUNT  3
 
@@ -12,6 +14,7 @@ TestLevel::TestLevel(Game *game) : Level(game) {
     player_ = new Player(game, this);
 
     addEntity(player_);
+    addEntity(new Stars(game, this, player_));
     //Powerup position set by Asteroid reset
     PowerUp* pupp = new PowerUp(game, this);
     addEntity(pupp);
