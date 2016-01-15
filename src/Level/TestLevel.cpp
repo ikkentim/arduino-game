@@ -4,7 +4,7 @@
 #include "../Entity/Player.h"
 #include "../Entity/PowerUp.h"
 #define VIEWPORT_PADDING    100
-#define MAX_ASTEROID_COUNT  4
+#define MAX_ASTEROID_COUNT  3
 
 TestLevel::TestLevel(Game *game) : Level(game) {
     viewport = Viewport(0, 0, game->tft->width, game->tft->height);
