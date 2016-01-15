@@ -71,7 +71,7 @@ void Player::render() {
         powerup_frame_ += POWERUP_INCREMENT;
     
     game_->sr.render(game_->tft, (int8_t *) playerShape, 4, 
-                     RGB(120, 170+abs(powerup_frame_/3f), 115+abs(powerup_frame_)),
+                     RGB(120, 170+abs(powerup_frame_/3.0f), 115+abs(powerup_frame_)),
                      old_draw_position_x, old_draw_position_y, old_rotation,
                      (int) draw_position.x, (int) draw_position.y, 
                      rotation);
